@@ -2,12 +2,13 @@
  * @Author: yc
  * @Date: 2024-11-23 11:45:16
  * @LastEditors: yc
- * @LastEditTime: 2024-12-25 13:26:34
+ * @LastEditTime: 2024-12-25 14:32:38
  * @Description: 头部
 -->
 <template>
 	<el-header height="64px">
 		<h3>情报资源管理系统</h3>
+		<Menu />
 		<el-dropdown @command="handleCommand">
 			<span class="el-dropdown-link">
 				<i class="el-icon-user-solid"></i>
@@ -23,12 +24,14 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex"
+import Menu from "./Menu"
 export default {
+	components: { Menu },
 	data() {
 		return {}
 	},
 	computed: {
-		...mapGetters(["getUserInfo"]),
+		...mapGetters(["getToken", "getUserInfo"]),
 	},
 	methods: {
 		...mapMutations(["clearState"]),
@@ -66,6 +69,10 @@ export default {
 	color: #fff;
 	background-color: #304156;
 	box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+	h3 {
+		font-size: 20px;
+		letter-spacing: 2px;
+	}
 	.el-dropdown {
 		color: #fff;
 		cursor: pointer;

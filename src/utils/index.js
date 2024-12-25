@@ -20,3 +20,20 @@ export function getFlatMenuList(menuList) {
 	let newMenuList = JSON.parse(JSON.stringify(menuList))
 	return newMenuList.flatMap((item) => [item, ...(item.children ? getFlatMenuList(item.children) : [])])
 }
+
+/**
+ * 下载文件
+ * @param {String} path - 文件地址
+ * @param {String} name - 文件名,eg: test.png
+ */
+export function downloadBlob(data, name) {
+	const url = window.URL.createObjectURL(new Blob([data]))
+	const link = document.createElement("a")
+	link.style.display = "none"
+	link.href = url
+	link.setAttribute("download", name)
+	document.body.appendChild(link)
+	link.click()
+	document.body.removeChild(link)
+	window.URL.revokeObjectURL(url)
+}

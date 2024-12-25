@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-24 09:35:15
  * @LastEditors: yc
- * @LastEditTime: 2024-11-24 15:20:38
+ * @LastEditTime: 2024-12-25 14:22:45
  * @Description: 动态路由
  */
 import store from "@/store"

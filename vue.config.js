@@ -2,13 +2,15 @@
  * @Author: yc
  * @Date: 2024-11-23 20:22:35
  * @LastEditors: yc
- * @LastEditTime: 2024-11-24 16:25:18
+ * @LastEditTime: 2024-12-25 17:07:57
  * @Description: webpack配置
  */
+const { log } = require("console")
 const path = require("path")
 const SpriteLoaderPlugin = require("svg-sprite-loader/plugin")
 
 module.exports = {
+	publicPath: "/",
 	devServer: {
 		port: 8080, // 设置打开的端口
 		host: "0.0.0.0", // host
@@ -18,11 +20,15 @@ module.exports = {
 		proxy: {
 			"/api": {
 				target: "要访问目标的地址", //接口地址
-				changOrigin: true, //允许跨域
+				changeOrigin: true, //允许跨域
 				pathRewrite: {
 					"^/api": "", //路径重写
 				},
 			},
+		},
+		overlay: {
+			warnings: false, // 不显示警告
+			errors: false, // 不显示错误
 		},
 	},
 	chainWebpack(config) {

@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-23 20:38:34
  * @LastEditors: yc
- * @LastEditTime: 2024-11-24 15:21:01
+ * @LastEditTime: 2024-12-25 14:13:12
  * @Description: 描述
  */
 import Vue from "vue"
@@ -45,7 +45,7 @@ router.beforeEach(async (to, from, next) => {
 	NProgress.start()
 
 	// 2.动态设置标题
-	const title = "开源QB"
+	const title = "情报资源管理系统"
 	document.title = to.meta.title ? `${to.meta.title} - ${title}` : title
 
 	// 3.判断是访问登陆页，有 Token 就在当前页面，没有 Token 重置路由到登陆页
@@ -60,7 +60,7 @@ router.beforeEach(async (to, from, next) => {
 	if (ROUTER_WHITE_LIST.includes(to.path)) return next()
 
 	// 5.判断是否有 Token，没有重定向到 login 页面
-	if (!store.getters.getToken) return next({ path: "/login", replace: true })
+	// if (!store.getters.getToken) return next({ path: "/login", replace: true })
 
 	// 6.如果没有菜单列表，就重新请求菜单列表并添加动态路由
 	if (!store.getters.authMenuList.length) {

@@ -2,14 +2,13 @@
  * @Author: yc
  * @Date: 2024-11-23 11:44:11
  * @LastEditors: yc
- * @LastEditTime: 2024-11-23 21:42:05
+ * @LastEditTime: 2024-12-25 16:31:35
  * @Description: Layout
 -->
 <template>
 	<el-container class="layout_container" direction="vertical">
 		<Header />
 		<el-container class="classic_content">
-			<Menu />
 			<el-main>
 				<router-view></router-view>
 			</el-main>
@@ -19,9 +18,8 @@
 
 <script>
 import Header from "./components/Header"
-import Menu from "./components/Menu"
 export default {
-	components: { Header, Menu },
+	components: { Header },
 	data() {
 		return {}
 	},
@@ -38,7 +36,8 @@ export default {
 		height: calc(100% - 64px);
 	}
 	.el-main {
-		padding: 15px;
+		padding: 12px 15px;
+		background-color: #f2f3f5;
 	}
 }
 </style>

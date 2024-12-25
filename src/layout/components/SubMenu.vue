@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="sub_menu">
 		<template v-for="subItem in menuList">
 			<el-sub-menu v-if="subItem.children?.length" :index="subItem.path" :key="subItem.path">
 				<template #title>
@@ -43,4 +43,22 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.sub_menu {
+	display: flex;
+	height: 100%;
+}
+.el-menu-item.is-active {
+	border-bottom: 2px solid;
+}
+.el-menu-item:focus,
+.el-menu-item:hover {
+	background-color: transparent;
+}
+.el-menu-item,
+.el-submenu__title {
+	height: 64px;
+	line-height: 64px;
+	font-size: 17px;
+}
+</style>

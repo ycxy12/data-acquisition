@@ -1,9 +1,7 @@
 <template>
-	<el-aside width="200px">
-		<el-menu :default-active="activeMenu" background-color="#001529" text-color="#fff" active-text-color="#1890ff">
-			<sub-menu :menu-list="showMenuList" />
-		</el-menu>
-	</el-aside>
+	<el-menu :default-active="activeMenu" mode="horizontal" text-color="#fff" active-text-color="#1890ff">
+		<sub-menu :menu-list="showMenuList" />
+	</el-menu>
 </template>
 
 <script>
@@ -26,10 +24,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-aside {
-	height: calc(100vh - 64px);
-	background-color: #001529;
-	overflow: auto;
-	scrollbar-width: none;
+.el-menu {
+	height: 64px;
+	margin-left: 60px;
+	margin-right: auto;
+	background-color: transparent;
+	&.el-menu--horizontal {
+		border-bottom: none;
+	}
 }
 </style>

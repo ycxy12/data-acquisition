@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-24 09:11:52
  * @LastEditors: yc
- * @LastEditTime: 2024-11-24 11:13:30
+ * @LastEditTime: 2024-12-25 14:22:04
  * @Description: 仓库
  */
 import Vue from "vue"
@@ -28,6 +28,8 @@ export default new Vuex.Store({
 			state.token = token
 		},
 		setUserInfo(state, userInfo) {
+			console.log("userInfo", userInfo)
+
 			state.userInfo = userInfo
 		},
 		setAuthMenuList(state, authMenuList) {

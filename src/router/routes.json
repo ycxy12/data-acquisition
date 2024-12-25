@@ -7,7 +7,6 @@
 			"name": "home",
 			"component": "/home/index",
 			"meta": {
-				"icon": "HomeFilled",
 				"title": "情报资源库",
 				"isHide": false
 			}
@@ -17,8 +16,7 @@
 			"name": "chart",
 			"component": "/chart/index",
 			"meta": {
-				"icon": "HomeFilled",
-				"title": "情报信息图谱",
+				"title": "情报图谱",
 				"isHide": false
 			}
 		},
@@ -27,18 +25,7 @@
 			"name": "topic",
 			"component": "/topic/index",
 			"meta": {
-				"icon": "HomeFilled",
 				"title": "情报专题",
-				"isHide": false
-			}
-		},
-		{
-			"path": "/distribute",
-			"name": "distribute",
-			"component": "/distribute/index",
-			"meta": {
-				"icon": "HomeFilled",
-				"title": "情报产品分发",
 				"isHide": false
 			}
 		},
@@ -47,8 +34,7 @@
 			"name": "qa",
 			"component": "/qa/index",
 			"meta": {
-				"icon": "HomeFilled",
-				"title": "情报智能问答",
+				"title": "情报问答",
 				"isHide": false
 			}
 		}
