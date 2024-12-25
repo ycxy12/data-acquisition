@@ -1,0 +1,56 @@
+{
+	"code": 200,
+	"massage": "成功",
+	"data": [
+		{
+			"path": "/home",
+			"name": "home",
+			"component": "/home/index",
+			"meta": {
+				"icon": "HomeFilled",
+				"title": "情报资源库",
+				"isHide": false
+			}
+		},
+		{
+			"path": "/chart",
+			"name": "chart",
+			"component": "/chart/index",
+			"meta": {
+				"icon": "HomeFilled",
+				"title": "情报信息图谱",
+				"isHide": false
+			}
+		},
+		{
+			"path": "/topic",
+			"name": "topic",
+			"component": "/topic/index",
+			"meta": {
+				"icon": "HomeFilled",
+				"title": "情报专题",
+				"isHide": false
+			}
+		},
+		{
+			"path": "/distribute",
+			"name": "distribute",
+			"component": "/distribute/index",
+			"meta": {
+				"icon": "HomeFilled",
+				"title": "情报产品分发",
+				"isHide": false
+			}
+		},
+		{
+			"path": "/qa",
+			"name": "qa",
+			"component": "/qa/index",
+			"meta": {
+				"icon": "HomeFilled",
+				"title": "情报智能问答",
+				"isHide": false
+			}
+		}
+	]
+}
