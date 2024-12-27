@@ -24,3 +24,20 @@ body,
 	margin-top: 10px;
 	text-align: right;
 }
+
+.el-drawer {
+	.el-drawer__header {
+		color: #606266;
+		font-weight: 600;
+		padding-bottom: 20px;
+		border-bottom: 1px solid #dcdfe6;
+	}
+	.el-drawer__body {
+		padding: 0 20px 20px;
+	}
+	.drawer-footer {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+	}
+}

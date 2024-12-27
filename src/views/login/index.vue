@@ -1,42 +1,28 @@
 <template>
 	<div class="login_container">
+		<canvas id="canvas" class="login-canvas" />
 		<div class="login_form">
-			<div class="logo_text">情报资源管理系统</div>
+			<div class="logo_text">
+				<svg-icon name="logo" />
+				<span>情报资源管理系统</span>
+			</div>
 			<el-form ref="loginFormRef" :model="loginForm" :rules="loginRules">
-				<el-form-item prop="loginName">
-					<el-input v-model="loginForm.loginName" placeholder="请输入用户名"></el-input>
+				<el-form-item prop="username">
+					<el-input v-model="loginForm.username" placeholder="请输入用户名"></el-input>
 				</el-form-item>
-				<el-form-item prop="loginPwd">
-					<el-input type="password" v-model="loginForm.loginPwd" placeholder="请输入密码" show-loginPwd></el-input>
+				<el-form-item prop="password">
+					<el-input type="password" v-model="loginForm.password" placeholder="请输入密码" show-loginPwd></el-input>
 				</el-form-item>
 			</el-form>
 			<div class="login_btn">
-				<el-button @click="login" type="primary" :loading="loading"> 登录 </el-button>
+				<el-button @click="login" type="primary" :loading="loading"> 登 录 </el-button>
 			</div>
 		</div>
-		<vue-particles
-			color="#409EFF"
-			:particleOpacity="0.7"
-			:particlesNumber="80"
-			shapeType="circle"
-			:particleSize="4"
-			linesColor="#409EFF"
-			:linesWidth="1"
-			:lineLinked="true"
-			:lineOpacity="0.4"
-			:linesDistance="150"
-			:moveSpeed="3"
-			:hoverEffect="true"
-			hoverMode="grab"
-			:clickEffect="true"
-			clickMode="push"
-		>
-		</vue-particles>
 	</div>
 </template>
 
 <script>
-import { loginApi } from "@/api/login"
+import { loginApi, listUser } from "@/api/login"
 import { initDynamicRouter } from "@/router/modules/dynamicRouter"
 import { mapMutations } from "vuex"
 
@@ -45,22 +31,30 @@ export default {
 		return {
 			loading: false,
 			loginForm: {
-				loginName: "",
-				loginPwd: "",
+				username: "admin",
+				password: "admin",
 			},
 			loginRules: {
-				loginName: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-				loginPwd: [{ required: true, message: "请输入密码", trigger: "blur" }],
+				username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+				password: [{ required: true, message: "请输入密码", trigger: "blur" }],
 			},
 		}
 	},
 	mounted() {
 		// 绑定键盘事件
 		document.onkeydown = this.handleKeyDown
+		// 初始化 canvas
+		if (window.innerWidth >= 1024) {
+			window?.initCanvas?.()
+		}
 	},
 	beforeDestroy() {
 		// 在组件销毁之前移除事件监听器，防止内存泄漏
 		document.onkeydown = null
+		// 重置 canvas
+		if (window.resetCanvas) {
+			window.resetCanvas()
+		}
 	},
 	methods: {
 		...mapMutations(["setToken", "setUserInfo"]),
@@ -70,11 +64,12 @@ export default {
 				this.loading = true
 				try {
 					// 1.执行登录接口
-					// const { data } = await loginApi(this.loginForm)
-					// this.setToken(data.xaccessToken)
-					// this.setUserInfo(data)
-					this.setToken("0123456789")
-					this.setUserInfo({ userName: "Admin", userId: "123456", token: "0123456789" })
+					const { token } = await loginApi(this.loginForm)
+					this.setToken(token)
+
+					// 3.获取用户信息
+					const { data } = await listUser()
+					this.setUserInfo(data[0])
 
 					// 2.添加动态路由
 					await initDynamicRouter()

@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-24 08:53:50
  * @LastEditors: yc
- * @LastEditTime: 2024-11-24 09:09:25
+ * @LastEditTime: 2024-12-27 10:51:36
  * @Description: 登录模块
  */
 
@@ -15,6 +15,11 @@ import routes from "@/router/routes.json"
 // 用户登录
 export const loginApi = (params) => {
 	return http.post(`/api/login`, params)
+}
+
+// 用户列表
+export const listUser = (params) => {
+	return http.get(`/api/user`, params)
 }
 
 // 获取菜单列表

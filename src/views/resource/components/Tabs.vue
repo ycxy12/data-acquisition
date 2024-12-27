@@ -9,9 +9,10 @@ export default {
 	data() {
 		return {
 			lists: [
-				{ name: "装备战技参数", path: "/home/equipment" },
-				{ name: "兵力编成编组", path: "/home/troops" },
-				{ name: "经典历史战例", path: "/home/war" },
+				{ name: "装备类型管理", path: "/resource/equipment" },
+				{ name: "国家/地区管理", path: "/resource/country" },
+				{ name: "所属战争管理", path: "/resource/war" },
+				{ name: "下载器配置及管理", path: "/resource/downloader" },
 			],
 		}
 	},

@@ -2,17 +2,18 @@
  * @Author: yc
  * @Date: 2024-11-23 11:45:16
  * @LastEditors: yc
- * @LastEditTime: 2024-12-25 14:32:38
+ * @LastEditTime: 2024-12-27 18:32:08
  * @Description: 头部
 -->
 <template>
 	<el-header height="64px">
+		<svg-icon name="logo" />
 		<h3>情报资源管理系统</h3>
 		<Menu />
 		<el-dropdown @command="handleCommand">
 			<span class="el-dropdown-link">
 				<i class="el-icon-user-solid"></i>
-				{{ getUserInfo.userName }}
+				{{ getUserInfo ? getUserInfo.username : "" }}
 				<i class="el-icon-arrow-down el-icon--right"></i>
 			</span>
 			<el-dropdown-menu slot="dropdown">
@@ -50,7 +51,7 @@ export default {
 				type: "warning",
 			}).then(() => {
 				this.clearState()
-				this.$router.replace("/")
+				this.$router.replace("/login")
 				this.$message.success("退出登录成功！")
 			})
 		},
@@ -69,8 +70,13 @@ export default {
 	color: #fff;
 	background-color: #304156;
 	box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+	.svg-icon {
+		width: 40px;
+		height: 40px;
+		margin-right: 10px;
+	}
 	h3 {
-		font-size: 20px;
+		font-size: 24px;
 		letter-spacing: 2px;
 	}
 	.el-dropdown {

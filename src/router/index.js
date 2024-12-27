@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-23 20:38:34
  * @LastEditors: yc
- * @LastEditTime: 2024-12-25 14:13:12
+ * @LastEditTime: 2024-12-27 18:37:30
  * @Description: 描述
  */
 import Vue from "vue"
@@ -60,7 +60,7 @@ router.beforeEach(async (to, from, next) => {
 	if (ROUTER_WHITE_LIST.includes(to.path)) return next()
 
 	// 5.判断是否有 Token，没有重定向到 login 页面
-	// if (!store.getters.getToken) return next({ path: "/login", replace: true })
+	if (!store.getters.getToken) return next({ path: "/login", replace: true })
 
 	// 6.如果没有菜单列表，就重新请求菜单列表并添加动态路由
 	if (!store.getters.authMenuList.length) {
@@ -77,9 +77,10 @@ router.onReady(() => {
 	if (store.getters.getToken && store.getters.flatMenuList.length) {
 		// 3.添加动态路由
 		store.getters.flatMenuList.forEach((item) => {
-			router.addRoute("layout", {
+			router.addRoute(item.meta.routerView ? item.meta.routerView : "layout", {
 				path: item.path,
 				name: item.name,
+				redirect: item.redirect || null,
 				component: () => import(`/src/views${item.component}.vue`),
 				meta: item.meta || {}, // 添加任何需要的 meta 信息
 			})

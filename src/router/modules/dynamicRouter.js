@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-24 09:35:15
  * @LastEditors: yc
- * @LastEditTime: 2024-12-25 14:22:45
+ * @LastEditTime: 2024-12-27 18:22:28
  * @Description: 动态路由
  */
 import store from "@/store"
@@ -33,9 +33,10 @@ export const initDynamicRouter = async () => {
 
 		// 3.添加动态路由
 		store.getters.flatMenuList.forEach((item) => {
-			router.addRoute("layout", {
+			router.addRoute(item.meta.routerView ? item.meta.routerView : "layout", {
 				path: item.path,
 				name: item.name,
+				redirect: item.redirect || null,
 				component: () => import(`/src/views${item.component}.vue`),
 				meta: item.meta || {}, // 添加任何需要的 meta 信息
 			})

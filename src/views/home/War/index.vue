@@ -15,7 +15,7 @@
 				<el-button icon="el-icon-download" type="primary" @click="handleMultipleExport">情报资源导出</el-button>
 			</el-form-item>
 		</el-form>
-		<el-table ref="table" :data="tableData" size="small" border @selection-change="handleSelectionChange" :height="`calc(100vh - 296px)`">
+		<el-table ref="table" :data="tableData" size="small" border @selection-change="handleSelectionChange" :height="`calc(100vh - 300px)`">
 			<el-table-column type="selection" width="55" align="center" />
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="战例名称" align="center" show-overflow-tooltip />
@@ -99,11 +99,11 @@ export default {
 		},
 		//详情
 		handleView(row) {
-			this.$refs.editDrawerRef.openDrawer(row)
+			this.$refs.editDrawerRef.openDrawer(row, "view")
 		},
 		//编辑
 		handleEdit(row) {
-			this.$refs.editDrawerRef.openDrawer(row)
+			this.$refs.editDrawerRef.openDrawer(row, "edit")
 		},
 		//导出
 		async handleExport(row) {

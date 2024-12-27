@@ -6,10 +6,46 @@
 			"path": "/home",
 			"name": "home",
 			"component": "/home/index",
+			"redirect": "/home/equipment",
 			"meta": {
 				"title": "情报资源库",
 				"isHide": false
-			}
+			},
+			"children": [
+				{
+					"path": "/home/equipment",
+					"name": "homeEquipment",
+					"component": "/home/Equipment/index",
+					"meta": {
+						"title": "装备战技参数",
+						"isHide": true,
+						"routerView": "home",
+						"activeMenu": "/home"
+					}
+				},
+				{
+					"path": "/home/troops",
+					"name": "homeTroops",
+					"component": "/home/Troops/index",
+					"meta": {
+						"title": "兵力编成编组",
+						"isHide": true,
+						"routerView": "home",
+						"activeMenu": "/home"
+					}
+				},
+				{
+					"path": "/home/war",
+					"name": "homeWar",
+					"component": "/home/War/index",
+					"meta": {
+						"title": "经典历史战例",
+						"isHide": true,
+						"routerView": "home",
+						"activeMenu": "/home"
+					}
+				}
+			]
 		},
 		{
 			"path": "/chart",
@@ -37,6 +73,51 @@
 				"title": "情报问答",
 				"isHide": false
 			}
+		},
+		{
+			"path": "/resource",
+			"name": "resource",
+			"component": "/resource/index",
+			"redirect": "/resource/equipment",
+			"meta": {
+				"title": "资源管理",
+				"isHide": false
+			},
+			"children": [
+				{
+					"path": "/resource/equipment",
+					"name": "resourceEquipment",
+					"component": "/resource/Equipment/index",
+					"meta": {
+						"title": "装备类型管理",
+						"isHide": true,
+						"routerView": "resource",
+						"activeMenu": "/resource"
+					}
+				},
+				{
+					"path": "/resource/country",
+					"name": "resourceCountry",
+					"component": "/resource/Country/index",
+					"meta": {
+						"title": "国家或地区管理",
+						"isHide": true,
+						"routerView": "resource",
+						"activeMenu": "/resource"
+					}
+				},
+				{
+					"path": "/resource/war",
+					"name": "resourceWar",
+					"component": "/resource/War/index",
+					"meta": {
+						"title": "所属战争",
+						"isHide": true,
+						"routerView": "resource",
+						"activeMenu": "/resource"
+					}
+				}
+			]
 		}
 	]
 }
