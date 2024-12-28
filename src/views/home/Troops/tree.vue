@@ -1,6 +1,6 @@
 <template>
 	<div class="container tree">
-		<h3>装备类型</h3>
+		<h3>国家或地区</h3>
 		<div class="list">
 			<p v-for="item in lists" :key="item.id" :class="{ active: item.id === active }" @click="handleClick(item)">{{ item.name }}</p>
 		</div>
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { listZbType } from "@/api/resource/equipment"
+import { listCountry } from "@/api/resource/country"
 
 export default {
 	data() {
@@ -28,7 +28,7 @@ export default {
 	methods: {
 		//获取列表数据
 		async getTreeData() {
-			const { data } = await listZbType()
+			const { data } = await listCountry()
 			this.lists = data
 			if (data.length > 0) {
 				this.active = data[0].id

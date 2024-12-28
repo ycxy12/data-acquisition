@@ -4,15 +4,29 @@
 			<el-form-item label="装备名称">
 				<el-input v-model="queryForm.name" placeholder="请输入装备名称"></el-input>
 			</el-form-item>
+			<el-form-item label="国家/地区">
+				<el-select v-model="queryForm.sourceCountryId" placeholder="请选择国家/地区" clearable style="width: 100%">
+					<el-option v-for="item in countryOptions" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+				</el-select>
+			</el-form-item>
 			<el-form-item>
 				<el-button icon="el-icon-search" type="primary" @click="searchForm">查询</el-button>
 				<el-button icon="el-icon-refresh" @click="resetForm">重置</el-button>
 			</el-form-item>
 			<el-form-item style="float: right">
+				<el-button icon="el-icon-plus" type="primary" @click="handleAdd">新增</el-button>
 				<el-button icon="el-icon-download" type="primary" @click="handleMultipleExport">情报资源导出</el-button>
 			</el-form-item>
 		</el-form>
-		<el-table ref="table" :data="tableData" size="small" border @selection-change="handleSelectionChange" :height="`calc(100vh - 298px)`">
+		<el-table
+			ref="table"
+			:data="tableData"
+			v-loading="loading"
+			size="small"
+			border
+			@selection-change="handleSelectionChange"
+			:height="`calc(100vh - 298px)`"
+		>
 			<el-table-column type="selection" width="55" align="center" />
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="装备名称" min-width="100" show-overflow-tooltip />
@@ -38,16 +52,19 @@
 		>
 		</el-pagination>
 		<EditDrawer ref="editDrawerRef" />
+		<ViewDrawer ref="viewDrawerRef" />
 	</div>
 </template>
 
 <script>
 import { listZbInfo, deleteZbInfo, exportUser } from "@/api/home/equipment"
+import { listCountry } from "@/api/resource/country"
 import { downloadBlob } from "@/utils"
 import EditDrawer from "./editDrawer.vue"
+import ViewDrawer from "./viewDrawer.vue"
 
 export default {
-	components: { EditDrawer },
+	components: { EditDrawer, ViewDrawer },
 	props: {
 		equipmentTypeId: {
 			type: String,
@@ -57,7 +74,7 @@ export default {
 	data() {
 		return {
 			queryForm: {
-				sourceCountryId: undefined,
+				type: undefined,
 			},
 			tableData: [],
 			pagination: {
@@ -66,13 +83,18 @@ export default {
 			},
 			total: 0,
 			multipleSelection: [],
+			countryOptions: [],
+			loading: false,
 		}
 	},
 	watch: {
 		equipmentTypeId(newVal) {
-			// this.queryForm.sourceCountryId = newVal
+			this.queryForm.type = newVal
 			this.searchForm()
 		},
+	},
+	mounted() {
+		this.getCountry()
 	},
 	methods: {
 		//搜索
@@ -87,18 +109,24 @@ export default {
 		},
 		// 获取表格数据
 		async getTableData() {
+			this.loading = true
 			let query = Object.assign({}, this.queryForm, this.pagination)
 			const { rows, total } = await listZbInfo(query)
 			this.tableData = rows
 			this.total = total
+			this.loading = false
 		},
 		//详情
-		handleView(row) {
-			this.$refs.editDrawerRef.openDrawer(row, "view")
+		handleView({ id }) {
+			this.$refs.viewDrawerRef.openDrawer(id)
+		},
+		//新增
+		handleAdd() {
+			this.$refs.editDrawerRef.openDrawer()
 		},
 		//编辑
-		handleEdit(row) {
-			this.$refs.editDrawerRef.openDrawer(row, "edit")
+		handleEdit({ id }) {
+			this.$refs.editDrawerRef.openDrawer(id)
 		},
 		//导出
 		async handleExport(row) {
@@ -132,6 +160,11 @@ export default {
 		//多选
 		handleSelectionChange(val) {
 			this.multipleSelection = val
+		},
+		//获取国家/地区
+		async getCountry() {
+			const { data } = await listCountry()
+			this.countryOptions = data
 		},
 	},
 }
