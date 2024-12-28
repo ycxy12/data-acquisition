@@ -59,12 +59,12 @@ export default {
 			margin: 5px;
 			color: #606266;
 			&:hover {
-				background-color: #f5f7fa;
+				background-color: #f0f7ff;
 			}
 		}
 		.active {
 			color: #409eff;
-			background-color: #f5f7fa;
+			background-color: #f0f7ff;
 		}
 	}
 }

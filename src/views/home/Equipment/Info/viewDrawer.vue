@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { addZbInfo, editZbInfo, getZbInfoByid } from "@/api/home/equipment"
+import { getZbInfoByid } from "@/api/home/equipment"
 import { listZbType } from "@/api/resource/equipment"
 import { listCountry } from "@/api/resource/country"
 
@@ -44,11 +44,6 @@ export default {
 			drawer: false,
 			direction: "rtl",
 			ruleForm: {},
-			rules: {
-				name: [{ required: true, message: "请输入装备名称", trigger: "blur" }],
-				feature: [{ required: true, message: "请输入装备特征", trigger: "blur" }],
-				type: [{ required: true, message: "请选择装备类型", trigger: "change" }],
-			},
 			countryOptions: [],
 			equimentTypeOptions: [],
 		}
@@ -68,22 +63,6 @@ export default {
 		handleClose() {
 			this.drawer = false
 			this.ruleForm = {}
-			this.$refs.ruleForm.resetFields()
-		},
-		//提交表单
-		submitForm(formName) {
-			this.$refs[formName].validate(async (valid) => {
-				if (valid) {
-					if (this.ruleForm.id) {
-						await editZbInfo(this.ruleForm)
-					} else {
-						await addZbInfo(this.ruleForm)
-					}
-					this.$message.success("操作成功")
-					this.$emit("refresh")
-					this.handleClose()
-				}
-			})
 		},
 		//获取装备类型
 		async getEquipmentType() {

@@ -51,7 +51,7 @@
 			:total="total"
 		>
 		</el-pagination>
-		<EditDrawer ref="editDrawerRef" />
+		<EditDrawer ref="editDrawerRef" @refresh="getTableData" />
 		<ViewDrawer ref="viewDrawerRef" />
 	</div>
 </template>
@@ -88,9 +88,12 @@ export default {
 		}
 	},
 	watch: {
-		equipmentTypeId(newVal) {
-			this.queryForm.type = newVal
-			this.searchForm()
+		equipmentTypeId: {
+			handler(newVal) {
+				this.queryForm.type = newVal
+				this.searchForm()
+			},
+			immediate: true,
 		},
 	},
 	mounted() {
@@ -104,7 +107,7 @@ export default {
 		},
 		//重置搜索条件
 		resetForm() {
-			this.queryForm = { sourceCountryId: this.equipmentTypeId }
+			this.queryForm = { type: this.equipmentTypeId }
 			this.searchForm()
 		},
 		// 获取表格数据
@@ -122,7 +125,7 @@ export default {
 		},
 		//新增
 		handleAdd() {
-			this.$refs.editDrawerRef.openDrawer()
+			this.$refs.editDrawerRef.openDrawer(null, this.equipmentTypeId)
 		},
 		//编辑
 		handleEdit({ id }) {

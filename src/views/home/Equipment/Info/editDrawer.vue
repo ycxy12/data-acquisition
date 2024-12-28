@@ -1,5 +1,5 @@
 <template>
-	<el-drawer title="详情" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
+	<el-drawer title="编辑" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
 			<el-form-item label="装备名称" prop="name">
 				<el-input v-model="ruleForm.name" placeholder="请输入装备名称"></el-input>
@@ -18,13 +18,25 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item label="研制时间" prop="devTime">
-				<el-date-picker v-model="ruleForm.devTime" type="date" placeholder="选择研制时间" style="width: 100%"></el-date-picker>
+				<el-date-picker
+					v-model="ruleForm.devTime"
+					type="datetime"
+					value-format="yyyy-MM-dd HH:mm:ss"
+					placeholder="选择研制时间"
+					style="width: 100%"
+				></el-date-picker>
 			</el-form-item>
 			<el-form-item label="服役时间" prop="attendedTime">
-				<el-date-picker v-model="ruleForm.attendedTime" type="date" placeholder="选择服役时间" style="width: 100%"></el-date-picker>
+				<el-date-picker
+					v-model="ruleForm.attendedTime"
+					type="datetime"
+					value-format="yyyy-MM-dd HH:mm:ss"
+					placeholder="选择服役时间"
+					style="width: 100%"
+				></el-date-picker>
 			</el-form-item>
 			<el-form-item label="备注" prop="remark">
-				<el-input v-model="ruleForm.remark" type="textarea" :rows="2" placeholder="请输入备注"></el-input>
+				<el-input v-model="ruleForm.remark" type="textarea" :rows="4" placeholder="请输入备注"></el-input>
 			</el-form-item>
 			<div class="drawer-footer">
 				<el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
@@ -59,11 +71,12 @@ export default {
 	},
 	methods: {
 		//打开抽屉
-		async openDrawer(id) {
+		async openDrawer(id, equipmentTypeId) {
 			if (id) {
 				const { data } = await getZbInfoByid(id)
 				this.ruleForm = data
 			}
+			if (equipmentTypeId) this.ruleForm.type = equipmentTypeId
 			this.drawer = true
 		},
 		//关闭抽屉

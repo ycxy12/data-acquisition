@@ -1,25 +1,31 @@
 <template>
 	<div class="equipment">
 		<Tree @updateId="handleUpdateId" />
-		<Table :equipmentTypeId="equipmentTypeId" />
+		<InfoTable v-if="isEquipment" :equipmentTypeId="id" />
+		<ModuleTable v-else :equipmentId="id" />
 	</div>
 </template>
 
 <script>
 import Tree from "./tree.vue"
-import Table from "./table.vue"
+import InfoTable from "./Info/index.vue"
+import ModuleTable from "./Module/index.vue"
 
 export default {
 	name: "Equipment",
-	components: { Tree, Table },
+	components: { Tree, InfoTable, ModuleTable },
 	data() {
 		return {
-			equipmentTypeId: undefined,
+			id: undefined,
+			isEquipment: true,
 		}
 	},
 	methods: {
-		handleUpdateId(equipmentTypeId) {
-			this.equipmentTypeId = equipmentTypeId
+		handleUpdateId(node) {
+			console.log(node)
+			if (node.isLeaf) this.isEquipment = false
+			else this.isEquipment = true
+			this.id = node.id
 		},
 	},
 }
