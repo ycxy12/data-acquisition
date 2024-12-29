@@ -41,5 +41,15 @@ export const setRelation = (params) => {
 
 // 获取装备下的组件列表信息
 export const getZbModuleByZbInfo = (id) => {
-	return http.get(`/zbModule/getZbModuleByZbInfo/${id}`)
+	return http.get(`/api/zbModule/getZbModuleByZbInfo/${id}`)
+}
+
+// 获取装备下的组件列表信息
+export const listzbRelation = (params) => {
+	return http.get("/api/zbRelation/getFromList", params)
+}
+
+// 新增
+export const updatezbRelation = (params) => {
+	return http.post("/api/zbRelation", params)
 }

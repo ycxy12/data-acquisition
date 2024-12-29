@@ -7,7 +7,7 @@
 
 <script>
 import Tree from "./tree.vue"
-import Table from "./table.vue"
+import Table from "./table1.vue"
 
 export default {
 	name: "Equipment",

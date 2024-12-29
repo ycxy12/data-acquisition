@@ -38,8 +38,12 @@
 			:total="total"
 		>
 		</el-pagination>
+		<!-- 新增/编辑 -->
 		<EditDrawer ref="editDrawerRef" @refresh="getTableData" />
+		<!-- 详情 -->
 		<ViewDrawer ref="viewDrawerRef" />
+		<!-- 实体关系 -->
+		<Relationship ref="relationshipRef" />
 	</div>
 </template>
 
@@ -47,9 +51,10 @@
 import { listZbModule, deleteZbModule } from "@/api/home/module"
 import EditDrawer from "./editDrawer.vue"
 import ViewDrawer from "./viewDrawer.vue"
+import Relationship from "./relationship.vue"
 
 export default {
-	components: { EditDrawer, ViewDrawer },
+	components: { EditDrawer, ViewDrawer, Relationship },
 	props: {
 		equipmentId: {
 			type: String,
@@ -134,7 +139,7 @@ export default {
 		},
 		//实体关系
 		handleRelation(row) {
-			// this.$router.push({ name: "EquipmentRelation", query: { id: row.id } })
+			this.$refs.relationshipRef.openDrawer(row.id)
 		},
 	},
 }
