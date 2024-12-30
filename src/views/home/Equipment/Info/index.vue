@@ -31,11 +31,12 @@
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="装备名称" min-width="100" show-overflow-tooltip />
 			<el-table-column prop="feature" label="装备特征" min-width="200" show-overflow-tooltip />
-			<el-table-column label="操作" align="center" width="200">
+			<el-table-column label="操作" align="center" width="240">
 				<template slot-scope="{ row }">
 					<el-button type="text" size="small" @click="handleView(row)">详情</el-button>
 					<el-button type="text" size="small" @click="handleEdit(row)">编辑</el-button>
 					<el-button type="text" size="small" @click="handleExport(row)">导出</el-button>
+					<el-button type="text" size="small" @click="handleRelation(row)">实体关系</el-button>
 					<el-button type="text" size="small" @click="handleDelete(row)">删除</el-button>
 				</template>
 			</el-table-column>
@@ -51,8 +52,12 @@
 			:total="total"
 		>
 		</el-pagination>
+		<!-- 新增/编辑 -->
 		<EditDrawer ref="editDrawerRef" @refresh="getTableData" />
+		<!-- 详情 -->
 		<ViewDrawer ref="viewDrawerRef" />
+		<!-- 实体关系 -->
+		<RelationDrawer ref="relationDrawerRef" />
 	</div>
 </template>
 
@@ -62,9 +67,10 @@ import { listCountry } from "@/api/resource/country"
 import { downloadBlob } from "@/utils"
 import EditDrawer from "./editDrawer.vue"
 import ViewDrawer from "./viewDrawer.vue"
+import RelationDrawer from "./relationDrawer.vue"
 
 export default {
-	components: { EditDrawer, ViewDrawer },
+	components: { EditDrawer, ViewDrawer, RelationDrawer },
 	props: {
 		equipmentTypeId: {
 			type: String,
@@ -168,6 +174,10 @@ export default {
 		async getCountry() {
 			const { data } = await listCountry()
 			this.countryOptions = data
+		},
+		//实体关系
+		handleRelation(row) {
+			this.$refs.relationDrawerRef.openDrawer(row.id)
 		},
 	},
 }

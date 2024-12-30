@@ -22,7 +22,6 @@ export default {
 	},
 	methods: {
 		handleUpdateId(node) {
-			console.log(node)
 			if (node.isLeaf) this.isEquipment = false
 			else this.isEquipment = true
 			this.id = node.id

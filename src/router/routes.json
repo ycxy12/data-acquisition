@@ -119,11 +119,33 @@
 					}
 				},
 				{
+					"path": "/resource/troops",
+					"name": "resourceTroops",
+					"component": "/resource/Troops/index",
+					"meta": {
+						"title": "兵力编成编组",
+						"isHide": true,
+						"routerView": "resource",
+						"activeMenu": "/resource"
+					}
+				},
+				{
 					"path": "/resource/war",
 					"name": "resourceWar",
 					"component": "/resource/War/index",
 					"meta": {
 						"title": "所属战争",
+						"isHide": true,
+						"routerView": "resource",
+						"activeMenu": "/resource"
+					}
+				},
+				{
+					"path": "/resource/warExample",
+					"name": "resourceWarExample",
+					"component": "/resource/WarExample/index",
+					"meta": {
+						"title": "所属战例",
 						"isHide": true,
 						"routerView": "resource",
 						"activeMenu": "/resource"

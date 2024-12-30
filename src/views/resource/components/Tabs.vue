@@ -11,8 +11,10 @@ export default {
 			lists: [
 				{ name: "装备类型管理", path: "/resource/equipment" },
 				{ name: "国家/地区管理", path: "/resource/country" },
+				{ name: "兵力编成编组管理", path: "/resource/troops" },
 				{ name: "所属战争管理", path: "/resource/war" },
-				{ name: "下载器配置及管理", path: "/resource/downloader" },
+				{ name: "所属战例管理", path: "/resource/warExample" },
+				// { name: "下载器配置及管理", path: "/resource/downloader" },
 			],
 		}
 	},

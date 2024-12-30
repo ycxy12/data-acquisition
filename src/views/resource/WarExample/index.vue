@@ -1,11 +1,17 @@
 <template>
 	<div class="container">
 		<el-form :inline="true" :model="queryForm" size="small" @keyup.enter.native="searchForm">
-			<el-form-item label="战争名称">
-				<el-input v-model="queryForm.name" placeholder="请输入战争名称"></el-input>
+			<el-form-item label="战例名称">
+				<el-input v-model="queryForm.name" placeholder="请输入战例名称"></el-input>
 			</el-form-item>
-			<el-form-item label="所属战争">
-				<el-input v-model="queryForm.war" placeholder="请输入所属战争"></el-input>
+			<el-form-item label="战例标题">
+				<el-input v-model="queryForm.title" placeholder="请输入战例标题"></el-input>
+			</el-form-item>
+			<el-form-item label="分类标签">
+				<el-input v-model="queryForm.classifyLabel" placeholder="请输入分类标签"></el-input>
+			</el-form-item>
+			<el-form-item label="装备标签">
+				<el-input v-model="queryForm.equipLabel" placeholder="请输入装备标签"></el-input>
 			</el-form-item>
 			<el-form-item>
 				<el-button icon="el-icon-search" type="primary" @click="searchForm">查询</el-button>
@@ -17,9 +23,25 @@
 		</el-form>
 		<el-table ref="table" :data="tableData" size="small" border :height="`calc(100vh - 300px)`">
 			<el-table-column type="index" width="55" label="序号" align="center" />
-			<el-table-column prop="name" label="战争名称" align="center" show-overflow-tooltip />
-			<el-table-column prop="startTime" label="开始时间" align="center" show-overflow-tooltip />
-			<el-table-column prop="endTime" label="结束时间" align="center" show-overflow-tooltip />
+			<el-table-column prop="name" label="战例名称" align="center" show-overflow-tooltip />
+			<el-table-column prop="title" label="战例标题" align="center" show-overflow-tooltip />
+			<el-table-column prop="classifyLabel" label="分类标签" align="center" show-overflow-tooltip />
+			<el-table-column prop="equipLabel" label="装备标签" align="center" show-overflow-tooltip />
+			<el-table-column prop="fightTime" label="交战时间" align="center" show-overflow-tooltip />
+			<el-table-column prop="fightAddress" label="交战地点" align="center" show-overflow-tooltip />
+			<!-- <el-table-column prop="jd" label="地点经度" align="center" show-overflow-tooltip />
+			<el-table-column prop="wd" label="地点纬度" align="center" show-overflow-tooltip /> -->
+			<el-table-column prop="aggressor" label="攻方" align="center" show-overflow-tooltip />
+			<el-table-column prop="defense" label="守方" align="center" show-overflow-tooltip />
+			<!-- <el-table-column prop="aggressorTroops" label="攻方兵力" align="center" show-overflow-tooltip />
+			<el-table-column prop="defenseTroops" label="守方兵力" align="center" show-overflow-tooltip />
+			<el-table-column prop="aggressorEquip" label="攻方主要装备" align="center" show-overflow-tooltip />
+			<el-table-column prop="defenseEquip" label="守方主要装备" align="center" show-overflow-tooltip />
+			<el-table-column prop="environmentalFactor" label="环境因素" align="center" show-overflow-tooltip />
+			<el-table-column prop="externalConditions" label="作战外部条件" align="center" show-overflow-tooltip />
+			<el-table-column prop="process" label="作战过程" align="center" show-overflow-tooltip />
+			<el-table-column prop="tactics" label="典型战术" align="center" show-overflow-tooltip />
+			<el-table-column prop="warResult" label="战损及战果" align="center" show-overflow-tooltip /> -->
 			<el-table-column label="操作" align="center">
 				<template slot-scope="{ row }">
 					<el-button type="text" size="small" @click="handleEdit(row)">编辑</el-button>
@@ -43,7 +65,8 @@
 </template>
 
 <script>
-import { listQbWarfare, deleteQbWarfare } from "@/api/resource/war"
+import { listWarfareExamples, deleteWarfareExamples } from "@/api/resource/warExample"
+import { downloadBlob } from "@/utils"
 import EditDrawer from "./editDrawer.vue"
 
 export default {
@@ -76,7 +99,7 @@ export default {
 		// 获取表格数据
 		async getTableData() {
 			let query = Object.assign({}, this.queryForm, this.pagination)
-			const { rows, total } = await listQbWarfare(query)
+			const { rows, total } = await listWarfareExamples(query)
 			this.tableData = rows
 			this.total = total
 		},
@@ -91,7 +114,7 @@ export default {
 		//删除
 		handleDelete(row) {
 			this.$confirm("确定将选择数据删除?", { confirmButtonText: "确定", cancelButtonText: "取消", type: "warning" }).then(async () => {
-				await deleteQbWarfare(row.id)
+				await deleteWarfareExamples(row.id)
 				this.$message.success("操作成功!")
 				this.getTableData()
 			})

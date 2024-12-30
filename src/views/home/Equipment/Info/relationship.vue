@@ -1,5 +1,5 @@
 <template>
-	<el-drawer title="详情" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
+	<el-drawer title="实体关系详情" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
 		<div class="btn">
 			<el-button type="primary" @click="handleAddRelation">新增实体关系</el-button>
 		</div>
@@ -13,6 +13,7 @@
 <script>
 import RelationGraph from "relation-graph"
 import { listzbRelation, getZbModuleByid } from "@/api/home/module"
+import { getZbInfoByid } from "@/api/home/equipment"
 import RelationDialog from "./relationDialog.vue"
 
 export default {
@@ -25,27 +26,55 @@ export default {
 				defaultJunctionPoint: "border",
 				// 这里可以参考"Graph 图谱"中的参数进行设置 https://www.relation-graph.com/#/docs/graph
 			},
-			selfEntity: {},
+			entity: {},
 		}
 	},
 	methods: {
 		//打开抽屉
 		async openDrawer(id) {
 			//获取自己实体信息
-			const { data: entityData } = await getZbModuleByid(id)
-			this.selfEntity = entityData
+			const { data: entity } = await getZbInfoByid(id)
+			this.entity = entity
+
 			//获取指向自己的实体关系
-			const { data } = await listzbRelation({ toId: "1872699409610838018" })
-			// this.ruleForm = data
+			this.getRelationByToId(id)
+
 			this.drawer = true
+		},
+
+		//获取指向自己的实体关系
+		async getRelationByToId(id) {
+			//获取指向自己的实体关系
+			const { data } = await listzbRelation({ toId: id })
+			//获取线条
+			let lines = data.map((item) => {
+				return { from: item.fromId, to: item.toId, text: item.text }
+			})
+
+			// //获取node节点
+			// const { id, name: text } = this.entity
+			// let nodes = [{ id, text }]
+			// data.forEach(element => {
+			//     let item =
+			// });
+
+			// let data = {
+			// 	nodes: [
+			// 		{ id: "1872699409610838018", text: "阿琼MK2主战坦克" },
+			// 		{ id: "1872699433065385988", text: "夯锤88mm牵引式加农炮" },
+			// 		{ id: "1872699433065385989", text: "M48式76mm山地牵引式加农炮" },
+			// 	],
+			// 	lines: [
+			// 		{ toId: "1872699409610838018", fromId: "1872699433065385988", text: "搭载" },
+			// 		{ toId: "1872699409610838018", fromId: "1872699433065385989", text: "搭载" },
+			// 	],
+			// }
+
 			this.$nextTick(() => {
 				this.showGraph()
 			})
 		},
-		//新增实体关系
-		handleAddRelation() {
-			this.$refs.relationDialog.openDialog(this.selfEntity)
-		},
+
 		showGraph() {
 			const jsonData = {
 				rootId: "a",
@@ -63,11 +92,13 @@ export default {
 				],
 			}
 			// 以上数据中的node和link可以参考"Node节点"和"Link关系"中的参数进行配置
-			console.log(this.$refs.graphRef)
-
 			this.$refs.graphRef.setJsonData(jsonData, (graphInstance) => {
 				// Called when the relation-graph is completed
 			})
+		},
+		//新增实体关系
+		handleAddRelation() {
+			this.$refs.relationDialog.openDialog(this.entity)
 		},
 		//关闭抽屉
 		handleClose() {

@@ -33,3 +33,8 @@ export const deleteCountry = (id) => {
 export const listCountryTree = (params) => {
 	return http.get("/api/countryRegion/tree", params)
 }
+
+// 获取国家或地区 下的兵力编程编组
+export const getBlBcTreeByCountryId = (id) => {
+	return http.get(`/api/countryRegion/getBlBcTreeByCountryId/${id}`)
+}

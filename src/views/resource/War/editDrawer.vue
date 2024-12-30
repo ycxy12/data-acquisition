@@ -1,31 +1,29 @@
 <template>
 	<el-drawer title="详情" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
-		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			<el-form-item label="战例名称" prop="name">
-				<el-input v-if="isEdit" v-model="ruleForm.name"></el-input>
-				<span v-else>{{ ruleForm.name }}</span>
+		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
+			<el-form-item label="战争名称" prop="name">
+				<el-input v-model="ruleForm.name" placeholder="请输入战争名称"></el-input>
 			</el-form-item>
-			<el-form-item label="所属战争" prop="war">
-				<el-input v-if="isEdit" v-model="ruleForm.war"></el-input>
-				<span v-else>{{ ruleForm.war }}</span>
+			<el-form-item label="开始时间" prop="startTime">
+				<el-date-picker
+					v-model="ruleForm.startTime"
+					type="datetime"
+					value-format="yyyy-MM-dd HH:mm:ss"
+					placeholder="选择开始时间"
+					style="width: 100%"
+				></el-date-picker>
 			</el-form-item>
-			<el-form-item label="发生时间" prop="time">
-				<el-date-picker v-if="isEdit" v-model="ruleForm.time" type="date" placeholder="选择日期" style="width: 100%"></el-date-picker>
-				<span v-else>{{ ruleForm.time }}</span>
+			<el-form-item label="结束时间" prop="endTime">
+				<el-date-picker
+					v-model="ruleForm.endTime"
+					type="datetime"
+					value-format="yyyy-MM-dd HH:mm:ss"
+					placeholder="选择结束时间"
+					style="width: 100%"
+				></el-date-picker>
 			</el-form-item>
-			<el-form-item label="发生地点" prop="location">
-				<el-input v-if="isEdit" v-model="ruleForm.location"></el-input>
-				<span v-else>{{ ruleForm.location }}</span>
-			</el-form-item>
-			<el-form-item label="攻方" prop="attackSide">
-				<el-input v-if="isEdit" v-model="ruleForm.attackSide"></el-input>
-				<span v-else>{{ ruleForm.attackSide }}</span>
-			</el-form-item>
-			<el-form-item label="守方" prop="defenseSide">
-				<el-input v-if="isEdit" v-model="ruleForm.defenseSide"></el-input>
-				<span v-else>{{ ruleForm.defenseSide }}</span>
-			</el-form-item>
-			<div class="drawer-footer" v-if="isEdit">
+
+			<div class="drawer-footer">
 				<el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
 			</div>
 		</el-form>
@@ -33,44 +31,63 @@
 </template>
 
 <script>
+import { addQbWarfare, editQbWarfare, getQbWarfareByid } from "@/api/resource/war"
+
 export default {
 	data() {
 		return {
 			drawer: false,
 			direction: "rtl",
-			isEdit: false,
 			ruleForm: {},
 			rules: {
-				name: [{ required: true, message: "请输入战例名称", trigger: "blur" }],
-				war: [{ required: true, message: "请输入所属战争", trigger: "blur" }],
-				time: [{ required: true, message: "请选择发生时间", trigger: "change" }],
-				location: [{ required: true, message: "请输入发生地点", trigger: "blur" }],
+				name: [{ required: true, message: "请输入战争名称", trigger: "blur" }],
+				endTime: [
+					{
+						validator: this.validateEndTime,
+						trigger: "change",
+					},
+				],
 			},
 		}
 	},
 	methods: {
-		openDrawer(row, type) {
-			if (type === "edit") this.isEdit = true
-			else this.isEdit = false
-
-			this.ruleForm = row
+		async openDrawer(id) {
+			if (id) {
+				const { data } = await getQbWarfareByid(id)
+				this.ruleForm = data
+			}
 			this.drawer = true
 		},
 		handleClose() {
 			this.drawer = false
+			this.ruleForm = {}
+			this.$refs.ruleForm.resetFields()
 		},
 		submitForm(formName) {
-			this.$refs[formName].validate((valid) => {
+			this.$refs[formName].validate(async (valid) => {
 				if (valid) {
-					alert("submit!")
-				} else {
-					console.log("error submit!!")
-					return false
+					if (this.ruleForm.id) {
+						await editQbWarfare(this.ruleForm)
+					} else {
+						await addQbWarfare(this.ruleForm)
+					}
+					this.$message.success("操作成功")
+					this.$emit("refresh")
+					this.handleClose()
 				}
 			})
+		},
+		validateEndTime(rule, value, callback) {
+			const startTime = new Date(this.ruleForm.startTime).getTime()
+			const endTime = new Date(value).getTime()
+			if (!value || !startTime) {
+				callback(new Error("请先选择开始时间"))
+			} else if (endTime < startTime) {
+				callback(new Error("结束时间不能小于开始时间"))
+			} else {
+				callback()
+			}
 		},
 	},
 }
 </script>
-
-<style lang="scss" scoped></style>

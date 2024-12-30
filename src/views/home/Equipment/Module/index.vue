@@ -22,7 +22,7 @@
 				<template slot-scope="{ row }">
 					<el-button type="text" size="small" @click="handleView(row)">详情</el-button>
 					<el-button type="text" size="small" @click="handleEdit(row)">编辑</el-button>
-					<el-button type="text" size="small" @click="handleRelation(row)">实体关系</el-button>
+
 					<el-button type="text" size="small" @click="handleDelete(row)">删除</el-button>
 				</template>
 			</el-table-column>
@@ -42,8 +42,6 @@
 		<EditDrawer ref="editDrawerRef" @refresh="getTableData" />
 		<!-- 详情 -->
 		<ViewDrawer ref="viewDrawerRef" />
-		<!-- 实体关系 -->
-		<Relationship ref="relationshipRef" />
 	</div>
 </template>
 
@@ -51,10 +49,9 @@
 import { listZbModule, deleteZbModule } from "@/api/home/module"
 import EditDrawer from "./editDrawer.vue"
 import ViewDrawer from "./viewDrawer.vue"
-import Relationship from "./relationship.vue"
 
 export default {
-	components: { EditDrawer, ViewDrawer, Relationship },
+	components: { EditDrawer, ViewDrawer },
 	props: {
 		equipmentId: {
 			type: String,
@@ -136,10 +133,6 @@ export default {
 		handleCurrentChange(val) {
 			this.pagination.pageNum = val
 			this.getTableData()
-		},
-		//实体关系
-		handleRelation(row) {
-			this.$refs.relationshipRef.openDrawer(row.id)
 		},
 	},
 }

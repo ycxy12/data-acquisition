@@ -1,7 +1,7 @@
 <template>
 	<div class="equipment">
 		<Tree @updateId="handleUpdateId" />
-		<Table :equipmentTypeId="equipmentTypeId" />
+		<Table :countryId="countryId" />
 	</div>
 </template>
 
@@ -14,12 +14,12 @@ export default {
 	components: { Tree, Table },
 	data() {
 		return {
-			equipmentTypeId: undefined,
+			countryId: undefined,
 		}
 	},
 	methods: {
-		handleUpdateId(equipmentTypeId) {
-			this.equipmentTypeId = equipmentTypeId
+		handleUpdateId(countryId) {
+			this.countryId = countryId
 		},
 	},
 }
