@@ -1,14 +1,20 @@
 <template>
-	<div class="home">情报专题发布订阅</div>
+	<div>
+		<Tabs v-model="active" />
+		<Subject />
+	</div>
 </template>
 
 <script>
+import Tabs from "./components/Tabs.vue"
+import Subject from "./Subject/index.vue"
+
 export default {
+	components: { Tabs, Subject },
 	data() {
-		return {}
+		return {
+			active: 0,
+		}
 	},
-	methods: {},
 }
 </script>
-
-<style lang="scss" scoped></style>

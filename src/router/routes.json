@@ -63,7 +63,19 @@
 			"meta": {
 				"title": "情报专题",
 				"isHide": false
-			}
+			},
+			"children": [
+				{
+					"path": "/topic/details",
+					"name": "topicDetails",
+					"component": "/topic/Details/index",
+					"meta": {
+						"title": "专题详情",
+						"isHide": true,
+						"activeMenu": "/topic"
+					}
+				}
+			]
 		},
 		{
 			"path": "/qa",

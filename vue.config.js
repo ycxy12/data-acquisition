@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-23 20:22:35
  * @LastEditors: yc
- * @LastEditTime: 2024-12-27 10:43:54
+ * @LastEditTime: 2024-12-30 14:07:58
  * @Description: webpack配置
  */
 const { log } = require("console")
@@ -19,7 +19,7 @@ module.exports = {
 		compress: true, // 启用压缩，代码占用的空间少，在互联网传输快
 		proxy: {
 			"/api": {
-				target: "http://ccqa43.natappfree.cc", //接口地址
+				target: "http://gfqnaq.natappfree.cc", //接口地址
 				changeOrigin: true, //允许跨域
 				pathRewrite: {
 					"^/api": "", //路径重写
