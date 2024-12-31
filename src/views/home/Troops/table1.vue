@@ -4,17 +4,19 @@
 			<el-button icon="el-icon-download" type="primary" @click="handleExport">情报资源导出</el-button>
 		</div>
 		<div style="height: calc(100vh - 305px)" v-loading="loading">
-			<RelationGraph ref="relationGraph" :options="graphOptions" :on-node-click="onNodeClick" :on-node-expand="onNodeExpand" />
+			<RelationGraph ref="relationGraph" :options="graphOptions" :on-node-click="onNodeClick" />
 		</div>
+		<ViewDrawer ref="viewDrawerRef" />
 	</div>
 </template>
 
 <script>
 import RelationGraph from "relation-graph"
 import { getBlBcTreeByCountryId } from "@/api/resource/country"
+import ViewDrawer from "./viewDrawer.vue"
 
 export default {
-	components: { RelationGraph },
+	components: { RelationGraph, ViewDrawer },
 	props: {
 		countryId: {
 			type: String,
@@ -78,10 +80,7 @@ export default {
 			console.log("Export")
 		},
 		onNodeClick(node) {
-			console.log("Clicked node:", node)
-		},
-		onNodeExpand(node) {
-			console.log("Expanded node:", node)
+			if (!node.styleClass) this.$refs.viewDrawerRef.openDrawer(node.id)
 		},
 		transformTree(tree) {
 			const result = { nodes: [], lines: [] }

@@ -13,17 +13,19 @@
 			</el-form-item>
 		</el-form>
 		<!-- 表格 -->
-		<div class="table">
-			<div v-for="item in 10" :key="item" class="item">
-				<AspectRatio :ratio="16 / 7" class="top">
-					<el-tag effect="dark">已关注</el-tag>
-					<div class="title">中美之战——中国的复兴之战</div>
-				</AspectRatio>
-				<div class="bottom">
-					<p>最新更新时间：10/29 10:01:25</p>
-					<button class="new">新</button>
-					<span @click="handleEdit(row)">编辑</span>
-					<span @click="handleDelete(row)">删除</span>
+		<div class="table_box">
+			<div class="table">
+				<div v-for="item in 10" :key="item" class="item">
+					<AspectRatio :ratio="16 / 7" class="top">
+						<el-tag effect="dark">已关注</el-tag>
+						<div class="title" @click="handleDetail(item)">中美之战——中国的复兴之战</div>
+					</AspectRatio>
+					<div class="bottom">
+						<p>最新更新时间：10/29 10:01:25</p>
+						<button class="new">新</button>
+						<span @click="handleEdit(row)">编辑</span>
+						<span @click="handleDelete(row)">删除</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -38,13 +40,16 @@
 			:total="total"
 		>
 		</el-pagination>
+		<EditDrawer ref="editDrawerRef" />
 	</div>
 </template>
 
 <script>
 import AspectRatio from "@/components/AspectRatio/index.vue"
+import EditDrawer from "./editDrawer.vue"
+
 export default {
-	components: { AspectRatio },
+	components: { AspectRatio, EditDrawer },
 	data() {
 		return {
 			queryForm: {},
@@ -65,10 +70,12 @@ export default {
 		},
 		getTableData() {},
 		// 创建专题
-		handleAdd() {},
+		handleAdd() {
+			this.$refs.editDrawerRef.openDrawer()
+		},
 		//编辑
 		handleEdit({ id }) {
-			// this.$refs.editDrawerRef.openDrawer(id)
+			this.$refs.editDrawerRef.openDrawer(id)
 		},
 		//删除
 		handleDelete({ id }) {
@@ -89,6 +96,12 @@ export default {
 			this.pagination.pageNum = val
 			this.getTableData()
 		},
+		//跳转情报详情页面
+		handleDetail(item) {
+			this.$router.push({
+				path: "/topic/details",
+			})
+		},
 	},
 }
 </script>
@@ -99,13 +112,17 @@ export default {
 	justify-content: flex-end;
 	padding-bottom: 15px;
 }
+.table_box {
+	height: calc(100vh - 330px);
+	overflow-y: auto;
+	padding: 15px 0;
+	border-top: 1px solid #e4e7ed;
+	border-bottom: 1px solid #e4e7ed;
+}
 .table {
 	display: grid;
 	grid-template-columns: repeat(4, auto);
 	grid-gap: 15px;
-	padding: 15px 0;
-	border-top: 1px solid #e4e7ed;
-	border-bottom: 1px solid #e4e7ed;
 	.item {
 		border-radius: 10px;
 		border: 1px solid #ebeef5;
@@ -136,6 +153,9 @@ export default {
 			font-weight: 600;
 			letter-spacing: 1px;
 			cursor: pointer;
+			&:hover {
+				color: #409eff;
+			}
 		}
 	}
 	.bottom {
@@ -147,14 +167,15 @@ export default {
 			margin: 0;
 			font-size: 14px;
 			white-space: nowrap;
+			color: #606266;
 		}
 		.new {
-			width: 22px;
-			height: 22px;
+			width: 20px;
+			height: 20px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			font-size: 14px;
+			font-size: 12px;
 			border: none;
 			color: #fff;
 			border-radius: 50%;

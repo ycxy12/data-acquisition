@@ -12,7 +12,7 @@
 				<el-button icon="el-icon-plus" type="primary" @click="handleAdd">新增</el-button>
 			</el-form-item>
 		</el-form>
-		<el-table ref="table"  v-loading="loading"  :data="tableData" size="small" border :height="`calc(100vh - 300px)`">
+		<el-table ref="table" v-loading="loading" :data="tableData" size="small" border :height="`calc(100vh - 255px)`">
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="装备类型名称" />
 			<el-table-column prop="createTime" label="创建时间" align="center" />
@@ -38,7 +38,7 @@ export default {
 		return {
 			queryForm: {},
 			tableData: [],
-            loading: false,
+			loading: false,
 		}
 	},
 	created() {
@@ -56,10 +56,10 @@ export default {
 		},
 		// 获取表格数据
 		async getTableData() {
-            this.loading = true
+			this.loading = true
 			const { data } = await listZbType(this.queryForm)
 			this.tableData = data
-            this.loading = false
+			this.loading = false
 		},
 		//新增
 		handleAdd() {

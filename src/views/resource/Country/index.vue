@@ -12,7 +12,7 @@
 				<el-button icon="el-icon-plus" type="primary" @click="handleAdd">新增</el-button>
 			</el-form-item>
 		</el-form>
-		<el-table ref="table" v-loading="loading" :data="tableData" size="small" border :height="`calc(100vh - 300px)`">
+		<el-table ref="table" v-loading="loading" :data="tableData" size="small" border :height="`calc(100vh - 255px)`">
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="国家/地区" />
 			<el-table-column label="操作" align="center">
@@ -57,7 +57,7 @@ export default {
 			this.loading = true
 			const { data } = await listCountry(this.queryForm)
 			this.tableData = data
-            this.loading = false
+			this.loading = false
 		},
 		//新增
 		handleAdd() {
