@@ -7,6 +7,11 @@
 			<el-form-item label="战例标题" prop="title">
 				<el-input v-model="ruleForm.title" placeholder="请输入战例标题"></el-input>
 			</el-form-item>
+			<el-form-item label="所属战争" prop="warfareId">
+				<el-select v-model="ruleForm.warfareId" placeholder="请选择所属战争" clearable style="width: 100%">
+					<el-option v-for="item in WarfareList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+				</el-select>
+			</el-form-item>
 			<el-form-item label="分类标签" prop="classifyLabel">
 				<el-input v-model="ruleForm.classifyLabel" placeholder="请输入分类标签"></el-input>
 			</el-form-item>
@@ -74,6 +79,7 @@
 
 <script>
 import { addWarfareExamples, editWarfareExamples, getWarfareExamplesByid } from "@/api/home/war"
+import { dropDownQbWarfare } from "@/api/resource/war"
 
 export default {
 	data() {
@@ -85,7 +91,12 @@ export default {
 				name: [{ required: true, message: "请输入战例名称", trigger: "blur" }],
 				title: [{ required: true, message: "请输入战例标题", trigger: "blur" }],
 			},
+			WarfareList: [],
 		}
+	},
+	mounted() {
+		//获取所属战争下拉框
+		this.getWarfare()
 	},
 	methods: {
 		async openDrawer(id) {
@@ -113,6 +124,11 @@ export default {
 					this.handleClose()
 				}
 			})
+		},
+		//获取所属战争下拉框
+		async getWarfare() {
+			const { data } = await dropDownQbWarfare()
+			this.WarfareList = data
 		},
 	},
 }

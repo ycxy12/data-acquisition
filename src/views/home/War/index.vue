@@ -7,12 +7,17 @@
 			<el-form-item label="战例标题">
 				<el-input v-model="queryForm.title" placeholder="请输入战例标题"></el-input>
 			</el-form-item>
-			<el-form-item label="分类标签">
+			<el-form-item label="所属战争">
+				<el-select v-model="queryForm.warfareId" placeholder="请选择所属战争" clearable style="width: 100%">
+					<el-option v-for="item in WarfareList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+				</el-select>
+			</el-form-item>
+			<!-- <el-form-item label="分类标签">
 				<el-input v-model="queryForm.classifyLabel" placeholder="请输入分类标签"></el-input>
 			</el-form-item>
 			<el-form-item label="装备标签">
 				<el-input v-model="queryForm.equipLabel" placeholder="请输入装备标签"></el-input>
-			</el-form-item>
+			</el-form-item> -->
 			<el-form-item>
 				<el-button icon="el-icon-search" type="primary" @click="searchForm">查询</el-button>
 				<el-button icon="el-icon-refresh" @click="resetForm">重置</el-button>
@@ -21,12 +26,13 @@
 				<el-button icon="el-icon-plus" type="primary" @click="handleAdd">新增</el-button>
 			</el-form-item>
 		</el-form>
-		<el-table ref="table" :data="tableData" size="small" border :height="`calc(100vh - 300px)`">
+		<el-table ref="table" v-loading="loading" :data="tableData" size="small" border :height="`calc(100vh - 300px)`">
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="战例名称" align="center" show-overflow-tooltip />
 			<el-table-column prop="title" label="战例标题" align="center" show-overflow-tooltip />
-			<el-table-column prop="classifyLabel" label="分类标签" align="center" show-overflow-tooltip />
-			<el-table-column prop="equipLabel" label="装备标签" align="center" show-overflow-tooltip />
+			<el-table-column prop="warfareId" label="所属战争" align="center" show-overflow-tooltip />
+			<!-- <el-table-column prop="classifyLabel" label="分类标签" align="center" show-overflow-tooltip />
+			<el-table-column prop="equipLabel" label="装备标签" align="center" show-overflow-tooltip /> -->
 			<el-table-column prop="fightTime" label="交战时间" align="center" show-overflow-tooltip />
 			<el-table-column prop="fightAddress" label="交战地点" align="center" show-overflow-tooltip />
 			<!-- <el-table-column prop="jd" label="地点经度" align="center" show-overflow-tooltip />
@@ -66,6 +72,7 @@
 
 <script>
 import { listWarfareExamples, deleteWarfareExamples } from "@/api/home/war"
+import { dropDownQbWarfare } from "@/api/resource/war"
 import { downloadBlob } from "@/utils"
 import EditDrawer from "./editDrawer.vue"
 
@@ -80,10 +87,15 @@ export default {
 				pageSize: 10,
 			},
 			total: 0,
+			loading: false,
+			WarfareList: [],
 		}
 	},
 	mounted() {
+		//获取列表
 		this.getTableData()
+		//获取所属战争下拉框
+		this.getWarfare()
 	},
 	methods: {
 		//搜索
@@ -98,8 +110,10 @@ export default {
 		},
 		// 获取表格数据
 		async getTableData() {
+			this.loading = true
 			let query = Object.assign({}, this.queryForm, this.pagination)
 			const { rows, total } = await listWarfareExamples(query)
+			this.loading = false
 			this.tableData = rows
 			this.total = total
 		},
@@ -129,6 +143,11 @@ export default {
 		handleCurrentChange(val) {
 			this.pagination.pageNum = val
 			this.getTableData()
+		},
+		//获取所属战争下拉框
+		async getWarfare() {
+			const { data } = await dropDownQbWarfare()
+			this.WarfareList = data
 		},
 	},
 }

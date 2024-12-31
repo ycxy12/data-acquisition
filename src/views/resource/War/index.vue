@@ -4,9 +4,6 @@
 			<el-form-item label="战争名称">
 				<el-input v-model="queryForm.name" placeholder="请输入战争名称"></el-input>
 			</el-form-item>
-			<el-form-item label="所属战争">
-				<el-input v-model="queryForm.war" placeholder="请输入所属战争"></el-input>
-			</el-form-item>
 			<el-form-item>
 				<el-button icon="el-icon-search" type="primary" @click="searchForm">查询</el-button>
 				<el-button icon="el-icon-refresh" @click="resetForm">重置</el-button>
@@ -15,7 +12,7 @@
 				<el-button icon="el-icon-plus" type="primary" @click="handleAdd">新增</el-button>
 			</el-form-item>
 		</el-form>
-		<el-table ref="table" :data="tableData" size="small" border :height="`calc(100vh - 300px)`">
+		<el-table ref="table" v-loading="loading" :data="tableData" size="small" border :height="`calc(100vh - 300px)`">
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="战争名称" align="center" show-overflow-tooltip />
 			<el-table-column prop="startTime" label="开始时间" align="center" show-overflow-tooltip />
@@ -57,6 +54,7 @@ export default {
 				pageSize: 10,
 			},
 			total: 0,
+			loading: false,
 		}
 	},
 	mounted() {
@@ -75,8 +73,10 @@ export default {
 		},
 		// 获取表格数据
 		async getTableData() {
+			this.loading = true
 			let query = Object.assign({}, this.queryForm, this.pagination)
 			const { rows, total } = await listQbWarfare(query)
+			this.loading = false
 			this.tableData = rows
 			this.total = total
 		},
