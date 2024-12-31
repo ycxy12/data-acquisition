@@ -139,17 +139,6 @@
 						"routerView": "resource",
 						"activeMenu": "/resource"
 					}
-				},
-				{
-					"path": "/resource/warExample",
-					"name": "resourceWarExample",
-					"component": "/resource/WarExample/index",
-					"meta": {
-						"title": "所属战例",
-						"isHide": true,
-						"routerView": "resource",
-						"activeMenu": "/resource"
-					}
 				}
 			]
 		}

@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { listZbInfo, deleteZbInfo, exportUser } from "@/api/home/equipment"
+import { listZbInfo, deleteZbInfo } from "@/api/home/equipment"
 import { listCountry } from "@/api/resource/country"
 import { downloadBlob } from "@/utils"
 import EditDrawer from "./editDrawer.vue"
@@ -139,8 +139,8 @@ export default {
 		},
 		//导出
 		async handleExport(row) {
-			const { data } = await exportUser([row.id])
-			downloadBlob(data, `${row.name}.excel`)
+			// const { data } = await exportUser([row.id])
+			// downloadBlob(data, `${row.name}.excel`)
 		},
 		//删除
 		handleDelete(row) {
@@ -163,8 +163,8 @@ export default {
 		},
 		//情报资源批量导出
 		async handleMultipleExport() {
-			const { data } = await exportUser(this.multipleSelection)
-			downloadBlob(data, "情报资源.zip")
+			// const { data } = await exportUser(this.multipleSelection)
+			// downloadBlob(data, "情报资源.zip")
 		},
 		//多选
 		handleSelectionChange(val) {
