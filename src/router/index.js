@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-23 20:38:34
  * @LastEditors: yc
- * @LastEditTime: 2024-12-27 18:37:30
+ * @LastEditTime: 2025-01-01 21:27:46
  * @Description: 描述
  */
 import Vue from "vue"
@@ -31,7 +31,7 @@ Vue.use(Router)
  * @param meta.isKeepAlive ==> 当前路由是否缓存
  * */
 const router = new Router({
-	mode: "hash",
+	mode: "history",
 	routes: [...staticRouter, ...errorRouter],
 	strict: false,
 	scrollBehavior: () => ({ left: 0, top: 0 }),

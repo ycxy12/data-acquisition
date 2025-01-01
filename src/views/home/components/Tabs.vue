@@ -1,6 +1,8 @@
 <template>
 	<div class="card">
-		<button v-for="item in lists" :key="item.path" :class="{ active: active === item.path }" @click="handleClick(item)">{{ item.name }}</button>
+		<button v-for="item in lists" :key="item.path" :class="{ active: active.includes(item.path) }" @click="handleClick(item)">
+			{{ item.name }}
+		</button>
 	</div>
 </template>
 

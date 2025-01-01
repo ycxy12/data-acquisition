@@ -2,28 +2,17 @@
 	<el-drawer title="详情" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
 		<div class="view">
 			<div>
-				<label>装备名称：</label>
+				<label>名称：</label>
 				<p>{{ ruleForm.name || "--" }}</p>
 			</div>
+
 			<div>
-				<label>装备特征：</label>
-				<p>{{ ruleForm.feature || "--" }}</p>
+				<label>数量：</label>
+				<p>{{ ruleForm.num || "--" }}</p>
 			</div>
 			<div>
-				<label>装备类型：</label>
-				<p>{{ getEquipmentTypeName(ruleForm.type) }}</p>
-			</div>
-			<div>
-				<label>研制国家/地区：</label>
-				<p>{{ getCountryName(ruleForm.sourceCountryId) }}</p>
-			</div>
-			<div>
-				<label>研制时间：</label>
-				<p>{{ ruleForm.devTime || "--" }}</p>
-			</div>
-			<div>
-				<label>服役时间：</label>
-				<p>{{ ruleForm.attendedTime || "--" }}</p>
+				<label>性能参数：</label>
+				<p>{{ ruleForm.parameter || "--" }}</p>
 			</div>
 			<div>
 				<label>备注：</label>
@@ -34,9 +23,7 @@
 </template>
 
 <script>
-import { getZbInfoByid } from "@/api/home/equipment"
-import { listZbType } from "@/api/resource/equipment"
-import { listCountry } from "@/api/resource/country"
+import { getZbModuleByid } from "@/api/home/module"
 
 export default {
 	data() {
@@ -44,18 +31,12 @@ export default {
 			drawer: false,
 			direction: "rtl",
 			ruleForm: {},
-			countryOptions: [],
-			equimentTypeOptions: [],
 		}
-	},
-	mounted() {
-		this.getEquipmentType()
-		this.getCountry()
 	},
 	methods: {
 		//打开抽屉
 		async openDrawer(id) {
-			const { data } = await getZbInfoByid(id)
+			const { data } = await getZbModuleByid(id)
 			this.ruleForm = data
 			this.drawer = true
 		},
@@ -63,24 +44,6 @@ export default {
 		handleClose() {
 			this.drawer = false
 			this.ruleForm = {}
-		},
-		//获取装备类型
-		async getEquipmentType() {
-			const { data } = await listZbType()
-			this.equimentTypeOptions = data
-		},
-		//获取国家/地区
-		async getCountry() {
-			const { data } = await listCountry()
-			this.countryOptions = data
-		},
-		//获取装备类型名称
-		getEquipmentTypeName(id) {
-			return this.equimentTypeOptions.find((item) => item.id === id)?.name || "--"
-		},
-		//获取国家/地区名称
-		getCountryName(id) {
-			return this.countryOptions.find((item) => item.id === id)?.name || "--"
 		},
 	},
 }
@@ -92,7 +55,7 @@ export default {
 		display: flex;
 		margin-bottom: 10px;
 		label {
-			width: 120px;
+			width: 100px;
 			text-align: right;
 			margin-right: 10px;
 			line-height: 30px;

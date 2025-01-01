@@ -15,7 +15,18 @@
 				{
 					"path": "/home/equipment",
 					"name": "homeEquipment",
-					"component": "/home/Equipment/index",
+					"component": "/home/Equipment/Type/index",
+					"meta": {
+						"title": "装备战技参数",
+						"isHide": true,
+						"routerView": "home",
+						"activeMenu": "/home"
+					}
+				},
+				{
+					"path": "/home/equipment/:type/:id",
+					"name": "homeEquipmentInfo",
+					"component": "/home/Equipment/Info/index",
 					"meta": {
 						"title": "装备战技参数",
 						"isHide": true,

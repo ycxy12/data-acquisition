@@ -4,7 +4,7 @@
 			<el-button icon="el-icon-download" type="primary" @click="handleExport">情报资源导出</el-button>
 		</div>
 		<div style="height: calc(100vh - 305px)" v-loading="loading">
-			<RelationGraph ref="relationGraph" :options="graphOptions" :on-node-click="onNodeClick" />
+			<RelationGraph ref="relationGraph" :options="graphOptions" :on-node-click="onNodeClick" :on-node-expand="onNodeExpand" />
 		</div>
 		<ViewDrawer ref="viewDrawerRef" />
 	</div>
@@ -46,7 +46,7 @@ export default {
 				defaultLineColor: "#4ea2f0",
 				defaultNodeColor: "#4ea2f0",
 				defaultNodeWidth: "50", //节点宽度
-				defaultNodeHeight: "150", //节点高度
+				defaultNodeHeight: "180", //节点高度
 				defaultFocusRootNode: false,
 				moveToCenterWhenResize: false,
 			},
@@ -66,13 +66,14 @@ export default {
 		async getTroopsByCountry(countryId) {
 			this.loading = true
 			const { data } = await getBlBcTreeByCountryId(countryId)
+			this.graph_json_data = Object.freeze(data)
 			// 使用转换函数
-			const transformedData = this.transformTree(data)
-			this.graph_json_data = {
+			const transformedData = this.transformTree(data, 3)
+			let graph_json_data = {
 				rootId: data.id,
 				...transformedData,
 			}
-			this.$refs.relationGraph.setJsonData(this.graph_json_data, (seeksRGGraph) => {
+			this.$refs.relationGraph.setJsonData(graph_json_data, (seeksRGGraph) => {
 				this.loading = false
 			})
 		},
@@ -82,12 +83,39 @@ export default {
 		onNodeClick(node) {
 			if (!node.styleClass) this.$refs.viewDrawerRef.openDrawer(node.id)
 		},
-		transformTree(tree) {
+		//点击展开节点
+		onNodeExpand(node) {
+			this.loading = true
+			const data = this.findNodeById(this.graph_json_data, node.id)
+			const transformedData = this.transformTree(data, 2)
+			let graph_json_data = {
+				rootId: this.graph_json_data.id,
+				...transformedData,
+			}
+			this.$refs.relationGraph.appendJsonData(graph_json_data, (seeksRGGraph) => {
+				this.loading = false
+			})
+		},
+		transformTree(tree, maxLevel = 3) {
 			const result = { nodes: [], lines: [] }
-			function traverse(node, parentId = null) {
+
+			// 递归遍历树，maxLevel 限制最大层级
+			function traverse(node, parentId = null, level = 1) {
+				if (level > maxLevel) return // 超过最大层级时停止递归
+
 				if (parentId) {
 					// 将当前节点加入 nodes
-					result.nodes.push({ id: node.id, text: node.troopsName || "" })
+					if (node.children && node.children.length > 0) {
+						result.nodes.push({
+							id: node.id,
+							text: node.troopsName || "",
+							expandHolderPosition: "bottom",
+							expanded: level === maxLevel ? false : true,
+						})
+					} else {
+						result.nodes.push({ id: node.id, text: node.troopsName || "" })
+					}
+
 					// 如果有父节点，加入一条线
 					result.lines.push({ from: parentId, to: node.id })
 				} else {
@@ -101,19 +129,48 @@ export default {
 						styleClass: "first_node",
 					})
 				}
+
 				// 如果有子节点，递归处理
 				if (node.blbcTroopsList) {
-					node.blbcTroopsList.forEach((child) => traverse(child, node.id))
+					node.blbcTroopsList.forEach((child) => traverse(child, node.id, level + 1))
 				}
-				// 如果有子节点，递归处理
+
 				if (node.children) {
-					node.children.forEach((child) => traverse(child, node.id))
+					node.children.forEach((child) => traverse(child, node.id, level + 1))
 				}
 			}
-			// 递归遍历树的根节点
+
+			// 开始递归遍历根节点
 			traverse(tree)
 
 			return result
+		},
+
+		findNodeById(tree, id) {
+			// 如果当前节点的 id 和目标 id 匹配，返回当前节点
+			if (tree.id === id) {
+				return tree
+			}
+
+			// 如果当前节点有子节点，递归查找子节点
+			let result = null
+
+			if (tree.blbcTroopsList) {
+				for (let child of tree.blbcTroopsList) {
+					result = this.findNodeById(child, id)
+					if (result) return result // 如果找到了节点，直接返回
+				}
+			}
+
+			if (tree.children) {
+				for (let child of tree.children) {
+					result = this.findNodeById(child, id)
+					if (result) return result // 如果找到了节点，直接返回
+				}
+			}
+
+			// 如果未找到，返回 null
+			return null
 		},
 	},
 }

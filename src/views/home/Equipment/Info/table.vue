@@ -1,5 +1,6 @@
 <template>
 	<div class="container table">
+		<el-button icon="el-icon-back" @click="$router.back()" class="back">返回</el-button>
 		<el-form :inline="true" :model="queryForm" size="small" @keyup.enter.native="searchForm">
 			<el-form-item label="装备组件名称">
 				<el-input v-model="queryForm.name" placeholder="请输入装备组件名称"></el-input>
@@ -22,7 +23,6 @@
 				<template slot-scope="{ row }">
 					<el-button type="text" size="small" @click="handleView(row)">详情</el-button>
 					<el-button type="text" size="small" @click="handleEdit(row)">编辑</el-button>
-
 					<el-button type="text" size="small" @click="handleDelete(row)">删除</el-button>
 				</template>
 			</el-table-column>
@@ -80,7 +80,6 @@ export default {
 				this.queryForm.zbInfoId = newVal
 				this.searchForm()
 			},
-			immediate: true,
 		},
 	},
 	methods: {
@@ -140,5 +139,10 @@ export default {
 <style lang="scss" scoped>
 .table {
 	flex: 1;
+	.back {
+		position: fixed;
+		right: 40px;
+		top: 93px;
+	}
 }
 </style>

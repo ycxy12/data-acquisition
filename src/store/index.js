@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-24 09:11:52
  * @LastEditors: yc
- * @LastEditTime: 2024-12-27 10:53:26
+ * @LastEditTime: 2025-01-01 21:20:48
  * @Description: 仓库
  */
 import Vue from "vue"
@@ -21,22 +21,32 @@ export default new Vuex.Store({
 		userInfo: null,
 		// 菜单权限列表
 		authMenuList: [],
+		// 是否单点登录
+		isSSO: false,
 	},
 	mutations: {
 		// 修改状态的方法
 		setToken(state, token) {
 			state.token = token
 		},
+		//用户信息
 		setUserInfo(state, userInfo) {
 			state.userInfo = userInfo
 		},
+		// 菜单权限列表
 		setAuthMenuList(state, authMenuList) {
 			state.authMenuList = authMenuList
 		},
+		// 是否单点登录
+		setSSO(state, isSSO) {
+			state.isSSO = isSSO
+		},
+		// 清空状态
 		clearState(state) {
 			state.token = null
 			state.userInfo = null
 			state.authMenuList = []
+			state.isSSO = false
 		},
 	},
 	actions: {
@@ -51,6 +61,8 @@ export default new Vuex.Store({
 		},
 	},
 	getters: {
+		// 获取状态的方法
+		getSSO: (state) => state.isSSO,
 		// 获取状态的方法
 		getToken: (state) => state.token,
 		//用户信息

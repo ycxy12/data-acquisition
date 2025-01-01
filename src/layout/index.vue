@@ -7,7 +7,7 @@
 -->
 <template>
 	<el-container class="layout_container" direction="vertical">
-		<Header />
+		<Header v-if="!getSSO" />
 		<el-container class="classic_content">
 			<el-main>
 				<router-view></router-view>
@@ -18,12 +18,14 @@
 
 <script>
 import Header from "./components/Header"
+import { mapGetters } from "vuex"
+
 export default {
 	components: { Header },
-	data() {
-		return {}
+
+	computed: {
+		...mapGetters(["getSSO"]),
 	},
-	methods: {},
 }
 </script>
 
