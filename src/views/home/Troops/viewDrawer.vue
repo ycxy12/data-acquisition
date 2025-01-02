@@ -1,5 +1,9 @@
 <template>
 	<el-drawer title="详情" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
+		<div class="relationship">
+			<el-button type="primary" size="small" @click="handleEquipmentRelationship">装备关系</el-button>
+			<el-button type="primary" size="small" @click="handleWarRelationship">战例关系</el-button>
+		</div>
 		<div class="view">
 			<div>
 				<label>部队名称：</label>
@@ -27,14 +31,21 @@
 				<p>{{ ruleForm.domicile || "--" }}</p>
 			</div>
 		</div>
+		<!-- 设置兵力编程编组 与 装备关系 -->
+		<EquipmentRelation ref="equipmentRelationRef" />
+		<!-- 设置兵力编程编组 与 战例的关系 -->
+		<WarRelation ref="warRelationRef" />
 	</el-drawer>
 </template>
 
 <script>
 import { getBlbcByid } from "@/api/resource/troops"
 import { listCountry } from "@/api/resource/country"
+import EquipmentRelation from "./equipmentRelation.vue"
+import WarRelation from "./warRelation.vue"
 
 export default {
+	components: { EquipmentRelation, WarRelation },
 	data() {
 		return {
 			drawer: false,
@@ -67,6 +78,14 @@ export default {
 		getCountryName(id) {
 			return this.country.find((item) => item.id === id)?.name || "--"
 		},
+		//设置兵力编程编组 与 装备关系
+		handleEquipmentRelationship() {
+			this.$refs.equipmentRelationRef.openDrawer(this.ruleForm.id)
+		},
+		//设置兵力编程编组 与 战例的关系
+		handleWarRelationship() {
+			this.$refs.warRelationRef.openDrawer(this.ruleForm.id)
+		},
 	},
 }
 </script>
@@ -90,5 +109,9 @@ export default {
 			color: #606266;
 		}
 	}
+}
+.relationship {
+	text-align: right;
+	margin-bottom: 15px;
 }
 </style>

@@ -33,3 +33,8 @@ export const deleteWarfareExamples = (id) => {
 export const importWarfareExamples = (params) => {
 	return http.post("/api/warfareExamples/import", params)
 }
+
+// 获取 战例下拉数据
+export const dropDownWarfareExamples = (params) => {
+	return http.get("/api/warfareExamples/dropDown", params)
+}
