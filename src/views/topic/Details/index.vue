@@ -3,8 +3,9 @@
 		<div class="card">
 			<div><span>专题名称：</span>对T作战问题研究</div>
 			<div><span>最新更新时间：</span>2024-10-29 10:01:25</div>
+			<el-button icon="el-icon-back" @click="$router.back()" class="back">返回</el-button>
 		</div>
-		<div class="container">
+		<div class="box">
 			<Table />
 			<Article />
 		</div>
@@ -31,6 +32,16 @@ export default {
 		align-items: center;
 		& > div:first-child {
 			margin-right: 40px;
+		}
+	}
+	.back {
+		margin-left: auto;
+	}
+	.box {
+		display: flex;
+		gap: 15px;
+		& > div {
+			flex: 1;
 		}
 	}
 }

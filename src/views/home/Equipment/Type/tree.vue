@@ -31,8 +31,10 @@ export default {
 			this.loading = false
 			this.lists = data
 			this.$nextTick(() => {
-				this.$refs.tree.setCurrentKey(data[0].id) // 高亮
-				this.$emit("updateId", data[0])
+				if (this.$refs.tree && data.length) {
+					this.$refs.tree.setCurrentKey(data[0].id) // 高亮
+					this.$emit("updateId", data[0])
+				}
 			})
 		},
 		//选中

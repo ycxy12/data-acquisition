@@ -5,13 +5,12 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex"
+import { mapGetters, mapMutations } from "vuex"
 import { initDynamicRouter } from "@/router/modules/dynamicRouter"
 
 export default {
 	name: "App",
 	async created() {
-		console.log(this.$route)
 		let access_token = this.getAccessToken()
 		if (access_token) {
 			this.setSSO(true)
@@ -21,23 +20,16 @@ export default {
 			await initDynamicRouter()
 			this.$router.push(window.location.pathname)
 		}
+		if (this.getToken) {
+			await initDynamicRouter()
+		}
+	},
+	computed: {
+		...mapGetters(["getToken"]),
 	},
 	methods: {
 		...mapMutations(["setToken", "setUserInfo", "setSSO"]),
 		//获取access_token
-		// getAccessToken() {
-		// 	// 先通过 $route.query 获取 token
-		// 	const token = this.$route.query.access_token
-		// 	// 如果没有在 $route.query 中找到，再从 URL 中解析
-		// 	if (token) {
-		// 		return token
-		// 	} else {
-		// 		// 使用 URLSearchParams 来简化查询参数的解析
-		// 		const urlParams = new URLSearchParams(window.location.search)
-		// 		return urlParams.get("access_token") // 如果有则返回 access_token，否则返回 null
-		// 	}
-		// },
-
 		getAccessToken() {
 			let query = this.$route.query
 			if (query.access_token) {

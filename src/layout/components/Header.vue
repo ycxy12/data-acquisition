@@ -26,6 +26,7 @@
 <script>
 import { mapGetters, mapMutations } from "vuex"
 import Menu from "./Menu"
+
 export default {
 	components: { Menu },
 	data() {

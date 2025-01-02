@@ -73,9 +73,10 @@ export default {
 				rootId: data.id,
 				...transformedData,
 			}
-			this.$refs.relationGraph.setJsonData(graph_json_data, (seeksRGGraph) => {
-				this.loading = false
-			})
+			this.$refs.relationGraph &&
+				this.$refs.relationGraph.setJsonData(graph_json_data, (seeksRGGraph) => {
+					this.loading = false
+				})
 		},
 		handleExport() {
 			console.log("Export")

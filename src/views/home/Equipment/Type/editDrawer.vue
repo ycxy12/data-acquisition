@@ -1,6 +1,6 @@
 <template>
 	<el-drawer title="编辑" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
-		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="ruleForm">
 			<el-form-item label="装备名称" prop="name">
 				<el-input v-model="ruleForm.name" placeholder="请输入装备名称"></el-input>
 			</el-form-item>
@@ -22,7 +22,7 @@
 					</el-table-column>
 					<el-table-column prop="value" label="操作" align="center">
 						<template slot="header">
-							<el-button type="text" size="small" @click="handleAdd">添加一行</el-button>
+							<el-button type="text" size="small" @click="handleAdd" style="color: #f56c6c; font-weight: bold">添加一行</el-button>
 						</template>
 						<template slot-scope="{ row }">
 							<el-button type="text" size="small" @click="handleAddAttr(row)">添加属性值</el-button>
@@ -166,6 +166,12 @@ export default {
 	}
 	& > div:last-child {
 		border-bottom: none;
+	}
+}
+.ruleForm {
+	::v-deep .el-table th.el-table__cell {
+		line-height: 23px;
+		padding: 6px 0;
 	}
 }
 </style>

@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-23 20:38:34
  * @LastEditors: yc
- * @LastEditTime: 2025-01-01 21:27:46
+ * @LastEditTime: 2025-01-02 06:45:22
  * @Description: 描述
  */
 import Vue from "vue"
@@ -74,22 +74,22 @@ router.beforeEach(async (to, from, next) => {
 
 //解决router.addRoute冬天添加路由，刷新页面404的问题
 router.onReady(() => {
-	if (store.getters.getToken && store.getters.flatMenuList.length) {
-		// 3.添加动态路由
-		store.getters.flatMenuList.forEach((item) => {
-			router.addRoute(item.meta.routerView ? item.meta.routerView : "layout", {
-				path: item.path,
-				name: item.name,
-				redirect: item.redirect || null,
-				component: () => import(`/src/views${item.component}.vue`),
-				meta: item.meta || {}, // 添加任何需要的 meta 信息
-			})
-		})
-		router.addRoute({
-			path: "/:pathMatch(.*)*",
-			component: () => import("@/components/ErrorMessage/404.vue"),
-		})
-	}
+	// if (store.getters.getToken && store.getters.flatMenuList.length) {
+	// 	// 3.添加动态路由
+	// 	store.getters.flatMenuList.forEach((item) => {
+	// 		router.addRoute(item.meta.routerView ? item.meta.routerView : "layout", {
+	// 			path: item.path,
+	// 			name: item.name,
+	// 			redirect: item.redirect || null,
+	// 			component: () => import(`/src/views${item.component}.vue`),
+	// 			meta: item.meta || {}, // 添加任何需要的 meta 信息
+	// 		})
+	// 	})
+	// 	router.addRoute({
+	// 		path: "/:pathMatch(.*)*",
+	// 		component: () => import("@/components/ErrorMessage/404.vue"),
+	// 	})
+	// }
 })
 
 /**
