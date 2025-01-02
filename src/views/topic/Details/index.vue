@@ -3,7 +3,7 @@
 		<div class="card">
 			<div><span>专题名称：</span>对T作战问题研究</div>
 			<div><span>最新更新时间：</span>2024-10-29 10:01:25</div>
-			<el-button icon="el-icon-back" @click="$router.back()" class="back">返回</el-button>
+			<el-button icon="el-icon-back" size="small" @click="$router.back()" class="back">返回</el-button>
 		</div>
 		<div class="box">
 			<Table />
@@ -30,12 +30,15 @@ export default {
 	.card {
 		display: flex;
 		align-items: center;
+		position: relative;
 		& > div:first-child {
 			margin-right: 40px;
 		}
 	}
 	.back {
-		margin-left: auto;
+		position: absolute;
+		top: 8px;
+		right: 15px;
 	}
 	.box {
 		display: flex;

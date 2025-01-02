@@ -2,14 +2,14 @@
  * @Author: yc
  * @Date: 2024-11-23 11:44:11
  * @LastEditors: yc
- * @LastEditTime: 2024-12-25 16:31:35
+ * @LastEditTime: 2025-01-02 11:14:05
  * @Description: Layout
 -->
 <template>
 	<el-container class="layout_container" direction="vertical">
 		<Header v-if="!getSSO" />
 		<el-container class="classic_content">
-			<el-main>
+			<el-main :class="{ is_padding: isPadding }">
 				<router-view></router-view>
 			</el-main>
 		</el-container>
@@ -25,6 +25,9 @@ export default {
 
 	computed: {
 		...mapGetters(["getSSO"]),
+		isPadding() {
+			return this.$route.path.includes("/chat")
+		},
 	},
 }
 </script>
@@ -40,6 +43,9 @@ export default {
 	.el-main {
 		padding: 12px 15px;
 		background-color: #f2f3f5;
+	}
+	.is_padding {
+		padding: 0;
 	}
 }
 </style>

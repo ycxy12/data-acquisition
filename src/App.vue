@@ -35,7 +35,6 @@ export default {
 			if (query.access_token) {
 				return query.access_token
 			} else {
-				console.log(window.location)
 				let fullUrl = window.location.href
 				let tokenIndex = fullUrl.indexOf("access_token=")
 				if (tokenIndex != -1) {
