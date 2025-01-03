@@ -4,11 +4,12 @@
 			<template>
 				<div class="value">
 					<el-tag v-for="(item, index) in list" :key="index" type="info" closable @close="handleClose(index)">{{ item }}</el-tag>
+					<el-input ref="inputRef" v-model="search" size="small" placeholder="请回车搜索" @keyup.enter.native="handleSearch"></el-input>
 				</div>
 				<i class="el-icon-arrow-down"></i>
 			</template>
 			<div class="down" v-show="isExpand" @click.stop>
-				<RecycleScroller :items="options" :item-size="34" :buffer="1000" key-field="id" class="virtual_dropdown">
+				<RecycleScroller :items="searchOption" :item-size="34" :buffer="1000" key-field="id" class="virtual_dropdown">
 					<template v-slot="{ item }">
 						<div class="list-item" @click="handleCheck(item)" :class="{ active: ids.includes(item.id) }">{{ item.name }}</div>
 					</template>
@@ -37,6 +38,8 @@ export default {
 			list: [],
 			options: [],
 			isExpand: false,
+			search: "",
+			searchOption: [],
 		}
 	},
 	computed: {
@@ -49,14 +52,37 @@ export default {
 			},
 		},
 	},
-	mounted() {
+	created() {
+		console.log("created")
+
 		this.getWarfareExamples()
+	},
+	watch: {
+		value: {
+			handler(newVal) {
+				console.log(this.value, "this.value")
+				console.log(this.list, "this.list---")
+				if (this.list && this.list.length > 0) return
+				setTimeout(() => {
+					this.setList()
+				}, 10000)
+			},
+			immediate: true,
+		},
 	},
 	methods: {
 		handleClick() {
+			const inputElement = this.$refs.inputRef.$el.querySelector("input")
+			if (document.activeElement === inputElement && this.isExpand) {
+				return
+			}
 			this.isExpand = !this.isExpand
+			if (this.isExpand) {
+				inputElement.focus()
+			}
 		},
 		handleCheck(item) {
+			this.search = ""
 			let index = this.ids.findIndex((element) => element === item.id)
 			if (index > -1) {
 				this.ids.splice(index, 1)
@@ -76,6 +102,18 @@ export default {
 			// const { data } = await dropDownWarfareExamples()
 			const { rows: data } = await listWarfareExamples({ pageNum: 1, pageSize: 100 })
 			this.options = Object.freeze(data)
+			this.searchOption = Object.freeze(data)
+		},
+		//搜索
+		handleSearch() {
+			this.searchOption = Object.freeze(
+				this.options.filter((item) => item.name.includes(this.search)).slice(0, 100) // 限制最多100条结果
+			)
+		},
+		setList() {
+			console.log(this.options.length)
+			this.list = this.options.filter((item) => this.ids.includes(item.id)).map((item) => item.name)
+			console.log(this.list, "this.list")
 		},
 	},
 }
@@ -121,6 +159,16 @@ export default {
 		gap: 5px;
 		width: 100%;
 		height: 100%;
+		.el-input {
+			width: 100px;
+			line-height: 22px;
+		}
+		.el-input__inner {
+			border: none;
+			height: 24px;
+			line-height: 22px;
+			padding: 0;
+		}
 	}
 	.el-tag {
 		height: 24px;

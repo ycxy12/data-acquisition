@@ -1,5 +1,5 @@
 <template>
-	<el-drawer title="战例关系" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
+	<el-drawer title="战例关系" v-if="drawer" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
 			<el-form-item label="战例" prop="warfareExamplesIds">
 				<virtual-scroller v-model="ruleForm.warfareExamplesIds" />
@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import { dropDownWarfareExamples, listWarfareExamples } from "@/api/home/war"
 import { getBlbcByid } from "@/api/resource/troops"
 import { setBlbcWarfareExamplesRelation, getBlbcWarfareExamplesRelation } from "@/api/home/troops"
 import VirtualScroller from "./components/virtualScroller.vue"
@@ -36,22 +35,7 @@ export default {
 				warfareExamplesIds: [{ required: true, message: "请选择战例", trigger: "change" }],
 				blbcName: [{ required: true, message: "请选择兵力编成编组", trigger: "change" }],
 			},
-			// options: [],
-			options: Array.from({ length: 1000 }, (_, index) => ({
-				id: index,
-				name: `Option ${index + 1}`,
-				value: index + 1,
-			})),
 		}
-	},
-	computed: {
-		visibleOptions() {
-			// You can add any custom logic to determine visible options here
-			return this.options.slice(0, 10) // For example, just show the first 10 options
-		},
-	},
-	mounted() {
-		// this.getWarfareExamples()
 	},
 	methods: {
 		//打开抽屉
@@ -88,13 +72,6 @@ export default {
 					this.handleClose()
 				}
 			})
-		},
-
-		//获取战例下拉数据
-		async getWarfareExamples() {
-			// const { data } = await dropDownWarfareExamples()
-			const { rows: data } = await listWarfareExamples({ pageNum: 1, pageSize: 100 })
-			this.options = Object.freeze(data)
 		},
 
 		//关闭抽屉
