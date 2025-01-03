@@ -23,7 +23,10 @@
 			:data="tableData"
 			v-loading="loading"
 			size="small"
-			border
+			stripe
+			element-loading-text="拼命加载中"
+			element-loading-spinner="el-icon-loading"
+			element-loading-background="rgba(0, 0, 0, 0.5)"
 			@selection-change="handleSelectionChange"
 			:height="`calc(100vh - 298px)`"
 		>

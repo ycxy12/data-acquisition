@@ -1,5 +1,5 @@
 <template>
-	<el-menu :default-active="activeMenu" mode="horizontal" text-color="#fff" active-text-color="#1890ff">
+	<el-menu :default-active="activeMenu" mode="horizontal" text-color="#fff" active-text-color="#1FF7FF">
 		<sub-menu :menu-list="showMenuList" />
 	</el-menu>
 </template>

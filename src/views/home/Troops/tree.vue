@@ -48,6 +48,7 @@ export default {
 	height: 100%;
 	margin-right: 15px;
 	h3 {
+		color: #fff;
 		margin: 0 15px 10px;
 	}
 	.list {
@@ -57,14 +58,13 @@ export default {
 			cursor: pointer;
 			padding: 5px 15px;
 			margin: 5px;
-			color: #606266;
+			color: #fff;
 			&:hover {
-				background-color: #f0f7ff;
+				background-color: rgba(0, 84, 251, 1);
 			}
 		}
 		.active {
-			color: #409eff;
-			background-color: #f0f7ff;
+			background: rgba(0, 84, 251, 1);
 		}
 	}
 }

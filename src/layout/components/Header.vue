@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-23 11:45:16
  * @LastEditors: yc
- * @LastEditTime: 2024-12-27 18:32:08
+ * @LastEditTime: 2025-01-03 15:43:34
  * @Description: 头部
 -->
 <template>
@@ -71,6 +71,7 @@ export default {
 	color: #fff;
 	background-color: #304156;
 	box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+	background-color: rgba(40, 64, 131, 1);
 	.svg-icon {
 		width: 40px;
 		height: 40px;

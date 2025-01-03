@@ -1,5 +1,5 @@
 <template>
-	<el-drawer title="详情" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
+	<el-drawer title="详情" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
 			<el-form-item label="战例名称" prop="name">
 				<el-input v-model="ruleForm.name" placeholder="请输入战例名称"></el-input>

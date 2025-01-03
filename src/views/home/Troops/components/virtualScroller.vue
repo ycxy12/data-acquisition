@@ -128,11 +128,11 @@ export default {
 		width: 100%;
 		min-height: 40px;
 		line-height: 40px;
-		background-color: #fff;
+		background-color: rgba(0, 84, 251, 0.2);
 		border-radius: 4px;
-		border: 1px solid #dcdfe6;
+		border: 1px solid rgb(112, 160, 255);
 		box-sizing: border-box;
-		color: #606266;
+		color: #fff;
 		padding: 5px 15px;
 		padding-right: 30px;
 		transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -168,6 +168,12 @@ export default {
 			height: 24px;
 			line-height: 22px;
 			padding: 0;
+			background-color: transparent;
+		}
+		.el-tag.el-tag--info {
+			color: #fff;
+			background: rgba(0, 17, 50, 1);
+			border-color: rgb(112, 160, 255);
 		}
 	}
 	.el-tag {

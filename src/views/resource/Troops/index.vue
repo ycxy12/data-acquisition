@@ -17,7 +17,17 @@
 				<el-button icon="el-icon-plus" type="primary" @click="handleAdd">新增</el-button>
 			</el-form-item>
 		</el-form>
-		<el-table ref="table"  v-loading="loading"  :data="tableData" size="small" border :height="`calc(100vh - 300px)`">
+		<el-table
+			ref="table"
+			v-loading="loading"
+			:data="tableData"
+			size="small"
+			stripe
+			element-loading-text="拼命加载中"
+			element-loading-spinner="el-icon-loading"
+			element-loading-background="rgba(0, 0, 0, 0.5)"
+			:height="`calc(100vh - 300px)`"
+		>
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="troopsName" label="部队名称" min-width="100" />
 			<el-table-column prop="summary" label="简介" align="center" min-width="200" show-overflow-tooltip />
@@ -63,7 +73,7 @@ export default {
 			},
 			total: 0,
 			country: [],
-            loading: false,
+			loading: false,
 		}
 	},
 	created() {
@@ -85,10 +95,10 @@ export default {
 		},
 		// 获取表格数据
 		async getTableData() {
-            this.loading = true
+			this.loading = true
 			let query = Object.assign({}, this.queryForm, this.pagination)
 			const { rows, total } = await listBlbc(query)
-            this.loading = false
+			this.loading = false
 			this.tableData = rows
 			this.total = total
 		},

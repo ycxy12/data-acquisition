@@ -1,5 +1,12 @@
 <template>
-	<div class="container tree" v-loading="loading">
+	<div
+		class="container tree"
+		v-loading="loading"
+		stripe
+		element-loading-text="拼命加载中"
+		element-loading-spinner="el-icon-loading"
+		element-loading-background="rgba(0, 0, 0, 0.5)"
+	>
 		<h3>{{ typeForm.name }}</h3>
 		<div class="list">
 			<p v-for="item in lists" :key="item.id" :class="{ active: item.id === active }" @click="handleClick(item)">{{ item.name }}</p>
@@ -59,6 +66,7 @@ export default {
 	height: 100%;
 	margin-right: 15px;
 	h3 {
+        color: #fff;
 		margin: 0 15px 10px;
 	}
 	.list {
@@ -68,14 +76,13 @@ export default {
 			cursor: pointer;
 			padding: 5px 15px;
 			margin: 5px;
-			color: #606266;
+			color: #fff;
 			&:hover {
-				background-color: #f0f7ff;
+				background-color: rgba(0,84,251,1);
 			}
 		}
 		.active {
-			color: #409eff;
-			background-color: #f0f7ff;
+			background-color: rgba(0,84,251,1);
 		}
 	}
 }

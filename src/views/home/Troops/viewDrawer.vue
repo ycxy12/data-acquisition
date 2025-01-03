@@ -1,5 +1,5 @@
 <template>
-	<el-drawer title="详情" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
+	<el-drawer title="详情" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
 		<div class="relationship">
 			<el-button type="primary" size="small" @click="handleEquipmentRelationship">装备关系</el-button>
 			<el-button type="primary" size="small" @click="handleWarRelationship">战例关系</el-button>
@@ -100,13 +100,13 @@ export default {
 			text-align: right;
 			margin-right: 10px;
 			line-height: 30px;
-			color: #606266;
+			color: #fff;
 		}
 		p {
 			flex: 1;
 			margin: 0;
 			line-height: 30px;
-			color: #606266;
+			color: #fff;
 		}
 	}
 }

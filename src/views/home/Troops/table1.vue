@@ -3,7 +3,14 @@
 		<div class="btn">
 			<el-button icon="el-icon-download" type="primary" @click="handleExport">情报资源导出</el-button>
 		</div>
-		<div style="height: calc(100vh - 305px)" v-loading="loading">
+		<div
+			style="height: calc(100vh - 305px)"
+			v-loading="loading"
+			stripe
+			element-loading-text="拼命加载中"
+			element-loading-spinner="el-icon-loading"
+			element-loading-background="rgba(0, 0, 0, 0.5)"
+		>
 			<RelationGraph ref="relationGraph" :options="graphOptions" :on-node-click="onNodeClick" :on-node-expand="onNodeExpand" />
 		</div>
 		<ViewDrawer ref="viewDrawerRef" />
@@ -183,7 +190,13 @@ export default {
 		display: flex;
 		justify-content: flex-end;
 		padding-bottom: 15px;
-		border-bottom: 1px solid #e4e7ed;
+		// border-bottom: 1px solid #e4e7ed;
+	}
+	::v-deep .relation-graph .rel-map {
+		background-color: transparent;
+	}
+	::v-deep .relation-graph .c-rg-line-bg {
+		stroke: transparent;
 	}
 	::v-deep .relation-graph .c-node-text {
 		writing-mode: vertical-rl;

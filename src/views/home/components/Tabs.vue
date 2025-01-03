@@ -1,5 +1,5 @@
 <template>
-	<div class="card">
+	<div class="card card_top">
 		<button v-for="item in lists" :key="item.path" :class="{ active: active.includes(item.path) }" @click="handleClick(item)">
 			{{ item.name }}
 		</button>

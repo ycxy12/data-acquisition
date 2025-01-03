@@ -1,11 +1,17 @@
 <template>
-	<el-drawer title="编辑" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
+	<el-drawer title="编辑" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="ruleForm">
 			<el-form-item label="装备名称" prop="name">
 				<el-input v-model="ruleForm.name" placeholder="请输入装备名称"></el-input>
 			</el-form-item>
 			<el-form-item label="装备特征" prop="attrs">
-				<el-table :data="ruleForm.attrs" border>
+				<el-table
+					:data="ruleForm.attrs"
+					stripe
+					element-loading-text="拼命加载中"
+					element-loading-spinner="el-icon-loading"
+					element-loading-background="rgba(0, 0, 0, 0.5)"
+				>
 					<el-table-column prop="attrName" label="属性" align="center">
 						<template slot-scope="{ row }">
 							<el-input v-model="row.attrName" placeholder="请输入属性"></el-input>
@@ -162,7 +168,7 @@ export default {
 .attr_cell {
 	& > div {
 		padding: 8px 10px;
-		border-bottom: 1px solid #ebeef5;
+		border-bottom: 1px solid rgba(112, 160, 255, 1);
 	}
 	& > div:last-child {
 		border-bottom: none;

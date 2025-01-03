@@ -12,7 +12,17 @@
 				<el-button icon="el-icon-plus" type="primary" @click="handleAdd">新增</el-button>
 			</el-form-item>
 		</el-form>
-		<el-table ref="table" v-loading="loading" :data="tableData" size="small" border :height="`calc(100vh - 255px)`">
+		<el-table
+			ref="table"
+			v-loading="loading"
+			element-loading-text="拼命加载中"
+			element-loading-spinner="el-icon-loading"
+			element-loading-background="rgba(0, 0, 0, 0.5)"
+			:data="tableData"
+			size="small"
+			stripe
+			:height="`calc(100vh - 255px)`"
+		>
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="装备类型名称" />
 			<el-table-column prop="createTime" label="创建时间" align="center" />

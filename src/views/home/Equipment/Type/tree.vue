@@ -1,5 +1,11 @@
 <template>
-	<div class="container tree" v-loading="loading">
+	<div
+		class="container tree"
+		v-loading="loading"
+		element-loading-text="拼命加载中"
+		element-loading-spinner="el-icon-loading"
+		element-loading-background="rgba(0, 0, 0, 0.5)"
+	>
 		<h3>装备类型</h3>
 		<div class="list">
 			<el-tree ref="tree" :data="lists" :props="props" node-key="id" highlight-current @node-click="handleNodeClick"></el-tree>
@@ -51,6 +57,7 @@ export default {
 	height: 100%;
 	margin-right: 15px;
 	h3 {
+		color: #fff;
 		margin: 0 15px 10px;
 	}
 	.list {

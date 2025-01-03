@@ -26,7 +26,17 @@
 				<el-button icon="el-icon-plus" type="primary" @click="handleAdd">新增</el-button>
 			</el-form-item>
 		</el-form>
-		<el-table ref="table" v-loading="loading" :data="tableData" size="small" border :height="`calc(100vh - 300px)`">
+		<el-table
+			ref="table"
+			v-loading="loading"
+			:data="tableData"
+			size="small"
+			stripe
+			element-loading-text="拼命加载中"
+			element-loading-spinner="el-icon-loading"
+			element-loading-background="rgba(0, 0, 0, 0.5)"
+			:height="`calc(100vh - 300px)`"
+		>
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="战例名称" align="center" show-overflow-tooltip />
 			<el-table-column prop="title" label="战例标题" align="center" show-overflow-tooltip />

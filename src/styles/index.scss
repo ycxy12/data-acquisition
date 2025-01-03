@@ -1,3 +1,9 @@
+@font-face {
+	font-family: SourceHanSansCN;
+	src: url(~@/assets/fonts/SourceHanSansCN-Regular.otf);
+	font-display: swap; /* 优化渲染 */
+}
+
 html,
 body,
 #app {
@@ -5,17 +11,48 @@ body,
 	height: 100%;
 	padding: 0;
 	margin: 0;
+	font-family: SourceHanSansCN;
 }
 
 .card,
 .container {
-	background-color: #fff;
+	position: relative;
+	z-index: 1; /* 确保内容层级在伪元素之上 */
 	box-sizing: border-box;
 	padding: 15px;
 	overflow-x: hidden;
-	border: 1px solid #e4e7ed;
 	border-radius: 6px;
-	box-shadow: 0 0 12px #0000000d;
+	box-shadow: 0 0 12px #000000;
+	&::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: -1; /* 背景伪元素在内容后面 */
+		opacity: 0.42; /* 只影响背景透明度 */
+		background: linear-gradient(
+			-180deg,
+			rgba(69, 97, 130, 0.8) 0%,
+			rgba(69, 97, 130, 0.5) 13%,
+			rgba(69, 97, 130, 0.1) 50%,
+			rgba(69, 97, 130, 0.4) 90%,
+			rgba(69, 97, 130, 0.8) 100%
+		);
+	}
+}
+.card_top {
+	&::before {
+		background: linear-gradient(
+			90deg,
+			rgba(69, 97, 130, 0.8) 0%,
+			rgba(69, 97, 130, 0.5) 13%,
+			rgba(69, 97, 130, 0.1) 50%,
+			rgba(69, 97, 130, 0.4) 90%,
+			rgba(69, 97, 130, 0.8) 100%
+		);
+	}
 }
 .container {
 	margin-top: 10px;

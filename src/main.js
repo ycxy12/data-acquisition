@@ -12,6 +12,7 @@ import "normalize.css/normalize.css"
 import "./styles/index.scss"
 import ElementUI from "element-ui"
 import "element-ui/lib/theme-chalk/index.css"
+import "./styles/element.scss"
 import App from "./App.vue"
 // 引入路由配置
 import router from "./router"
