@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { listZbInfo, deleteZbInfo } from "@/api/home/equipment"
+import { listZbInfo, deleteZbInfo, exportZbInfo } from "@/api/home/equipment"
 import { listCountry } from "@/api/resource/country"
 import { downloadBlob } from "@/utils"
 import EditDrawer from "./editDrawer.vue"
@@ -145,10 +145,20 @@ export default {
 		handleEdit({ id }) {
 			this.$refs.editDrawerRef.openDrawer(id)
 		},
+		//情报资源批量导出
+		async handleMultipleExport() {
+			if (this.multipleSelection.length === 0) {
+				this.$message.warning("请选择数据!")
+				return
+			}
+			let ids = this.multipleSelection.map((item) => item.id)
+			const response = await exportZbInfo(ids)
+			downloadBlob(response)
+		},
 		//导出
 		async handleExport(row) {
-			// const { data } = await exportUser([row.id])
-			// downloadBlob(data, `${row.name}.excel`)
+			const response = await exportZbInfo([row.id])
+			downloadBlob(response)
 		},
 		//删除
 		handleDelete(row) {
@@ -169,11 +179,7 @@ export default {
 			this.pagination.pageNum = val
 			this.getTableData()
 		},
-		//情报资源批量导出
-		async handleMultipleExport() {
-			// const { data } = await exportUser(this.multipleSelection)
-			// downloadBlob(data, "情报资源.zip")
-		},
+
 		//多选
 		handleSelectionChange(val) {
 			this.multipleSelection = val

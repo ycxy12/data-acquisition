@@ -3,7 +3,7 @@
 		<div class="default">
 			<h3>情报问答助手</h3>
 			<p>您好，我是您的情报问答助手，您可以问我关于装备战技参数、兵力编成编组、经典历史战例相关问题。</p>
-			<div class="question">
+			<div class="question card">
 				<div>您可以试着问我：</div>
 				<p v-for="item in questions" :key="item" @click="handleSend(item)">{{ item }}</p>
 			</div>
@@ -47,22 +47,22 @@ export default {
 	height: calc(100vh - 244px);
 	box-sizing: border-box;
 	h3 {
+		color: #fff;
 		font-size: 28px;
 		text-align: center;
 	}
 	p {
+		color: #fff;
 		text-align: center;
 	}
 	.question {
 		width: 80%;
 		margin: 20px auto 0;
 		padding: 15px;
-		background: rgba(255, 255, 255, 0.4);
-		box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.16);
 		border-radius: 10px;
 		div {
 			font-size: 20px;
-			color: rgba(0, 0, 0, 0.8);
+			color: rgba(255, 255, 255, 0.8);
 			margin-bottom: 20px;
 		}
 		p {
@@ -73,6 +73,7 @@ export default {
 			margin: 0;
 			margin-left: 40px;
 			color: #409eff;
+			border-radius: 4px;
 			cursor: pointer;
 			&:hover {
 				color: #409eff;

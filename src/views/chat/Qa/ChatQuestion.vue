@@ -1,7 +1,7 @@
 <template>
 	<div class="chat_question">
 		<img src="@/assets/images/user.png" alt="" />
-		<div class="content">{{ question }}</div>
+		<div class="content card">{{ question }}</div>
 	</div>
 </template>
 
@@ -35,11 +35,9 @@ export default {
 	.content {
 		max-width: 100%;
 		font-weight: 300;
-		color: rgba(0, 0, 0, 0.8);
+		color: rgba(255, 255, 255, 0.8);
 		line-height: 24px;
 		padding: 10px 20px;
-		background: rgba(255, 255, 255, 0.4);
-		box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.16);
 		border-radius: 10px;
 	}
 }

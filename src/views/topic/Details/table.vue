@@ -96,13 +96,14 @@ export default {
 	overflow-y: auto;
 	height: calc(100vh - 295px);
 	padding: 10px 0;
-	border-top: 1px solid #e4e7ed;
-	border-bottom: 1px solid #e4e7ed;
 	& > div {
 		margin-top: 5px;
-		padding-bottom: 15px;
 		margin-bottom: 10px;
-		border-bottom: 1px solid #e4e7ed;
+		padding: 15px;
+		border-radius: 4px;
+	}
+	& > div:nth-child(even) {
+		background-color: rgba(14, 95, 255, 0.2);
 	}
 	.title {
 		display: flex;
@@ -110,7 +111,7 @@ export default {
 		margin-bottom: 10px;
 		h3 {
 			margin: 0;
-			color: #333333;
+			color: #fff;
 			font-weight: 500;
 			cursor: pointer;
 			&:hover {
@@ -144,7 +145,7 @@ export default {
 				margin: 0;
 				line-height: 22px;
 				font-size: 14px;
-				color: #606266;
+				color: #fff;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				display: -webkit-box;
@@ -158,9 +159,9 @@ export default {
 				font-size: 12px;
 				border-radius: 4px;
 				padding: 4px 10px;
-				color: #606266;
-				background-color: transparent;
-				border: 1px solid #dcdfe6;
+				color: #409eff;
+				background: rgba(0, 84, 251, 0.2);
+				border: 1px solid #70a0ff;
 				margin-right: 15px;
 			}
 		}
@@ -168,7 +169,7 @@ export default {
 			span {
 				font-size: 14px;
 				padding-right: 15px;
-				color: #606266;
+				color: #fff;
 			}
 		}
 	}

@@ -17,8 +17,9 @@ export default {
 .qa {
 	height: calc(100vh - 64px);
 	display: flex;
-	background-image: url(~@/assets/images/ai-bg.png);
-	background-size: 100% 100%;
+	// background-image: url(~@/assets/images/ai-bg.png);
+	// background-size: 100% 100%;
+	background-color: #172034;
 	overflow: hidden;
 }
 </style>

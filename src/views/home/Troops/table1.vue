@@ -20,7 +20,9 @@
 <script>
 import RelationGraph from "relation-graph"
 import { getBlBcTreeByCountryId } from "@/api/resource/country"
+import { exportBlbc } from "@/api/home/troops"
 import ViewDrawer from "./viewDrawer.vue"
+import { downloadBlob } from "@/utils"
 
 export default {
 	components: { RelationGraph, ViewDrawer },
@@ -85,8 +87,9 @@ export default {
 					this.loading = false
 				})
 		},
-		handleExport() {
-			console.log("Export")
+		async handleExport() {
+			const response = await exportBlbc(this.countryId)
+			downloadBlob(response)
 		},
 		onNodeClick(node) {
 			if (!node.styleClass) this.$refs.viewDrawerRef.openDrawer(node.id)

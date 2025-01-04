@@ -33,3 +33,8 @@ export const deleteZbInfo = (id) => {
 export const importZbInfo = (params) => {
 	return http.post("/api/zbInfo/importZbInfo", params)
 }
+
+// 导入 - 装备性能参数信息
+export const exportZbInfo = (params) => {
+	return http.post("/api/zbInfo/exportOwl", params, { responseType: "blob" })
+}

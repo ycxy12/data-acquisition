@@ -7,23 +7,13 @@
 			<el-form-item label="战例标题">
 				<el-input v-model="queryForm.title" placeholder="请输入战例标题"></el-input>
 			</el-form-item>
-			<el-form-item label="所属战争">
-				<el-select v-model="queryForm.warfareId" placeholder="请选择所属战争" clearable style="width: 100%">
-					<el-option v-for="item in WarfareList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
-				</el-select>
-			</el-form-item>
-			<!-- <el-form-item label="分类标签">
-				<el-input v-model="queryForm.classifyLabel" placeholder="请输入分类标签"></el-input>
-			</el-form-item>
-			<el-form-item label="装备标签">
-				<el-input v-model="queryForm.equipLabel" placeholder="请输入装备标签"></el-input>
-			</el-form-item> -->
 			<el-form-item>
 				<el-button icon="el-icon-search" type="primary" @click="searchForm">查询</el-button>
 				<el-button icon="el-icon-refresh" @click="resetForm">重置</el-button>
 			</el-form-item>
 			<el-form-item style="float: right">
 				<el-button icon="el-icon-plus" type="primary" @click="handleAdd">新增</el-button>
+				<el-button icon="el-icon-download" type="primary" @click="handleMultipleExport">情报资源导出</el-button>
 			</el-form-item>
 		</el-form>
 		<el-table
@@ -35,8 +25,10 @@
 			element-loading-text="拼命加载中"
 			element-loading-spinner="el-icon-loading"
 			element-loading-background="rgba(0, 0, 0, 0.5)"
+			@selection-change="handleSelectionChange"
 			:height="`calc(100vh - 300px)`"
 		>
+			<el-table-column type="selection" width="55" align="center" />
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="战例名称" align="center" show-overflow-tooltip />
 			<el-table-column prop="title" label="战例标题" align="center" show-overflow-tooltip />
@@ -61,6 +53,7 @@
 			<el-table-column label="操作" align="center">
 				<template slot-scope="{ row }">
 					<el-button type="text" size="small" @click="handleEdit(row)">编辑</el-button>
+					<el-button type="text" size="small" @click="handleExport(row)">导出</el-button>
 					<el-button type="text" size="small" @click="handleDelete(row)">删除</el-button>
 				</template>
 			</el-table-column>
@@ -81,7 +74,7 @@
 </template>
 
 <script>
-import { listWarfareExamples, deleteWarfareExamples } from "@/api/home/war"
+import { listWarfareExamples, deleteWarfareExamples, exportWarfareExamples } from "@/api/home/war"
 import { dropDownQbWarfare } from "@/api/resource/war"
 import { downloadBlob } from "@/utils"
 import EditDrawer from "./editDrawer.vue"
@@ -99,6 +92,7 @@ export default {
 			total: 0,
 			loading: false,
 			WarfareList: [],
+			multipleSelection: [],
 		}
 	},
 	mounted() {
@@ -158,6 +152,25 @@ export default {
 		async getWarfare() {
 			const { data } = await dropDownQbWarfare()
 			this.WarfareList = data
+		},
+		//多选
+		handleSelectionChange(val) {
+			this.multipleSelection = val
+		},
+		//情报资源批量导出
+		async handleMultipleExport() {
+			if (this.multipleSelection.length === 0) {
+				this.$message.warning("请选择数据!")
+				return
+			}
+			let ids = this.multipleSelection.map((item) => item.id)
+			const response = await exportWarfareExamples(ids)
+			downloadBlob(response)
+		},
+		//导出
+		async handleExport(row) {
+			const response = await exportWarfareExamples([row.id])
+			downloadBlob(response)
 		},
 	},
 }

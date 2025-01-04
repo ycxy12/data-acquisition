@@ -26,12 +26,24 @@ export function getFlatMenuList(menuList) {
  * @param {String} path - 文件地址
  * @param {String} name - 文件名,eg: test.png
  */
-export function downloadBlob(data, name) {
-	const url = window.URL.createObjectURL(new Blob([data]))
+export function downloadBlob(response, name = null) {
+	const disposition = response.headers["content-disposition"]
+	// 获取文件下载头信息
+	let fileName = "default-filename"
+	// 默认文件名
+	if (disposition && disposition.includes("attachment")) {
+		// 如果下载头包含附件信息，提取文件名
+		const fileNameMatch = disposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)
+		if (fileNameMatch != null && fileNameMatch[1]) {
+			fileName = decodeURIComponent(fileNameMatch[1].replace(/['"]/g, ""))
+			// 解码并去除引号
+		}
+	}
+	const url = window.URL.createObjectURL(new Blob([response.data]))
 	const link = document.createElement("a")
 	link.style.display = "none"
 	link.href = url
-	link.setAttribute("download", name)
+	link.setAttribute("download", name ? name : fileName)
 	document.body.appendChild(link)
 	link.click()
 	document.body.removeChild(link)

@@ -19,16 +19,13 @@ export default {
 			default: false,
 		},
 	},
-	data() {
-		return {}
-	},
 	computed: {
 		message: {
 			get() {
 				return this.value
 			},
 			set(val) {
-				this.$emit("update", val)
+				this.$emit("input", val)
 			},
 		},
 	},
@@ -37,12 +34,8 @@ export default {
 			if (!this.message) {
 				return
 			}
-			this.loading = true
 			this.$emit("send", this.message)
-			setTimeout(() => {
-				this.message = ""
-				this.loading = false
-			}, 1000)
+			this.message = ""
 		},
 	},
 }
@@ -56,7 +49,7 @@ export default {
 	margin: 0 auto;
 	display: flex;
 	overflow: hidden;
-	background: #ffffff;
+	background: rgba(0, 84, 251, 0.2);
 	box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.16);
 	border-radius: 10px 10px 10px 10px;
 	padding: 15px;
@@ -67,9 +60,10 @@ export default {
 			box-shadow: none;
 			border: none;
 			font-size: 20px;
+			background: transparent;
 			&::placeholder {
 				font-size: 16px;
-				color: rgba(0, 0, 0, 0.2);
+				color: rgba(255, 255, 255, 0.5);
 			}
 		}
 	}

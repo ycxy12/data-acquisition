@@ -502,5 +502,8 @@ export default {
 <style lang="scss" scoped>
 .chart {
 	margin-top: 0;
+	::v-deep .relation-graph .rel-map {
+		background-color: transparent;
+	}
 }
 </style>

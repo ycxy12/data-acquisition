@@ -1,5 +1,5 @@
 <template>
-	<div class="conversation">
+	<div class="conversation card">
 		<div class="button" @click="handleAdd"><i class="el-icon-plus"></i>新建会话</div>
 		<h3>会话记录</h3>
 		<div class="record">
@@ -49,14 +49,13 @@ export default {
 	width: 270px;
 	padding: 15px;
 	flex-shrink: 0;
-	background: rgba(255, 255, 255, 0.4);
-	box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.16);
 	.button {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		color: #333333;
-		border: 1px solid #333333;
+		color: #409eff;
+		background: rgba(0, 84, 251, 0.2);
+		border: 1px solid #70a0ff;
 		padding: 10px 20px;
 		border-radius: 4px;
 		cursor: pointer;
@@ -66,27 +65,30 @@ export default {
 		}
 		&:hover {
 			color: #409eff;
-			border: 1px solid #409eff;
-			background-color: #f0f5ff;
+			background: rgba(0, 84, 251, 0.2);
+			border: 1px solid #70a0ff;
 		}
 	}
 	h3 {
 		font-weight: 500;
 		margin: 20px 0 10px;
 		font-size: 16px;
-		color: #409eff;
+		color: #fff;
 		font-weight: 600;
 	}
 	.record {
-		height: calc(100vh - 180px);
+		height: calc(100vh - 181px);
 		overflow-y: auto;
+		.item:nth-child(even) {
+			background-color: rgba(14, 95, 255, 0.2);
+		}
 		.item {
 			display: flex;
 			align-items: center;
 			padding: 10px 5px;
 			border-radius: 4px;
 			cursor: pointer;
-			color: #333333;
+			color: #fff;
 			&:hover,
 			&.active {
 				color: #409eff;

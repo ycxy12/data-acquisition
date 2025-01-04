@@ -54,6 +54,10 @@ class RequestHttp {
 					Message.error(data.msg)
 					return Promise.reject(data)
 				}
+				//下载接口直接返回
+				if (config.responseType === "blob") {
+					return response
+				}
 
 				// 成功请求（在页面上除非特殊情况，否则不用处理失败逻辑）
 				return data

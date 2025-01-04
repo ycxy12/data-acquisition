@@ -42,7 +42,7 @@ export default {
 	overflow-y: auto;
 	height: calc(100vh - 148px);
 	h3 {
-		color: #333;
+		color: #fff;
 		font-size: 20px;
 		margin-top: 20px;
 		text-align: center;
@@ -52,6 +52,7 @@ export default {
 		display: flex;
 		justify-content: center;
 		margin: 30px 0 20px;
+		color: #fff;
 		span {
 			padding-right: 15px;
 		}
@@ -66,15 +67,15 @@ export default {
 			font-size: 12px;
 			border-radius: 4px;
 			padding: 4px 10px;
-			color: #606266;
-			background-color: transparent;
-			border: 1px solid #dcdfe6;
+			color: #409eff;
+			background: rgba(0, 84, 251, 0.2);
+			border: 1px solid #70a0ff;
 			margin-right: 15px;
 		}
 	}
 	p {
 		margin: 10px 0;
-		color: #606266;
+		color: #fff;
 		text-indent: 2em;
 		line-height: 28px;
 	}

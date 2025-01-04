@@ -15,7 +15,7 @@
 		<!-- 表格 -->
 		<div class="table_box">
 			<div class="table">
-				<div v-for="item in 10" :key="item" class="item">
+				<div v-for="item in 12" :key="item" class="item">
 					<AspectRatio :ratio="16 / 7" class="top">
 						<el-tag effect="dark">已关注</el-tag>
 						<div class="title" @click="handleDetail(item)">中美之战——中国的复兴之战</div>
@@ -116,8 +116,8 @@ export default {
 	height: calc(100vh - 330px);
 	overflow-y: auto;
 	padding: 15px 0;
-	border-top: 1px solid #e4e7ed;
-	border-bottom: 1px solid #e4e7ed;
+	// border-top: 1px solid rgba(112, 160, 255, 1);
+	// border-bottom: 1px solid rgba(112, 160, 255, 1);
 }
 .table {
 	display: grid;
@@ -125,7 +125,7 @@ export default {
 	grid-gap: 15px;
 	.item {
 		border-radius: 10px;
-		border: 1px solid #ebeef5;
+		border: 1px solid rgba(112, 160, 255, 1);
 		overflow: hidden;
 	}
 	::v-deep .top .content {
@@ -137,6 +137,9 @@ export default {
 			right: 15px;
 			height: 22px;
 			line-height: 20px;
+			color: #fff;
+			border: 1px solid #409eff;
+			background: rgba(0, 84, 251, 0.5);
 		}
 		.title {
 			position: absolute;
@@ -145,7 +148,6 @@ export default {
 			width: 100%;
 			background-color: rgba(0, 0, 0, 0.4);
 			box-sizing: border-box;
-			border: 1px solid #797979;
 			border-radius: 10px 10px 0 0;
 			padding: 8px 15px;
 			color: #fff;
@@ -161,13 +163,13 @@ export default {
 	.bottom {
 		display: flex;
 		align-items: center;
-		background-color: #fff;
+		background-color: rgba(0, 17, 50, 1);
 		padding: 10px 15px;
 		p {
 			margin: 0;
 			font-size: 14px;
 			white-space: nowrap;
-			color: #606266;
+			color: #fff;
 		}
 		.new {
 			width: 20px;

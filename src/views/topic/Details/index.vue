@@ -28,6 +28,7 @@ export default {
 <style lang="scss" scoped>
 .details {
 	.card {
+		color: #fff;
 		display: flex;
 		align-items: center;
 		position: relative;
