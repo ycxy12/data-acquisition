@@ -52,6 +52,7 @@
 			<el-table-column prop="warResult" label="战损及战果" align="center" show-overflow-tooltip /> -->
 			<el-table-column label="操作" align="center">
 				<template slot-scope="{ row }">
+					<el-button type="text" size="small" @click="handleView(row)">详情</el-button>
 					<el-button type="text" size="small" @click="handleEdit(row)">编辑</el-button>
 					<el-button type="text" size="small" @click="handleExport(row)">导出</el-button>
 					<el-button type="text" size="small" @click="handleDelete(row)">删除</el-button>
@@ -120,6 +121,10 @@ export default {
 			this.loading = false
 			this.tableData = rows
 			this.total = total
+		},
+		//详情
+		handleView(row) {
+			this.$router.push(`/home/war/${row.id}`)
 		},
 		//新增
 		handleAdd() {

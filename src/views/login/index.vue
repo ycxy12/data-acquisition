@@ -1,6 +1,5 @@
 <template>
 	<div class="login_container">
-		<canvas id="canvas" class="login-canvas" />
 		<div class="login_form">
 			<div class="logo_text">
 				<svg-icon name="logo" />

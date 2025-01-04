@@ -1,8 +1,8 @@
 <template>
-	<el-drawer title="战例关系" v-if="drawer" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
+	<el-drawer title="战例关系" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
 			<el-form-item label="战例" prop="warfareExamplesIds">
-				<virtual-scroller v-model="ruleForm.warfareExamplesIds" />
+				<virtual-scroller v-model="ruleForm.warfareExamplesIds" ref="virtualScrollerRef" />
 			</el-form-item>
 			<el-form-item label="兵力编成编组" prop="blbcName">
 				<el-input v-model="ruleForm.blbcName" placeholder="请输入兵力编成编组" :disabled="true"></el-input>
@@ -59,6 +59,7 @@ export default {
 				warfareExamplesIds.push(element.warfareExamplesId)
 			})
 			this.ruleForm.warfareExamplesIds = warfareExamplesIds
+			this.$refs.virtualScrollerRef.updateList(warfareExamplesIds)
 			//赋值节点信息
 			if (data && data.length) this.ruleForm.text = data[0].text
 		},
@@ -77,7 +78,8 @@ export default {
 		//关闭抽屉
 		handleClose() {
 			this.drawer = false
-			this.ruleForm = {}
+			this.$refs.virtualScrollerRef.close()
+			this.ruleForm = { warfareExamplesIds: [] }
 			this.$refs.ruleForm.resetFields()
 		},
 	},

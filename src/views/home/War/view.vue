@@ -1,0 +1,201 @@
+<template>
+	<div class="container">
+		<div class="content">
+			<div>
+				<h3>{{ detail.name }}</h3>
+				<div class="sub_title">
+					<span>发布时间：{{ detail.registerTime }}</span>
+					<span>来源：{{ detail.source }}</span>
+				</div>
+				<div class="tags">
+					<button v-for="(item, index) in getArray(detail.classifyLabel)" :key="index">{{ item }}</button>
+				</div>
+				<p class="abstract"><span>摘要:</span> {{ detail.title }}。{{ detail.process }}。{{ detail.warResult }}。</p>
+				<div class="line"></div>
+
+				<p><span>交战时间:</span> {{ detail.fightTime }}</p>
+				<p><span>交战地点:</span> {{ detail.fightAddress }}</p>
+				<div class="line"></div>
+
+				<p class="acticl">{{ isTranslate ? detail.originalText : detail.translation }}</p>
+				<div class="line"></div>
+
+				<el-descriptions title="战斗详情" :border="true" :column="2">
+					<el-descriptions-item label="攻方">{{ detail.aggressor || "--" }}</el-descriptions-item>
+					<el-descriptions-item label="守方">{{ detail.defense || "--" }}</el-descriptions-item>
+					<el-descriptions-item label="攻方兵力">{{ detail.aggressorTroops || "--" }}</el-descriptions-item>
+					<el-descriptions-item label="守方兵力">{{ detail.defenseTroops || "--" }}</el-descriptions-item>
+					<el-descriptions-item label="攻方主要装备">{{ detail.aggressorEquip || "--" }}</el-descriptions-item>
+					<el-descriptions-item label="守方主要装备">{{ detail.defenseEquip || "--" }}</el-descriptions-item>
+					<el-descriptions-item label="作战外部条件">{{ detail.externalConditions || "--" }}</el-descriptions-item>
+				</el-descriptions>
+
+				<div class="translate" @click="isTranslate = !isTranslate">
+					<svg-icon name="translation" v-if="isTranslate" />
+					<svg-icon name="original" v-else />
+				</div>
+				<el-button icon="el-icon-back" size="small" @click="$router.back()" class="back">返回</el-button>
+
+				<!-- <p><span>攻方:</span> {{ detail.aggressor }}</p>
+			<p><span>守方:</span> {{ detail.defense }}</p>
+			<p><span>攻方兵力:</span> {{ detail.aggressorTroops }}</p>
+			<p><span>守方兵力:</span> {{ detail.defenseTroops }}</p>
+			<p><span>攻方主要装备:</span> {{ detail.aggressorEquip }}</p>
+			<p><span>守方主要装备:</span> {{ detail.defenseEquip }}</p>
+			<p><span>作战外部条件:</span> {{ detail.externalConditions }}</p> -->
+
+				<!-- <p><span>经纬度:</span> {{ detail.jd }}, {{ detail.wd }}</p> -->
+				<!-- <p><span>作战过程:</span> {{ detail.process }}</p>
+			<p><span>战损及战果:</span> {{ detail.warResult }}</p> -->
+
+				<!-- <p><span>图片/视频:</span></p> -->
+				<!-- <div v-if="detail.imageVideo">
+				<div v-for="(image, index) in detail.imageVideo.split('\n')" :key="index">
+					<img :src="image" :alt="'图片 ' + (index + 1)" style="max-width: 300px; margin: 10px 0" />
+				</div>
+			</div> -->
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+import { getWarfareExamplesByid } from "@/api/home/war"
+export default {
+	data() {
+		return {
+			detail: {},
+			isTranslate: false,
+		}
+	},
+	mounted() {
+		this.getDetail()
+	},
+	methods: {
+		async getDetail() {
+			const { data } = await getWarfareExamplesByid(this.$route.params.id)
+			this.detail = data
+		},
+		getArray(str) {
+			if (!str) return []
+			return str.split("、") || []
+		},
+	},
+}
+</script>
+
+<style lang="scss" scoped>
+.container {
+	overflow: hidden;
+	height: calc(100vh - 171px);
+	.content {
+		width: 100%;
+		height: 100%;
+		overflow-y: auto;
+		& > div {
+			max-width: 1000px;
+			margin: 0 auto;
+			position: relative;
+		}
+	}
+	.translate {
+		position: absolute;
+		top: 60px;
+		right: 30px;
+		cursor: pointer;
+
+		svg {
+			width: 30px;
+			height: 30px;
+		}
+	}
+	h3 {
+		color: #fff;
+		font-size: 24px;
+		margin-top: 20px;
+		text-align: center;
+		// font-weight: 500;
+	}
+	h4 {
+		color: #fff;
+		font-size: 16px;
+		margin-top: 20px;
+		margin-bottom: 10px;
+		// font-weight: 500;
+	}
+	.sub_title {
+		display: flex;
+		justify-content: center;
+		margin: 30px 0 20px;
+		color: #fff;
+		span {
+			padding-right: 30px;
+		}
+		span:last-child {
+			padding-right: 0;
+		}
+	}
+	.tags {
+		text-align: center;
+		margin-bottom: 20px;
+		button {
+			font-size: 12px;
+			border-radius: 4px;
+			padding: 4px 10px;
+			color: #409eff;
+			background: rgba(0, 84, 251, 0.2);
+			border: 1px solid #70a0ff;
+			margin-right: 15px;
+		}
+	}
+	p {
+		font-size: 16px;
+		margin: 0;
+		color: #fff;
+		line-height: 28px;
+		letter-spacing: 1px;
+		span {
+			// font-weight: 600;
+			// display: inline-block;
+			// width: 120px;
+			text-align: right;
+			padding-right: 10px;
+		}
+	}
+	.acticl {
+		// text-indent: 2em;
+		margin-top: 40px;
+	}
+	.line {
+		margin: 10px 0;
+	}
+	.abstract {
+		background: rgb(0, 17, 50);
+		padding: 15px;
+		border-radius: 4px;
+	}
+	.el-descriptions {
+		color: #fff;
+		margin-top: 40px;
+	}
+	::v-deep .el-descriptions__title {
+		font-weight: 500;
+	}
+	::v-deep .el-descriptions__body {
+		background: transparent;
+	}
+	::v-deep .el-descriptions-item__label.is-bordered-label {
+		color: #fff;
+		background: transparent;
+	}
+	::v-deep .el-descriptions .is-bordered .el-descriptions-item__cell {
+		color: #fff;
+		// border: 1px solid #70a0ff;
+	}
+	.back {
+		position: fixed;
+		top: 95px;
+		right: 30px;
+	}
+}
+</style>

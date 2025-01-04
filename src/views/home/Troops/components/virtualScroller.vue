@@ -1,5 +1,5 @@
 <template>
-	<div class="virtual_scroller">
+	<div class="virtual_scroller" ref="dropdown">
 		<div class="title" :class="{ active: isExpand }" @click="handleClick">
 			<template>
 				<div class="value">
@@ -8,7 +8,15 @@
 				</div>
 				<i class="el-icon-arrow-down"></i>
 			</template>
-			<div class="down" v-show="isExpand" @click.stop>
+			<div
+				class="down"
+				v-show="isExpand"
+				@click.stop
+				v-loading="loading"
+				element-loading-text="拼命加载中"
+				element-loading-spinner="el-icon-loading"
+				element-loading-background="rgba(0, 0, 0, 0.5)"
+			>
 				<RecycleScroller :items="searchOption" :item-size="34" :buffer="1000" key-field="id" class="virtual_dropdown">
 					<template v-slot="{ item }">
 						<div class="list-item" @click="handleCheck(item)" :class="{ active: ids.includes(item.id) }">{{ item.name }}</div>
@@ -40,6 +48,7 @@ export default {
 			isExpand: false,
 			search: "",
 			searchOption: [],
+			loading: true,
 		}
 	},
 	computed: {
@@ -52,25 +61,31 @@ export default {
 			},
 		},
 	},
-	created() {
-		console.log("created")
-
-		this.getWarfareExamples()
+	// watch: {
+	// 	ids: {
+	// 		async handler(newVal) {
+	// 			if (this.options.length === 0) {
+	// 				await this.getWarfareExamples()
+	// 			}
+	// 			console.log(this.value, "this.value")
+	// 			console.log(this.list, "this.list---")
+	// 			if (this.list && this.list.length > 0) return
+	// 			this.setList()
+	// 		},
+	// 	},
+	// },
+	mounted() {
+		document.addEventListener("click", this.handleClickOutside)
 	},
-	watch: {
-		value: {
-			handler(newVal) {
-				console.log(this.value, "this.value")
-				console.log(this.list, "this.list---")
-				if (this.list && this.list.length > 0) return
-				setTimeout(() => {
-					this.setList()
-				}, 10000)
-			},
-			immediate: true,
-		},
+	beforeDestroy() {
+		document.removeEventListener("click", this.handleClickOutside)
 	},
 	methods: {
+		handleClickOutside(event) {
+			if (!this.$refs.dropdown.contains(event.target)) {
+				this.isExpand = false
+			}
+		},
 		handleClick() {
 			const inputElement = this.$refs.inputRef.$el.querySelector("input")
 			if (document.activeElement === inputElement && this.isExpand) {
@@ -99,10 +114,12 @@ export default {
 		},
 		//获取战例下拉数据
 		async getWarfareExamples() {
-			// const { data } = await dropDownWarfareExamples()
-			const { rows: data } = await listWarfareExamples({ pageNum: 1, pageSize: 100 })
+			this.loading = true
+			const { data } = await dropDownWarfareExamples()
+			// const { rows: data } = await listWarfareExamples({ pageNum: 1, pageSize: 100 })
 			this.options = Object.freeze(data)
 			this.searchOption = Object.freeze(data)
+			this.loading = false
 		},
 		//搜索
 		handleSearch() {
@@ -110,10 +127,19 @@ export default {
 				this.options.filter((item) => item.name.includes(this.search)).slice(0, 100) // 限制最多100条结果
 			)
 		},
-		setList() {
-			console.log(this.options.length)
-			this.list = this.options.filter((item) => this.ids.includes(item.id)).map((item) => item.name)
-			console.log(this.list, "this.list")
+		async updateList(ids) {
+			if (this.options.length === 0) {
+				await this.getWarfareExamples()
+			}
+			await this.setList(ids)
+		},
+		setList(ids) {
+			this.list = this.options.filter((item) => ids.includes(item.id)).map((item) => item.name)
+		},
+		close() {
+			this.search = ""
+			this.list = []
+			this.ids = []
 		},
 	},
 }
@@ -147,7 +173,7 @@ export default {
 		}
 	}
 	.active {
-		border-color: #409eff;
+		// border-color: #409eff;
 		.el-icon-arrow-down {
 			transform: rotate(180deg);
 		}
@@ -211,9 +237,11 @@ export default {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	box-sizing: border-box;
-	&:hover,
-	&.active {
+	&:hover {
 		background-color: #f5f7fa;
+	}
+	&.active {
+		color: #409eff;
 	}
 }
 </style>

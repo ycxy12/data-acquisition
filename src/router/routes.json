@@ -55,6 +55,17 @@
 						"routerView": "home",
 						"activeMenu": "/home"
 					}
+				},
+                {
+					"path": "/home/war/:id",
+					"name": "homeWarId",
+					"component": "/home/War/view",
+					"meta": {
+						"title": "经典历史战例详情",
+						"isHide": true,
+						"routerView": "home",
+						"activeMenu": "/home"
+					}
 				}
 			]
 		},
