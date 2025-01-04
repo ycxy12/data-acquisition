@@ -51,10 +51,7 @@
 </template>
 
 <script>
-import AspectRatio from "@/components/AspectRatio/index.vue"
-
 export default {
-	components: { AspectRatio },
 	data() {
 		return {
 			queryForm: {},
