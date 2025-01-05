@@ -19,6 +19,7 @@ module.exports = {
 		proxy: {
 			"/api": {
 				target: "http://dehura.natappfree.cc", //接口地址
+				// target: "http://dehura.natappfree.cc", //接口地址
 				changeOrigin: true, //允许跨域
 				pathRewrite: {
 					"^/api": "", //路径重写
