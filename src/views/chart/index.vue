@@ -32,8 +32,8 @@ const graphOptions = {
 	// placeOtherGroup: true,
 	debug: false,
 	layout: {
-		label: "中心",
-		layoutName: "center",
+		label: "自动布局",
+		layoutName: "force",
 		// from: "left",
 		layoutClassName: "seeks-layout-center",
 		defaultExpandHolderPosition: "hide",
