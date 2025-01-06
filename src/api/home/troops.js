@@ -28,3 +28,8 @@ export const getBlbcWarfareExamplesRelation = (id) => {
 export const exportBlbc = (id) => {
 	return http.post(`/api/blbc/exportOwl/${id}`, {}, { responseType: "blob" })
 }
+
+//获取情报图谱 实体详情
+export const getQbRelation = (params) => {
+	return http.get("/api/relation/getQbRelation", params)
+}

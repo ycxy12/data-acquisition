@@ -2,7 +2,7 @@
 	<div class="container chart">
 		<el-form :inline="true" :model="queryForm" size="small" @keyup.enter.native="searchForm">
 			<el-form-item label="实体名称">
-				<el-input v-model="queryForm.name" placeholder="请输入实体名称"></el-input>
+				<el-input v-model="queryForm.entityName" placeholder="请输入实体名称"></el-input>
 			</el-form-item>
 			<el-form-item>
 				<el-button icon="el-icon-search" type="primary" @click="searchForm">查询</el-button>
@@ -17,18 +17,24 @@
 
 <script>
 import RelationGraph from "relation-graph"
+import { getQbRelation } from "@/api/home/troops"
+const colors = {
+	ZB: "#409eff",
+	BLBC: "#519633",
+	ZL: "#43a2f1",
+}
 
 const graphOptions = {
 	allowShowMiniToolBar: false,
 	backgrounImageNoRepeat: true,
 	moveToCenterWhenRefresh: true,
 	zoomToFitWhenRefresh: true,
-	placeOtherGroup: true,
+	// placeOtherGroup: true,
 	debug: false,
 	layout: {
 		label: "中心",
 		layoutName: "center",
-		from: "left",
+		// from: "left",
 		layoutClassName: "seeks-layout-center",
 		defaultExpandHolderPosition: "hide",
 		defaultJunctionPoint: "border",
@@ -43,7 +49,8 @@ export default {
 		}
 	},
 	mounted() {
-		this.showGraph()
+		// this.showGraph()
+		this.getQbRelation()
 	},
 	methods: {
 		//搜索
@@ -52,6 +59,31 @@ export default {
 		resetForm() {
 			this.queryForm = {}
 			this.searchForm()
+		},
+		//获取数据
+		async getQbRelation() {
+			const { data } = await getQbRelation(this.queryForm)
+			const nodes = data.nodes.map((item) => {
+				return {
+					...item,
+					color: colors[item.type],
+				}
+			})
+			const __graph_json_data = {
+				rootId: "2",
+				nodes,
+				lines: data.lines,
+			}
+			const rgInstanceRef = this.$refs.graphRef
+			rgInstanceRef.setJsonData(__graph_json_data, (graphInstance) => {
+				// 这些写上当图谱初始化完成后需要执行的代码.
+				// 由于自动布局位置稳定下来需要时间，所以这里在1.8秒后重新让画面居中并缩放
+				setTimeout(async () => {
+					// await graphInstance.setZoom(100)
+					// await graphInstance.moveToCenter()
+					// await graphInstance.zoomToFit()
+				}, 1800)
+			})
 		},
 		showGraph() {
 			const __graph_json_data = {

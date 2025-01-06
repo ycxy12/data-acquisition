@@ -1,5 +1,5 @@
 <template>
-	<el-drawer title="实体关系" :visible.sync="drawer" :direction="direction"  append-to-body :before-close="handleClose">
+	<el-drawer title="实体关系" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
 			<el-form-item label="起始节点" prop="fromIds">
 				<el-cascader
@@ -44,6 +44,7 @@ export default {
 			ruleForm: {
 				fromIds: [],
 				toIds: [],
+				text: "",
 			},
 			rules: {
 				fromIds: [{ required: true, message: "请选择起始节点", trigger: "change" }],
