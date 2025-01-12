@@ -2,24 +2,12 @@
 	<el-drawer title="实体关系" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
 			<el-form-item label="起始节点" prop="fromIds">
-				<el-cascader
-					v-model="ruleForm.fromIds"
-					:options="options"
-					:props="props"
-					clearable
-					@change="handleChange"
-					style="width: 100%"
-				></el-cascader>
+				<el-cascader v-model="ruleForm.fromIds" :options="options" :props="props" clearable
+					@change="handleChange" style="width: 100%"></el-cascader>
 			</el-form-item>
 			<el-form-item label="被指向节点" prop="toIds">
-				<el-cascader
-					v-model="ruleForm.toIds"
-					:options="options"
-					:props="props1"
-					@change="handleChange"
-					disabled
-					style="width: 100%"
-				></el-cascader>
+				<el-cascader v-model="ruleForm.toIds" :options="options" :props="props1" @change="handleChange" disabled
+					style="width: 100%"></el-cascader>
 			</el-form-item>
 			<el-form-item label="指向描述" prop="text">
 				<el-input v-model="ruleForm.text" type="textarea" :rows="4" placeholder="请输入指向描述"></el-input>
@@ -32,7 +20,7 @@
 </template>
 
 <script>
-import { listZbTypeTreeAndInfo } from "@/api/resource/equipment"
+import { listZbTypeTreeAndInfo, listZbTypeTree } from "@/api/resource/equipment"
 import { listzbRelation, updatezbRelation } from "@/api/home/module"
 import { getZbInfoByid } from "@/api/home/equipment"
 

@@ -6,7 +6,8 @@
 			</el-form-item>
 			<el-form-item label="国家/地区">
 				<el-select v-model="queryForm.sourceCountryId" placeholder="请选择国家/地区" clearable style="width: 100%">
-					<el-option v-for="item in countryOptions" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+					<el-option v-for="item in countryOptions" :key="item.id" :label="item.name" :value="item.id">
+					</el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item>
@@ -18,18 +19,9 @@
 				<el-button icon="el-icon-download" type="primary" @click="handleMultipleExport">情报资源导出</el-button>
 			</el-form-item>
 		</el-form>
-		<el-table
-			ref="table"
-			:data="tableData"
-			v-loading="loading"
-			size="small"
-			stripe
-			element-loading-text="拼命加载中"
-			element-loading-spinner="el-icon-loading"
-			element-loading-background="rgba(0, 0, 0, 0.5)"
-			@selection-change="handleSelectionChange"
-			:height="`calc(100vh - 298px)`"
-		>
+		<el-table ref="table" :data="tableData" v-loading="loading" size="small" stripe element-loading-text="拼命加载中"
+			element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.5)"
+			@selection-change="handleSelectionChange" :height="`calc(100vh - 298px)`">
 			<el-table-column type="selection" width="55" align="center" />
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="装备名称" min-width="100" show-overflow-tooltip>
@@ -38,6 +30,7 @@
 				</template>
 			</el-table-column>
 			<el-table-column prop="feature" label="装备特征" min-width="200" show-overflow-tooltip />
+			<el-table-column prop="sourceCountryName" label="国家" min-width="50" show-overflow-tooltip />
 			<el-table-column label="操作" align="center" width="240">
 				<template slot-scope="{ row }">
 					<el-button type="text" size="small" @click="handleView(row)">详情</el-button>
@@ -48,16 +41,9 @@
 				</template>
 			</el-table-column>
 		</el-table>
-		<el-pagination
-			class="table_pagination"
-			@size-change="handleSizeChange"
-			@current-change="handleCurrentChange"
-			:current-page="pagination.pageNum"
-			:page-sizes="[10, 20, 30, 40]"
-			:page-size="pagination.pageSize"
-			layout="total, sizes, prev, pager, next, jumper"
-			:total="total"
-		>
+		<el-pagination class="table_pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+			:current-page="pagination.pageNum" :page-sizes="[10, 20, 30, 40]" :page-size="pagination.pageSize"
+			layout="total, sizes, prev, pager, next, jumper" :total="total">
 		</el-pagination>
 		<!-- 新增/编辑 -->
 		<EditDrawer ref="editDrawerRef" @refresh="getTableData" />
