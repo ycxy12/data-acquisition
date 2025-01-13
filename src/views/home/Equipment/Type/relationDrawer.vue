@@ -2,7 +2,7 @@
 	<el-drawer title="实体关系" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
 			<el-form-item label="起始节点" prop="fromIds">
-				<el-cascader v-model="ruleForm.fromIds" :options="options" :props="props" clearable
+				<el-cascader v-model="ruleForm.fromIds" :options="optionsType" :props="props" clearable
 					@change="handleChange" style="width: 100%"></el-cascader>
 			</el-form-item>
 			<el-form-item label="被指向节点" prop="toIds">
@@ -39,10 +39,11 @@ export default {
 				toIds: [{ required: true, message: "请选择被指向节点", trigger: "change" }],
 			},
 			options: [],
+			optionsType: [],
 			props: {
 				label: "name",
 				value: "id",
-				children: "zbInfos",
+				children: "children",
 				multiple: true,
 			},
 			props1: {
@@ -54,6 +55,7 @@ export default {
 	},
 	mounted() {
 		this.getEquipmentInfo()
+		this.getEquipmentType()
 	},
 	methods: {
 		//打开抽屉
@@ -73,23 +75,37 @@ export default {
 			const { data } = await listzbRelation({ toId: id })
 			let fromIds = []
 			data.forEach((element) => {
-				let type = this.findParentIdByZbInfoId(element.fromId)
-				if (type) fromIds.push([type, element.fromId])
+				let type = this.findParentIdByZbInfoId(this.optionsType, element.fromId)
+				console.log(type);
+				if (type) fromIds.push(type)
 			})
+			console.log(fromIds);
+
 			this.ruleForm.fromIds = fromIds
 			//赋值节点信息
 			if (data && data.length) this.ruleForm.text = data[0].text
 		},
-		//查找父组件id
-		findParentIdByZbInfoId(id) {
-			// 遍历整个数据数组
-			for (const node of this.options) {
-				// 检查节点是否有 zbInfos 属性，并在其中查找目标 id
-				if (node.zbInfos && node.zbInfos.some((zb) => zb.id === id)) {
-					return node.id // 返回找到的父节点 id
+		findPathById(options, id) {
+			for (const option of options) {
+				if (option.id === id) return [option.id];
+				if (option.children) {
+					const path = this.findPathById(option.children, id);
+					if (path) return [option.id, ...path];
 				}
 			}
-			return null // 如果没有找到，返回 null
+			return null;
+		},
+
+		//查找父组件id
+		findParentIdByZbInfoId(options, id) {
+			for (const option of options) {
+				if (option.id === id) return [option.id];
+				if (option.children) {
+					const path = this.findParentIdByZbInfoId(option.children, id);
+					if (path) return [option.id, ...path];
+				}
+			}
+			return null;
 		},
 
 		//提交表单
@@ -99,7 +115,7 @@ export default {
 					const { toIds, fromIds, text } = this.ruleForm
 					let query = {
 						toId: toIds[1],
-						fromIds: fromIds.map((item) => item[1]),
+						fromIds: fromIds.map((item) => item[item.length - 1]),
 						text,
 					}
 					await updatezbRelation(query)
@@ -113,6 +129,28 @@ export default {
 		async getEquipmentInfo() {
 			const { data } = await listZbTypeTreeAndInfo()
 			this.options = data
+		},
+
+		//获取装备类型
+		async getEquipmentType() {
+			const { data } = await listZbTypeTree()
+			let treeData = data
+			function markLeafNodes(tree) {
+				// 遍历树节点
+				tree.forEach(node => {
+					if (!node.children || node.children.length === 0) {
+						// 如果 children 为空或不存在，标记为 leaf
+						node.leaf = true;
+						node.children = undefined
+					} else {
+						// 递归处理子节点
+						markLeafNodes(node.children);
+					}
+				});
+			}
+			markLeafNodes(treeData)
+			this.optionsType = treeData
+
 		},
 
 		handleChange(value) {

@@ -30,9 +30,9 @@ import BlbcView from "../home/Troops/viewDrawer.vue"
 import WarView from "../home/War/view.vue"
 
 const colors = {
-	ZB: "#409eff",
-	BLBC: "#519633",
-	ZL: "#43a2f1",
+	ZB: "#519633",
+	BLBC: "#409eff",
+	ZL: "#00ced1",
 }
 
 const graphOptions = {
@@ -76,6 +76,7 @@ export default {
 		async getQbRelation() {
 			const { data } = await getQbRelation(this.queryForm)
 			const nodes = data.nodes.map((item) => {
+				console.log(item.type);
 				return {
 					...item,
 					color: colors[item.type],

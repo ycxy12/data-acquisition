@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<div class="content">
-			<div>
+			<div v-if="detail && JSON.stringify(detail) !== '{}'">
 				<h3>{{ detail.name }}</h3>
 				<div class="sub_title">
 					<span>发布时间：{{ detail.registerTime }}</span>
@@ -88,16 +88,19 @@ export default {
 .container {
 	overflow: hidden;
 	height: calc(100vh - 171px);
+
 	.content {
 		width: 100%;
 		height: 100%;
 		overflow-y: auto;
-		& > div {
+
+		&>div {
 			max-width: 1000px;
 			margin: 0 auto;
 			position: relative;
 		}
 	}
+
 	.translate {
 		position: absolute;
 		top: 60px;
@@ -109,6 +112,7 @@ export default {
 			height: 30px;
 		}
 	}
+
 	h3 {
 		color: #fff;
 		font-size: 24px;
@@ -116,6 +120,7 @@ export default {
 		text-align: center;
 		// font-weight: 500;
 	}
+
 	h4 {
 		color: #fff;
 		font-size: 16px;
@@ -123,21 +128,26 @@ export default {
 		margin-bottom: 10px;
 		// font-weight: 500;
 	}
+
 	.sub_title {
 		display: flex;
 		justify-content: center;
 		margin: 30px 0 20px;
 		color: #fff;
+
 		span {
 			padding-right: 30px;
 		}
+
 		span:last-child {
 			padding-right: 0;
 		}
 	}
+
 	.tags {
 		text-align: center;
 		margin-bottom: 20px;
+
 		button {
 			font-size: 12px;
 			border-radius: 4px;
@@ -148,12 +158,14 @@ export default {
 			margin-right: 15px;
 		}
 	}
+
 	p {
 		font-size: 16px;
 		margin: 0;
 		color: #fff;
 		line-height: 28px;
 		letter-spacing: 1px;
+
 		span {
 			// font-weight: 600;
 			// display: inline-block;
@@ -162,36 +174,45 @@ export default {
 			padding-right: 10px;
 		}
 	}
+
 	.acticl {
 		// text-indent: 2em;
 		margin-top: 40px;
 	}
+
 	.line {
 		margin: 10px 0;
 	}
+
 	.abstract {
 		background: rgb(0, 17, 50);
 		padding: 15px;
 		border-radius: 4px;
 	}
+
 	.el-descriptions {
 		color: #fff;
 		margin-top: 40px;
 	}
+
 	::v-deep .el-descriptions__title {
 		font-weight: 500;
 	}
+
 	::v-deep .el-descriptions__body {
 		background: transparent;
 	}
+
 	::v-deep .el-descriptions-item__label.is-bordered-label {
 		color: #fff;
 		background: transparent;
 	}
+
 	::v-deep .el-descriptions .is-bordered .el-descriptions-item__cell {
 		color: #fff;
 		// border: 1px solid #70a0ff;
 	}
+
 	.back {
 		position: fixed;
 		top: 95px;
