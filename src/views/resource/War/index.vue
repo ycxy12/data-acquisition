@@ -25,8 +25,9 @@
 		>
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="战争名称" align="center" show-overflow-tooltip />
-			<el-table-column prop="startTime" label="开始时间" align="center" show-overflow-tooltip />
-			<el-table-column prop="endTime" label="结束时间" align="center" show-overflow-tooltip />
+			<el-table-column prop="startTime" label="战争时间" align="center">
+				<template slot-scope="{ row }"> {{ getTime(row) }} </template>
+			</el-table-column>
 			<el-table-column label="操作" align="center">
 				<template slot-scope="{ row }">
 					<el-button type="text" size="small" @click="handleEdit(row)">编辑</el-button>
@@ -52,6 +53,7 @@
 <script>
 import { listQbWarfare, deleteQbWarfare } from "@/api/resource/war"
 import EditDrawer from "./editDrawer.vue"
+import dayjs from "dayjs"
 
 export default {
 	components: { EditDrawer },
@@ -116,6 +118,11 @@ export default {
 		handleCurrentChange(val) {
 			this.pagination.pageNum = val
 			this.getTableData()
+		},
+
+		//获取时间
+		getTime(row) {
+			return dayjs(row.startTime).format("YYYY年MM月DD日") + " - " + dayjs(row.endTime).format("YYYY年MM月DD日")
 		},
 	},
 }

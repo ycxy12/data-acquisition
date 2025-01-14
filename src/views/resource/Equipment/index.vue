@@ -14,6 +14,7 @@
 		</el-form>
 		<el-table
 			ref="table"
+			row-key="id"
 			v-loading="loading"
 			element-loading-text="拼命加载中"
 			element-loading-spinner="el-icon-loading"
@@ -22,6 +23,8 @@
 			size="small"
 			stripe
 			:height="`calc(100vh - 255px)`"
+			default-expand-all
+			:tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
 		>
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="装备类型名称" />
@@ -39,7 +42,7 @@
 </template>
 
 <script>
-import { listZbType, deleteZbType } from "@/api/resource/equipment"
+import { listZbTypeTree, deleteZbType } from "@/api/resource/equipment"
 import EditDrawer from "./editDrawer.vue"
 
 export default {
@@ -67,7 +70,7 @@ export default {
 		// 获取表格数据
 		async getTableData() {
 			this.loading = true
-			const { data } = await listZbType(this.queryForm)
+			const { data } = await listZbTypeTree(this.queryForm)
 			this.tableData = data
 			this.loading = false
 		},

@@ -7,8 +7,8 @@
 			<el-form-item label="开始时间" prop="startTime">
 				<el-date-picker
 					v-model="ruleForm.startTime"
-					type="datetime"
-					value-format="yyyy-MM-dd HH:mm:ss"
+					type="date"
+					value-format="yyyy-MM-dd 00:00:00"
 					placeholder="选择开始时间"
 					style="width: 100%"
 				></el-date-picker>
@@ -16,8 +16,8 @@
 			<el-form-item label="结束时间" prop="endTime">
 				<el-date-picker
 					v-model="ruleForm.endTime"
-					type="datetime"
-					value-format="yyyy-MM-dd HH:mm:ss"
+					type="date"
+					value-format="yyyy-MM-dd 00:00:00"
 					placeholder="选择结束时间"
 					style="width: 100%"
 				></el-date-picker>

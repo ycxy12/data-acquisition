@@ -1,6 +1,7 @@
 import axios from "axios"
 import { Message } from "element-ui"
 import router from "@/router"
+import store from "@/store"
 
 const config = {
 	// 默认地址请求地址，可在 .env.** 文件中修改
@@ -24,7 +25,7 @@ class RequestHttp {
 		this.service.interceptors.request.use(
 			(config) => {
 				if (config.headers && typeof config.headers.set === "function") {
-					// config.headers.set("x-access-token", userStore.token)
+					config.headers.set("Authorization", store.getters.getToken)
 				}
 				return config
 			},
