@@ -4,8 +4,10 @@
 			<div v-if="detail && JSON.stringify(detail) !== '{}'">
 				<h3>{{ detail.name }}</h3>
 				<div class="sub_title">
-					<span>发布时间：{{ detail.registerTime }}</span>
-					<span>来源：{{ detail.source }}</span>
+					<span>发布时间：{{ getTime(detail.registerTime) }}</span>
+					<span @click="handleGo">
+						来源：<span>{{ detail.source }}</span>
+					</span>
 				</div>
 				<div class="tags">
 					<button v-for="(item, index) in getArray(detail.classifyLabel)" :key="index">{{ item }}</button>
@@ -13,11 +15,11 @@
 				<p class="abstract"><span>摘要:</span> {{ detail.title }}。{{ detail.process }}。{{ detail.warResult }}。</p>
 				<div class="line"></div>
 
-				<p><span>交战时间:</span> {{ detail.fightTime }}</p>
+				<p><span>交战时间:</span> {{ getTime(detail.fightTime) }}</p>
 				<p><span>交战地点:</span> {{ detail.fightAddress }}</p>
 				<div class="line"></div>
 
-				<p class="acticl">{{ isTranslate ? detail.originalText : detail.translation }}</p>
+				<p class="acticl" v-html="isTranslate ? detail.originalText : detail.translation"></p>
 				<div class="line"></div>
 
 				<el-descriptions title="战斗详情" :border="true" :column="2">
@@ -30,7 +32,7 @@
 					<el-descriptions-item label="作战外部条件">{{ detail.externalConditions || "--" }}</el-descriptions-item>
 				</el-descriptions>
 
-				<div class="translate" @click="isTranslate = !isTranslate">
+				<div class="translate" @click="isTranslate = !isTranslate" v-if="detail.originalText">
 					<svg-icon name="translation" v-if="isTranslate" />
 					<svg-icon name="original" v-else />
 				</div>
@@ -61,6 +63,8 @@
 
 <script>
 import { getWarfareExamplesByid } from "@/api/home/war"
+import dayjs from "dayjs"
+
 export default {
 	data() {
 		return {
@@ -80,6 +84,15 @@ export default {
 			if (!str) return []
 			return str.split("、") || []
 		},
+		handleGo() {
+			//跳转
+			window.open(this.detail.url, "_blank")
+		},
+		//获取时间
+		getTime(time) {
+			if (!time) return ""
+			return dayjs(time).format("YYYY-MM-DD")
+		},
 	},
 }
 </script>
@@ -94,7 +107,7 @@ export default {
 		height: 100%;
 		overflow-y: auto;
 
-		&>div {
+		& > div {
 			max-width: 1000px;
 			margin: 0 auto;
 			position: relative;
@@ -137,6 +150,13 @@ export default {
 
 		span {
 			padding-right: 30px;
+			span {
+				padding-right: 0;
+				cursor: pointer;
+				&:hover {
+					color: #409eff;
+				}
+			}
 		}
 
 		span:last-child {

@@ -2,12 +2,24 @@
 	<el-drawer title="实体关系" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
 			<el-form-item label="起始节点" prop="fromIds">
-				<el-cascader v-model="ruleForm.fromIds" :options="optionsType" :props="props" clearable
-					@change="handleChange" style="width: 100%"></el-cascader>
+				<el-cascader
+					v-model="ruleForm.fromIds"
+					:options="optionsType"
+					:props="props"
+					clearable
+					@change="handleChange"
+					style="width: 100%"
+				></el-cascader>
 			</el-form-item>
 			<el-form-item label="被指向节点" prop="toIds">
-				<el-cascader v-model="ruleForm.toIds" :options="options" :props="props1" @change="handleChange" disabled
-					style="width: 100%"></el-cascader>
+				<el-cascader
+					v-model="ruleForm.toIds"
+					:options="options"
+					:props="props1"
+					@change="handleChange"
+					disabled
+					style="width: 100%"
+				></el-cascader>
 			</el-form-item>
 			<el-form-item label="指向描述" prop="text">
 				<el-input v-model="ruleForm.text" type="textarea" :rows="4" placeholder="请输入指向描述"></el-input>
@@ -76,10 +88,10 @@ export default {
 			let fromIds = []
 			data.forEach((element) => {
 				let type = this.findParentIdByZbInfoId(this.optionsType, element.fromId)
-				console.log(type);
+				console.log(type)
 				if (type) fromIds.push(type)
 			})
-			console.log(fromIds);
+			console.log(fromIds)
 
 			this.ruleForm.fromIds = fromIds
 			//赋值节点信息
@@ -87,25 +99,25 @@ export default {
 		},
 		findPathById(options, id) {
 			for (const option of options) {
-				if (option.id === id) return [option.id];
+				if (option.id === id) return [option.id]
 				if (option.children) {
-					const path = this.findPathById(option.children, id);
-					if (path) return [option.id, ...path];
+					const path = this.findPathById(option.children, id)
+					if (path) return [option.id, ...path]
 				}
 			}
-			return null;
+			return null
 		},
 
 		//查找父组件id
 		findParentIdByZbInfoId(options, id) {
 			for (const option of options) {
-				if (option.id === id) return [option.id];
+				if (option.id === id) return [option.id]
 				if (option.children) {
-					const path = this.findParentIdByZbInfoId(option.children, id);
-					if (path) return [option.id, ...path];
+					const path = this.findParentIdByZbInfoId(option.children, id)
+					if (path) return [option.id, ...path]
 				}
 			}
-			return null;
+			return null
 		},
 
 		//提交表单
@@ -137,20 +149,19 @@ export default {
 			let treeData = data
 			function markLeafNodes(tree) {
 				// 遍历树节点
-				tree.forEach(node => {
+				tree.forEach((node) => {
 					if (!node.children || node.children.length === 0) {
 						// 如果 children 为空或不存在，标记为 leaf
-						node.leaf = true;
+						node.leaf = true
 						node.children = undefined
 					} else {
 						// 递归处理子节点
-						markLeafNodes(node.children);
+						markLeafNodes(node.children)
 					}
-				});
+				})
 			}
 			markLeafNodes(treeData)
 			this.optionsType = treeData
-
 		},
 
 		handleChange(value) {

@@ -7,6 +7,11 @@
 			<el-form-item label="战例标题">
 				<el-input v-model="queryForm.title" placeholder="请输入战例标题"></el-input>
 			</el-form-item>
+			<el-form-item label="所属战争">
+				<el-select v-model="queryForm.warfareId" placeholder="请选择所属战争" clearable style="width: 100%">
+					<el-option v-for="item in WarfareList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+				</el-select>
+			</el-form-item>
 			<el-form-item>
 				<el-button icon="el-icon-search" type="primary" @click="searchForm">查询</el-button>
 				<el-button icon="el-icon-refresh" @click="resetForm">重置</el-button>
@@ -14,6 +19,9 @@
 			<el-form-item style="float: right">
 				<el-button icon="el-icon-plus" type="primary" @click="handleAdd">新增</el-button>
 				<el-button icon="el-icon-download" type="primary" @click="handleMultipleExport">情报资源导出</el-button>
+				<!-- <el-upload action="#" :on-change="handleChange" :limit="1">
+					<el-button icon="el-icon-download" type="primary">情报资源导入</el-button>
+				</el-upload> -->
 			</el-form-item>
 		</el-form>
 		<el-table
@@ -32,10 +40,12 @@
 			<el-table-column type="index" width="55" label="序号" align="center" />
 			<el-table-column prop="name" label="战例名称" align="center" show-overflow-tooltip />
 			<el-table-column prop="title" label="战例标题" align="center" show-overflow-tooltip />
-			<el-table-column prop="warfareId" label="所属战争" align="center" show-overflow-tooltip />
+			<el-table-column prop="warfareName" label="所属战争" align="center" show-overflow-tooltip />
 			<!-- <el-table-column prop="classifyLabel" label="分类标签" align="center" show-overflow-tooltip />
 			<el-table-column prop="equipLabel" label="装备标签" align="center" show-overflow-tooltip /> -->
-			<el-table-column prop="fightTime" label="交战时间" align="center" show-overflow-tooltip />
+			<el-table-column prop="fightTime" label="交战时间" align="center">
+				<template slot-scope="{ row }"> {{ getTime(row.fightTime) }} </template>
+			</el-table-column>
 			<el-table-column prop="fightAddress" label="交战地点" align="center" show-overflow-tooltip />
 			<!-- <el-table-column prop="jd" label="地点经度" align="center" show-overflow-tooltip />
 			<el-table-column prop="wd" label="地点纬度" align="center" show-overflow-tooltip /> -->
@@ -75,10 +85,11 @@
 </template>
 
 <script>
-import { listWarfareExamples, deleteWarfareExamples, exportWarfareExamples } from "@/api/home/war"
+import { listWarfareExamples, deleteWarfareExamples, exportWarfareExamples, importWarfareExamplesInfoV2 } from "@/api/home/war"
 import { dropDownQbWarfare } from "@/api/resource/war"
 import { downloadBlob } from "@/utils"
 import EditDrawer from "./editDrawer.vue"
+import dayjs from "dayjs"
 
 export default {
 	components: { EditDrawer },
@@ -176,6 +187,17 @@ export default {
 		async handleExport(row) {
 			const response = await exportWarfareExamples([row.id])
 			downloadBlob(response)
+		},
+		//导入
+		handleChange(file, fileList) {
+			let formData = new FormData()
+			formData.append("file", file.raw)
+			importWarfareExamplesInfoV2(formData)
+		},
+		//获取时间
+		getTime(time) {
+			if (!time) return ""
+			return dayjs(time).format("YYYY年MM月DD日")
 		},
 	},
 }

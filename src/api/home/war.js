@@ -43,3 +43,8 @@ export const importWarfareExamples = (params) => {
 export const exportWarfareExamples = (params) => {
 	return http.post("/api/warfareExamples/exportOwl", params, { responseType: "blob" })
 }
+
+// 导入
+export const importWarfareExamplesInfoV2 = (params) => {
+	return http.post("/api/warfareExamples/importWarfareExamplesInfoV2", params)
+}

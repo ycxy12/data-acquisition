@@ -35,6 +35,7 @@ export default {
 			this.loading = true
 			const { data } = await listZbTypeTreeAndInfo()
 			this.loading = false
+			data.unshift({ name: "全部", parentId: null, id: "000", children: [], zbInfos: [] })
 			this.lists = data
 			this.$nextTick(() => {
 				if (this.$refs.tree && data.length) {

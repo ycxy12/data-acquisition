@@ -10,7 +10,7 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item label="简介" prop="summary">
-				<el-input v-model="ruleForm.summary" placeholder="请输入简介"></el-input>
+				<el-input v-model="ruleForm.summary" placeholder="请输入简介" type="textarea" :rows="4"></el-input>
 			</el-form-item>
 			<el-form-item label="规模(人数)" prop="scale">
 				<el-input-number v-model="ruleForm.scale" :step="1" :min="0" step-strictly style="width: 100%"></el-input-number>

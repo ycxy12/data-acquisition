@@ -38,3 +38,8 @@ export const importZbInfo = (params) => {
 export const exportZbInfo = (params) => {
 	return http.post("/api/zbInfo/exportOwl", params, { responseType: "blob" })
 }
+
+// 导入 - 装备性能参数信息
+export const importInfoV2 = (params) => {
+	return http.post("/api/zbInfo/importZbInfoV2", params)
+}
