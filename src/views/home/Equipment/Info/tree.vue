@@ -42,12 +42,12 @@ export default {
 		async getEquipmentType() {
 			const { params } = this.$route
 			const { data } = await getZbTypeByid(params.type)
-			this.typeForm = data
+			this.typeForm = data ? data : { name: "全部装备类型" }
 		},
 		//获取装备信息
 		async getEquipmentInfo() {
 			const { params } = this.$route
-			let query = { pageNum: 1, pageSize: 1000, type: params.type }
+			let query = { pageNum: 1, pageSize: 1000, type: params.type === "000" ? null : params.type }
 			const { rows } = await listZbInfo(query)
 			this.lists = rows
 			this.active = params.id
@@ -66,7 +66,7 @@ export default {
 	height: 100%;
 	margin-right: 15px;
 	h3 {
-        color: #fff;
+		color: #fff;
 		margin: 0 15px 10px;
 	}
 	.list {
@@ -78,11 +78,11 @@ export default {
 			margin: 5px;
 			color: #fff;
 			&:hover {
-				background-color: rgba(0,84,251,1);
+				background-color: rgba(0, 84, 251, 1);
 			}
 		}
 		.active {
-			background-color: rgba(0,84,251,1);
+			background-color: rgba(0, 84, 251, 1);
 		}
 	}
 }

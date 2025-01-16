@@ -33,3 +33,8 @@ export const exportBlbc = (id) => {
 export const getQbRelation = (params) => {
 	return http.get("/api/relation/getQbRelation", params)
 }
+
+// 导入兵力编成编组数据V2
+export const importInfoV2 = (params) => {
+	return http.post("/api/blbc/importInfoV2", params)
+}

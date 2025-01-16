@@ -10,15 +10,12 @@
 			</el-form-item>
 		</el-form>
 		<div style="height: calc(100vh - 175px)">
-			<RelationGraph ref="graphRef" :options="graphOptions" :on-node-click="onNodeClick"
-				:on-line-click="onLineClick" />
+			<RelationGraph ref="graphRef" :options="graphOptions" :on-node-click="onNodeClick" :on-line-click="onLineClick" />
 		</div>
 		<!-- 装备详情 -->
 		<EquipmentView ref="EquipmentViewRef" />
 		<!-- 兵力编成详情 -->
 		<BlbcView ref="BlbcViewRef" />
-		<!-- 战例详情 -->
-		<WarView ref="WarViewRef" />
 	</div>
 </template>
 
@@ -27,7 +24,6 @@ import RelationGraph from "relation-graph"
 import { getQbRelation } from "@/api/home/troops"
 import EquipmentView from "../home/Equipment/Type/viewDrawer.vue"
 import BlbcView from "../home/Troops/viewDrawer.vue"
-import WarView from "../home/War/view.vue"
 
 const colors = {
 	ZB: "#519633",
@@ -52,7 +48,7 @@ const graphOptions = {
 	},
 }
 export default {
-	components: { RelationGraph, EquipmentView, BlbcView, WarView },
+	components: { RelationGraph, EquipmentView, BlbcView },
 	data() {
 		return {
 			queryForm: {},
@@ -76,7 +72,6 @@ export default {
 		async getQbRelation() {
 			const { data } = await getQbRelation(this.queryForm)
 			const nodes = data.nodes.map((item) => {
-				console.log(item.type);
 				return {
 					...item,
 					color: colors[item.type],
@@ -96,14 +91,13 @@ export default {
 		},
 		onNodeClick(nodeObject, $event) {
 			console.log("onNodeClick:", nodeObject)
-			if (nodeObject.type === 'ZB') {
+			if (nodeObject.type === "ZB") {
 				this.$refs.EquipmentViewRef.openDrawer(nodeObject.id)
 			}
-			if (nodeObject.type === 'BLBC') {
+			if (nodeObject.type === "BLBC") {
 				this.$refs.BlbcViewRef.openDrawer(nodeObject.id)
 			}
-			if (nodeObject.type === 'ZL') {
-				// this.$refs.EquipmentViewRef.openDrawer(id)
+			if (nodeObject.type === "ZL") {
 				this.$router.push(`/home/war/${nodeObject.id}`)
 			}
 		},

@@ -2,6 +2,9 @@
 	<div class="container table">
 		<div class="btn">
 			<el-button icon="el-icon-download" type="primary" @click="handleExport">情报资源导出</el-button>
+			<!-- <el-upload action="#" :on-change="handleChange" :limit="1">
+				<el-button icon="el-icon-download" type="primary">情报资源导入</el-button>
+			</el-upload> -->
 		</div>
 		<div
 			style="height: calc(100vh - 305px)"
@@ -20,7 +23,7 @@
 <script>
 import RelationGraph from "relation-graph"
 import { getBlBcTreeByCountryId } from "@/api/resource/country"
-import { exportBlbc } from "@/api/home/troops"
+import { exportBlbc, importInfoV2 } from "@/api/home/troops"
 import ViewDrawer from "./viewDrawer.vue"
 import { downloadBlob } from "@/utils"
 
@@ -182,6 +185,12 @@ export default {
 
 			// 如果未找到，返回 null
 			return null
+		},
+		//导入
+		handleChange(file, fileList) {
+			let formData = new FormData()
+			formData.append("file", file.raw)
+			importInfoV2(formData)
 		},
 	},
 }
