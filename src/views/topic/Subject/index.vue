@@ -13,18 +13,25 @@
 			</el-form-item>
 		</el-form>
 		<!-- 表格 -->
-		<div class="table_box">
+		<div
+			class="table_box"
+			v-loading="loading"
+			element-loading-text="拼命加载中"
+			element-loading-spinner="el-icon-loading"
+			element-loading-background="rgba(0, 0, 0, 0.5)"
+		>
 			<div class="table">
-				<div v-for="item in 12" :key="item" class="item">
-					<AspectRatio :ratio="16 / 7" class="top">
-						<el-tag effect="dark">已关注</el-tag>
-						<div class="title" @click="handleDetail(item)">中美之战——中国的复兴之战</div>
+				<div v-for="item in tableData" :key="item.id" class="item">
+					<AspectRatio :ratio="16 / 7" class="top" :cover="item.cover">
+						<el-tag effect="dark" v-if="item.isSubscribed" @click="updataSubscription(item.id, false)">已关注</el-tag>
+						<el-tag effect="dark" v-else type="danger" class="danger" @click="updataSubscription(item.id, true)">未关注</el-tag>
+						<div class="title" @click="handleDetail(item)">{{ item.name }}</div>
 					</AspectRatio>
 					<div class="bottom">
-						<p>最新更新时间：10/29 10:01:25</p>
-						<button class="new">新</button>
-						<span @click="handleEdit(row)">编辑</span>
-						<span @click="handleDelete(row)">删除</span>
+						<p>最新更新时间：{{ item.updateTime }}</p>
+						<button class="new" v-if="isWithinLastSevenDays(item.lastUpdatedTime)">新</button>
+						<span @click="handleEdit(item)">编辑</span>
+						<span @click="handleDelete(item)">删除</span>
 					</div>
 				</div>
 			</div>
@@ -40,35 +47,71 @@
 			:total="total"
 		>
 		</el-pagination>
-		<EditDrawer ref="editDrawerRef" />
+		<EditDrawer ref="editDrawerRef" @refresh="getTableData" />
 	</div>
 </template>
 
 <script>
+import { listSubject, deleteSubject, getMySubjectList, setSubjectSubscription } from "@/api/topic/subject.js"
 import AspectRatio from "@/components/AspectRatio/index.vue"
 import EditDrawer from "./editDrawer.vue"
+import dayjs from "dayjs"
 
 export default {
 	components: { AspectRatio, EditDrawer },
+	props: {
+		active: {
+			type: Number,
+			default: 0,
+		},
+	},
 	data() {
 		return {
 			queryForm: {},
+			tableData: [],
 			pagination: {
 				pageNum: 1,
 				pageSize: 10,
 			},
 			total: 0,
+			loading: false,
+			listRequest: getMySubjectList,
 		}
+	},
+	watch: {
+		active: {
+			handler(newVal) {
+				if (newVal === 0) {
+					this.listRequest = getMySubjectList
+				}
+				if (newVal === 1) {
+					this.listRequest = listSubject
+				}
+				this.searchForm()
+			},
+			immediate: true,
+		},
 	},
 	methods: {
 		//搜索
-		searchForm() {},
+		searchForm() {
+			this.pagination.pageNum = 1
+			this.getTableData()
+		},
 		//重置搜索条件
 		resetForm() {
 			this.queryForm = {}
 			this.searchForm()
 		},
-		getTableData() {},
+		// 获取表格数据
+		async getTableData() {
+			this.loading = true
+			let query = Object.assign({}, this.queryForm, this.pagination)
+			const { rows, total } = await this.listRequest(query)
+			this.tableData = rows
+			this.total = total
+			this.loading = false
+		},
 		// 创建专题
 		handleAdd() {
 			this.$refs.editDrawerRef.openDrawer()
@@ -80,9 +123,9 @@ export default {
 		//删除
 		handleDelete({ id }) {
 			this.$confirm("确定将选择数据删除?", { confirmButtonText: "确定", cancelButtonText: "取消", type: "warning" }).then(async () => {
-				// await deleteCountry(id)
-				// this.$message.success("操作成功!")
-				// this.getTableData()
+				await deleteSubject(id)
+				this.$message.success("操作成功!")
+				this.getTableData()
 			})
 		},
 		//改变每页显示数量
@@ -98,9 +141,24 @@ export default {
 		},
 		//跳转情报详情页面
 		handleDetail(item) {
-			this.$router.push({
-				path: "/topic/details",
-			})
+			this.$router.push(`/topic/${item.id}`)
+		},
+		//情报专题订阅/取消订阅
+		async updataSubscription(subjectId, isSubscribe) {
+			await setSubjectSubscription({ subjectIds: [subjectId], isSubscribe })
+			this.$message.success("操作成功")
+			this.getTableData()
+		},
+		//是否是近七天
+		isWithinLastSevenDays(date) {
+			const inputDate = dayjs(date) // 将传入的日期转化为 dayjs 对象
+			const currentDate = dayjs() // 获取当前日期
+
+			// 计算当前日期和传入日期的差值，单位是天
+			const diffInDays = currentDate.diff(inputDate, "day")
+
+			// 判断是否在近七天内
+			return diffInDays >= 0 && diffInDays <= 7
 		},
 	},
 }
@@ -129,9 +187,9 @@ export default {
 		overflow: hidden;
 	}
 	::v-deep .top .content {
-		background: url("./123.png");
 		background-size: 100% 100%;
 		.el-tag {
+			cursor: pointer;
 			position: absolute;
 			top: 15px;
 			right: 15px;
@@ -140,6 +198,13 @@ export default {
 			color: #fff;
 			border: 1px solid #409eff;
 			background: rgba(0, 84, 251, 0.5);
+		}
+		.danger {
+			background-color: rgba($color: #f56c6c, $alpha: 0.5);
+			border-color: #f56c6c;
+			&:hover {
+				color: #f56c6c;
+			}
 		}
 		.title {
 			position: absolute;

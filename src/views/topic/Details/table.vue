@@ -1,8 +1,8 @@
 <template>
 	<div class="container">
 		<el-form :inline="true" :model="queryForm" size="small" @keyup.enter.native="searchForm">
-			<el-form-item label="专题名称">
-				<el-input v-model="queryForm.name" placeholder="请输入专题名称"></el-input>
+			<el-form-item label="标题">
+				<el-input v-model="queryForm.name" placeholder="请输入标题"></el-input>
 			</el-form-item>
 			<el-form-item>
 				<el-button icon="el-icon-search" type="primary" @click="searchForm">查询</el-button>
@@ -13,28 +13,26 @@
 			</el-form-item>
 		</el-form>
 		<div class="table">
-			<div v-for="item in 10" :key="item">
+			<div v-for="item in tableData" :key="item.id">
 				<div class="title">
-					<h3>赖清德：强化台湾民主防卫能力巩固全球民主韧性</h3>
-					<button class="new">新</button>
+					<h3>{{ item.title }}</h3>
+					<button class="new" v-if="isWithinLastSevenDays(item.releaseTime)">新</button>
 				</div>
 				<div class="content">
-					<img src="./u38.png" alt="" />
+					<img v-if="item.cover" :src="item.cover" alt="" />
 					<div class="right">
-						<p>
-							近年来，台海局势持续紧张，尤其是在2024年12月，随着一系列军事动作的曝光，台海局势更是进入了一个新的敏感阶段。近日，台媒爆出台特勤队与美方人员合作进行攻坚训练，而解放军则通过40艘
-						</p>
+						<p>{{ item.intro }}</p>
 						<div class="tags">
-							<button>台湾</button>
-							<button>美国</button>
+							<button v-for="(element, index) in parseString(item.keywords)" :key="index">{{ element }}</button>
 						</div>
 						<div class="time">
-							<span>新浪军事</span>
-							<span>2021-10-29 10:01:25</span>
+							<span>{{ item.source }}</span>
+							<span>{{ item.releaseTime }}</span>
 						</div>
 					</div>
 				</div>
 			</div>
+			<div class="empty" v-if="tableData.length === 0">暂无数据</div>
 		</div>
 		<el-pagination
 			class="table_pagination"
@@ -51,28 +49,54 @@
 </template>
 
 <script>
+import { listArticle } from "@/api/topic/article.js"
+import dayjs from "dayjs"
+
 export default {
 	data() {
 		return {
 			queryForm: {},
+			tableData: [],
 			pagination: {
 				pageNum: 1,
 				pageSize: 10,
 			},
 			total: 0,
+			loading: false,
 		}
+	},
+	created() {
+		const params = this.$route.params
+		this.queryForm.subjectId = params.id
+		this.getTableData()
 	},
 	methods: {
 		//搜索
-		searchForm() {},
+		searchForm() {
+			this.pagination.pageNum = 1
+			this.getTableData()
+		},
 		//重置搜索条件
 		resetForm() {
-			this.queryForm = {}
+			const params = this.$route.params
+			this.queryForm = { subjectId: params.id }
 			this.searchForm()
 		},
-		getTableData() {},
+		// 获取表格数据
+		async getTableData() {
+			this.loading = true
+			let query = Object.assign({}, this.queryForm, this.pagination)
+			const { rows, total } = await listArticle(query)
+			this.tableData = rows
+			this.total = total
+			this.loading = false
+		},
 		//仅看最新
-		handleUptoDate() {},
+		handleUptoDate() {
+			this.pagination.pageNum = 1
+			this.queryForm.recentDays = 7
+			this.getTableData()
+		},
 		//改变每页显示数量
 		handleSizeChange(val) {
 			this.pagination.pageSize = val
@@ -83,6 +107,23 @@ export default {
 		handleCurrentChange(val) {
 			this.pagination.pageNum = val
 			this.getTableData()
+		},
+		//是否是近七天
+		isWithinLastSevenDays(date) {
+			const inputDate = dayjs(date) // 将传入的日期转化为 dayjs 对象
+			const currentDate = dayjs() // 获取当前日期
+
+			// 计算当前日期和传入日期的差值，单位是天
+			const diffInDays = currentDate.diff(inputDate, "day")
+
+			// 判断是否在近七天内
+			return diffInDays >= 0 && diffInDays <= 7
+		},
+		//返回数组
+		parseString(input) {
+			if (!input) return []
+			// 使用正则表达式匹配英文逗号和中文逗号，并将其替换为统一的分隔符
+			return input.split(/[,，]\s*/) // 匹配英文逗号 (`,`) 或中文逗号 (`，`)，并去除可能的空格
 		},
 	},
 }
@@ -169,6 +210,13 @@ export default {
 				color: #fff;
 			}
 		}
+	}
+	.empty {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 20%;
+		color: rgba($color: #ffffff, $alpha: 0.5);
 	}
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<Tabs v-model="active" />
-		<Subject />
+		<Subject :active="active" />
 	</div>
 </template>
 

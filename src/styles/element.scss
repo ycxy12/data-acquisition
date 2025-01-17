@@ -130,6 +130,17 @@ body {
 		color: #fff;
 		background: rgba(0, 17, 50, 1);
 	}
+	.el-date-editor .el-range-input {
+		background-color: transparent;
+		color: #fff;
+	}
+	.el-date-editor .el-range-separator {
+		color: #fff;
+	}
+	.el-picker-panel .el-input__inner {
+		background-color: #fff;
+		color: #606266;
+	}
 }
 // 弹框相关
 .el-drawer {

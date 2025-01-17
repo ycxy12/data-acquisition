@@ -1,9 +1,10 @@
 <template>
 	<div class="details">
 		<div class="card">
-			<div><span>专题名称：</span>对T作战问题研究</div>
-			<div><span>最新更新时间：</span>2024-10-29 10:01:25</div>
+			<div><span>专题名称：</span>{{ infoForm.name }}</div>
+			<div><span>最新更新时间：</span>{{ infoForm.updateTime }}</div>
 			<el-button icon="el-icon-back" size="small" @click="$router.back()" class="back">返回</el-button>
+			<el-button icon="el-icon-plus" type="primary" @click="handleAdd">新增</el-button>
 		</div>
 		<div class="box">
 			<Table />
@@ -15,13 +16,26 @@
 <script>
 import Table from "./table.vue"
 import Article from "./article.vue"
+import { getSubjectByid } from "@/api/topic/subject.js"
 
 export default {
 	components: { Table, Article },
 	data() {
-		return {}
+		return {
+			infoForm: {},
+		}
 	},
-	methods: {},
+	created() {
+		this.getSubjectInfo()
+	},
+	methods: {
+		async getSubjectInfo() {
+			let params = this.$route.params
+			const { data } = await getSubjectByid(params.id)
+			this.infoForm = data
+		},
+		handleAdd() {},
+	},
 }
 </script>
 
