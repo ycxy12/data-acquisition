@@ -1,24 +1,30 @@
 <template>
 	<el-drawer :title="ruleForm.id ? '编辑' : '新增'" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			<el-form-item label="专题名称" prop="name">
-				<el-input v-model="ruleForm.name" placeholder="请输入专题名称"></el-input>
+			<el-form-item label="标题" prop="title">
+				<el-input v-model="ruleForm.title" placeholder="请输入标题"></el-input>
 			</el-form-item>
-			<el-form-item label="时间范围" prop="times">
+			<el-form-item label="主题词" prop="keywords">
+				<el-input v-model="ruleForm.keywords" placeholder="请输入主题词(使用逗号拼接)"></el-input>
+			</el-form-item>
+			<el-form-item label="来源" prop="source">
+				<el-input v-model="ruleForm.source" placeholder="请输入来源"></el-input>
+			</el-form-item>
+			<el-form-item label="发布时间" prop="releaseTime">
 				<el-date-picker
-					v-model="ruleForm.times"
-					type="daterange"
-					range-separator="至"
-					start-placeholder="开始日期"
-					end-placeholder="结束日期"
-					value-format="yyyy-MM-dd 00:00:00"
+					v-model="ruleForm.releaseTime"
+					type="datetime"
+					placeholder="选择发布时间"
+					value-format="yyyy-MM-dd HH:mm:ss"
 					style="width: 100%"
 				>
 				</el-date-picker>
 			</el-form-item>
-			<el-form-item label="主题词" prop="keywords">
-				<el-input v-model="ruleForm.keywords" placeholder="请输入主题词(使用逗号拼接)"></el-input>
-				<!-- <input-tag v-model="ruleForm.keywords" placeholder="请输入主题词(使用逗号拼接)"></input-tag> -->
+			<el-form-item label="简介" prop="intro">
+				<el-input v-model="ruleForm.intro" type="textarea" :rows="4" placeholder="请输入简介"></el-input>
+			</el-form-item>
+			<el-form-item label="正文" prop="content" v-if="drawer">
+				<BasicEditor v-model="ruleForm.content" />
 			</el-form-item>
 			<el-form-item label="专题封面" prop="cover">
 				<el-upload
@@ -35,12 +41,7 @@
 					<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 				</el-upload>
 			</el-form-item>
-			<el-form-item label="是否订阅" prop="isSubscribed">
-				<el-select v-model="ruleForm.isSubscribed" placeholder="请选择是否订阅" style="width: 100%">
-					<el-option label="是" :value="true"> </el-option>
-					<el-option label="否" :value="false"> </el-option>
-				</el-select>
-			</el-form-item>
+
 			<el-form-item label="备注" prop="remark">
 				<el-input v-model="ruleForm.remark" type="textarea" :rows="4" placeholder="请输入备注"></el-input>
 			</el-form-item>
@@ -52,43 +53,42 @@
 </template>
 
 <script>
-import { addSubject, editSubject, getSubjectByid, commonUpload } from "@/api/topic/subject.js"
-import AspectRatio from "@/components/AspectRatio/index.vue"
-import InputTag from "@/components/InputTag/index.vue"
+import { commonUpload } from "@/api/topic/subject.js"
+import { addArticle, editArticle, getArticleByid } from "@/api/topic/article.js"
+import BasicEditor from "@/components/BasicEditor/index.vue"
 
 export default {
-	components: { AspectRatio, InputTag },
+	components: { BasicEditor },
 	data() {
 		return {
 			drawer: false,
 			direction: "rtl",
-			ruleForm: {},
+			ruleForm: { content: "" },
 			rules: {
-				name: [{ required: true, message: "请输入装备名称", trigger: "blur" }],
-				times: [{ required: true, message: "请选择时间范围", trigger: "change" }],
+				title: [{ required: true, message: "请输入标题", trigger: "blur" }],
+				source: [{ required: true, message: "请选择时间范围", trigger: "change" }],
 				keywords: [{ required: true, message: "请输入主题词", trigger: ["change", "blur"] }],
-				cover: [{ required: true, message: "请选择专题封面", trigger: ["change", "blur"] }],
+				intro: [{ required: true, message: "请输入简介", trigger: ["change", "blur"] }],
+				releaseTime: [{ required: true, message: "请选选择发布时间", trigger: ["change", "blur"] }],
+				content: [{ required: true, message: "请输入正文", trigger: ["change", "blur"] }],
 			},
 			fileList: [],
+			subjectId: undefined,
 		}
 	},
 	methods: {
 		//打开抽屉
 		async openDrawer(id) {
 			if (id) {
-				const { data } = await getSubjectByid(id)
-				let times = []
-				if (data.startTime && data.endTime) {
-					times = [data.startTime, data.endTime]
-				}
-				this.ruleForm = Object.assign({}, data, { times })
+				const { data } = await getArticleByid(id)
+				this.ruleForm = data
 			}
 			this.drawer = true
 		},
 		//关闭抽屉
 		handleClose() {
 			this.drawer = false
-			this.ruleForm = {}
+			this.ruleForm = { content: "" }
 			this.fileList = []
 			this.$refs.ruleForm.resetFields()
 		},
@@ -99,14 +99,12 @@ export default {
 				if (valid) {
 					const cover = await this.uploadFile()
 					this.ruleForm.cover = cover
-					if (this.ruleForm.times && this.ruleForm.times.length > 0) {
-						this.ruleForm.startTime = this.ruleForm.times[0]
-						this.ruleForm.endTime = this.ruleForm.times[1]
-					}
 					if (this.ruleForm.id) {
-						await editSubject(this.ruleForm)
+						await editArticle(this.ruleForm)
 					} else {
-						await addSubject(this.ruleForm)
+						const params = this.$route.params
+						this.ruleForm.subjectId = params.id
+						await addArticle(this.ruleForm)
 					}
 					this.$message.success("操作成功")
 					this.$emit("refresh")

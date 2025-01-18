@@ -18,7 +18,7 @@ module.exports = {
 		compress: true, // 启用压缩，代码占用的空间少，在互联网传输快
 		proxy: {
 			"/api": {
-				target: "http://bcb3f9.natappfree.cc", //接口地址
+				target: "http://m3qcp9.natappfree.cc", //接口地址
 				changeOrigin: true, //允许跨域
 				pathRewrite: {
 					"^/api": "", //路径重写

@@ -41,12 +41,13 @@ class RequestHttp {
 		this.service.interceptors.response.use(
 			(response) => {
 				const { data, config } = response
+				console.log(data)
 
 				// 登录失效
-				if (data.code === 401) {
-					// userStore.setToken("")
-					// router.replace('/login')
-					// Message.error(data.msg)
+				if (data.code === 403) {
+					store.dispatch("logout")
+					router.replace("/login")
+					Message.error(data.msg)
 					return Promise.reject(data)
 				}
 
@@ -79,6 +80,9 @@ class RequestHttp {
 							break
 						case 403:
 							Message.error("当前账号无权限访问！")
+							router.push("/login")
+							console.log("2333")
+
 							break
 						case 404:
 							Message.error("你所访问的资源不存在！")
