@@ -38,7 +38,7 @@ export default {
 			loading: false,
 			message: "",
 			lists: [],
-			questions: ["M1主战坦克性能参数", "台湾海军司令部下属单位有哪些", "斯大林格勒战役发生时间"],
+			questions: ["美国海军部下属单位有哪些?", "常胜者主战坦克", "长津湖战役"],
 			isUserScrolling: false, // 用户是否主动滚动
 		}
 	},

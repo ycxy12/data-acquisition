@@ -3,8 +3,8 @@
 		<!-- <img src="@/assets/images/ai.png" alt="" /> -->
 		<!-- <div class="await_answer">{{ answer }}</div> -->
 		<svg-icon name="logo" />
-		<p v-html="displayedAnswer"></p>
-		<!-- <markdown-it-vue class="await_answer card" :content="answer" /> -->
+		<p v-if="answer.includes('<p>')" v-html="displayedAnswer"></p>
+		<markdown-it-vue v-else class="await_answer card" :content="displayedAnswer" />
 	</div>
 </template>
 
