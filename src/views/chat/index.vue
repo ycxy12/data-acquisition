@@ -38,7 +38,7 @@ export default {
 			loading: false,
 			message: "",
 			lists: [],
-			questions: ["美国海军部下属单位有哪些?", "常胜者主战坦克", "长津湖战役"],
+			questions: ["美国海军部下级有哪些?", "常胜者主战坦克", "长津湖战役"],
 			isUserScrolling: false, // 用户是否主动滚动
 		}
 	},
