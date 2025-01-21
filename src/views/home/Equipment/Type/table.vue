@@ -153,9 +153,16 @@ export default {
 				this.$message.warning("请选择数据!")
 				return
 			}
+			const loading = this.$loading({
+				lock: true,
+				text: "等待下载中，请稍等",
+				spinner: "el-icon-loading",
+				background: "rgba(0, 0, 0, 0.7)",
+			})
 			let ids = this.multipleSelection.map((item) => item.id)
 			const response = await exportZbInfo(ids)
 			downloadBlob(response)
+			loading.close()
 		},
 		//导出
 		async handleExport(row) {

@@ -91,8 +91,15 @@ export default {
 				})
 		},
 		async handleExport() {
+			const loading = this.$loading({
+				lock: true,
+				text: "等待下载中，请稍等",
+				spinner: "el-icon-loading",
+				background: "rgba(0, 0, 0, 0.7)",
+			})
 			const response = await exportBlbc(this.countryId)
 			downloadBlob(response)
+			loading.close()
 		},
 		onNodeClick(node) {
 			if (!node.styleClass) this.$refs.viewDrawerRef.openDrawer(node.id)
