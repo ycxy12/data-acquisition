@@ -100,38 +100,13 @@
 			]
 		},
 		{
-			"path": "/qa",
-			"name": "qa",
+			"path": "/chat",
+			"name": "chat",
 			"component": "/chat/index",
-			"redirect": "/chat",
 			"meta": {
 				"title": "情报问答",
 				"isHide": false
-			},
-			"children": [
-				{
-					"path": "/chat",
-					"name": "chat",
-					"component": "/chat/Default/index",
-					"meta": {
-						"title": "情报问答",
-						"isHide": true,
-						"activeMenu": "/qa",
-						"routerView": "qa"
-					}
-				},
-				{
-					"path": "/chat/:id",
-					"name": "chatId",
-					"component": "/chat/Qa/index",
-					"meta": {
-						"title": "问答页面",
-						"isHide": true,
-						"activeMenu": "/qa",
-						"routerView": "qa"
-					}
-				}
-			]
+			}
 		},
 		{
 			"path": "/resource",

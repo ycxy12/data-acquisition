@@ -83,7 +83,6 @@ export default {
 		}
 	}
 	.is-sending {
-		cursor: not-allowed;
 		svg {
 			animation: spin 2s linear infinite;
 		}

@@ -182,4 +182,14 @@ body {
 		background: #0054fb;
 		border: 1px solid #70a0ff;
 	}
+	.relation-graph .rel-map {
+		background-color: transparent;
+	}
+}
+.el-dialog {
+	color: #fff;
+	background-color: #172034;
+	.el-dialog__title {
+		color: #fff;
+	}
 }

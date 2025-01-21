@@ -41,7 +41,6 @@ class RequestHttp {
 		this.service.interceptors.response.use(
 			(response) => {
 				const { data, config } = response
-				console.log(data)
 
 				// 登录失效
 				if (data.code === 403) {
