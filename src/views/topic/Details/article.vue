@@ -112,6 +112,9 @@ export default {
 		color: #fff;
 		text-indent: 2em;
 		line-height: 28px;
+		::v-deep img {
+			width: calc(100% - 4em);
+		}
 	}
 	.cover {
 		width: 100%;

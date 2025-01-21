@@ -6,7 +6,7 @@
 		<div style="height: calc(100vh - 145px)">
 			<RelationGraph ref="graphRef" :options="graphOptions" />
 		</div>
-		<RelationDialog ref="relationDialogRef" @submit="handleSubmit" />
+		<RelationDialog ref="relationDialogRef" @update="handleUpdate" />
 	</el-drawer>
 </template>
 
@@ -100,16 +100,7 @@ export default {
 			})
 		},
 		//提交表单
-		async handleSubmit(form) {
-			const { toIds, fromIds, text } = form
-			let ids = this.relationList.map((item) => item.fromId)
-			let query = {
-				toId: toIds[toIds.length - 1],
-				fromIds: [...fromIds, ...ids],
-				text,
-			}
-			await updatezbRelation(query)
-			this.$message.success("操作成功")
+		async handleUpdate() {
 			this.getRelationByToId(this.id)
 		},
 		//新增实体关系

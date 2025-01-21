@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-23 20:22:35
  * @LastEditors: yc
- * @LastEditTime: 2025-01-20 16:00:29
+ * @LastEditTime: 2025-01-21 19:39:01
  * @Description: webpack配置
  */
 const path = require("path")

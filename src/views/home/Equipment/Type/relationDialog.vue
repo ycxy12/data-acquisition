@@ -13,7 +13,8 @@
 			</el-form-item>
 			<el-form-item label="起始节点" prop="fromIds">
 				<el-select v-model="ruleForm.fromIds" multiple placeholder="请选择起始节点" style="width: 100%">
-					<el-option v-for="item in optionsEquip" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+					<el-option v-for="item in optionsEquip" :key="item.id" :label="item.name" :value="item.id" :disabled="fromIds.includes(item.id)">
+					</el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="被指向节点" prop="toIds">
@@ -65,6 +66,7 @@ export default {
 				children: "zbInfos",
 			},
 			optionsEquip: [],
+			fromIds: [],
 		}
 	},
 	mounted() {
@@ -79,7 +81,7 @@ export default {
 			this.ruleForm = Object.assign({}, this.ruleForm, { toIds: [data.type, data.id] })
 
 			//获取指向自己的实体关系
-			// this.getRelationByToId(id)
+			this.getRelationByToId(id)
 			this.dialogVisible = true
 		},
 		//获取指向自己的实体关系
@@ -87,43 +89,19 @@ export default {
 			//获取指向自己的实体关系
 			const { data } = await listzbRelation({ toId: id })
 			let fromIds = []
-			data.forEach((element) => {
-				let type = this.findParentIdByZbInfoId(this.optionsType, element.fromId)
-				console.log(type)
-				if (type) fromIds.push(type)
-			})
-			console.log(fromIds)
-
-			this.ruleForm.fromIds = fromIds
-		},
-		findPathById(options, id) {
-			for (const option of options) {
-				if (option.id === id) return [option.id]
-				if (option.children) {
-					const path = this.findPathById(option.children, id)
-					if (path) return [option.id, ...path]
-				}
-			}
-			return null
-		},
-
-		//查找父组件id
-		findParentIdByZbInfoId(options, id) {
-			for (const option of options) {
-				if (option.id === id) return [option.id]
-				if (option.children) {
-					const path = this.findParentIdByZbInfoId(option.children, id)
-					if (path) return [option.id, ...path]
-				}
-			}
-			return null
+			fromIds = data.map((item) => item.fromId)
+			this.fromIds = fromIds
 		},
 
 		//提交表单
 		submitForm(formName) {
 			this.$refs[formName].validate(async (valid) => {
 				if (valid) {
-					this.$emit("submit", this.ruleForm)
+					const { toIds, fromIds, text } = this.ruleForm
+					let query = { toId: toIds[toIds.length - 1], fromIds, text }
+					await updatezbRelation(query)
+					this.$message.success("操作成功")
+					this.$emit("update")
 					this.handleClose()
 				}
 			})
