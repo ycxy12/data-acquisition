@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-23 20:22:35
  * @LastEditors: yc
- * @LastEditTime: 2025-02-10 19:51:00
+ * @LastEditTime: 2025-02-11 14:09:31
  * @Description: webpack配置
  */
 const path = require("path")
@@ -18,7 +18,7 @@ module.exports = {
 		compress: true, // 启用压缩，代码占用的空间少，在互联网传输快
 		proxy: {
 			"/api": {
-				target: "http://juihp9.natappfree.cc", //接口地址
+				target: "http://pe5vqd.natappfree.cc", //接口地址
 				changeOrigin: true, //允许跨域
 				pathRewrite: {
 					"^/api": "", //路径重写
