@@ -2,7 +2,7 @@
 	<div class="chat_input">
 		<el-input v-model="message" :rows="4" type="textarea" placeholder="请输入你想问的问题" @keyup.enter.native="handleSend" />
 		<div class="submit" @click="handleSend" :class="{ 'is-sending': loading }">
-			<svg-icon :name="loading ? 'load' : 'submit'" />
+			<svg-icon :name="loading ? 'pause' : 'submit'" />
 		</div>
 	</div>
 </template>
@@ -31,6 +31,10 @@ export default {
 	},
 	methods: {
 		handleSend() {
+			if (this.loading) {
+				this.$emit("pause")
+				return
+			}
 			if (!this.message) {
 				return
 			}
@@ -83,9 +87,11 @@ export default {
 		}
 	}
 	.is-sending {
-		cursor: not-allowed;
+		// cursor: not-allowed;
 		svg {
-			animation: spin 2s linear infinite;
+			width: 1.5em;
+			height: 1.5em;
+			// animation: spin 2s linear infinite;
 		}
 	}
 	@keyframes spin {

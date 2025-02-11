@@ -11,6 +11,7 @@
 		</el-form>
 		<div style="height: calc(100vh - 175px)">
 			<RelationGraph ref="graphRef" :options="graphOptions" :on-node-click="onNodeClick" :on-line-click="onLineClick" />
+			<div v-if="!nodes || nodes.length == 0" class="empty">暂无数据</div>
 		</div>
 		<!-- 装备详情 -->
 		<EquipmentView ref="EquipmentViewRef" />
@@ -45,6 +46,8 @@ const graphOptions = {
 		layoutClassName: "seeks-layout-center",
 		defaultExpandHolderPosition: "hide",
 		defaultJunctionPoint: "border",
+		force_node_repulsion: 2,
+		force_line_elastic: 0.5,
 	},
 }
 export default {
@@ -53,6 +56,7 @@ export default {
 		return {
 			queryForm: {},
 			graphOptions,
+			nodes: [],
 		}
 	},
 	mounted() {
@@ -71,6 +75,7 @@ export default {
 		//获取数据
 		async getQbRelation() {
 			const { data } = await getQbRelation(this.queryForm)
+			this.nodes = Object.freeze(data.nodes)
 			const nodes = data.nodes.map((item) => {
 				return {
 					...item,
@@ -82,11 +87,15 @@ export default {
 				nodes,
 				lines: data.lines,
 			}
+			console.log("__graph_json_data:", __graph_json_data)
+
+			console.time("render")
 			const rgInstanceRef = this.$refs.graphRef
 			rgInstanceRef.setJsonData(__graph_json_data, (graphInstance) => {
 				// 这些写上当图谱初始化完成后需要执行的代码.
 				// 由于自动布局位置稳定下来需要时间，所以这里在1.8秒后重新让画面居中并缩放
-				graphInstance.setZoom(50)
+				graphInstance.setZoom(30)
+				console.timeEnd("render")
 			})
 		},
 		onNodeClick(nodeObject, $event) {
@@ -114,6 +123,13 @@ export default {
 
 	::v-deep .relation-graph .rel-map {
 		background-color: transparent;
+	}
+	.empty {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		color: #909399;
 	}
 }
 </style>

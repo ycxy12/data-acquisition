@@ -1,6 +1,5 @@
 <template>
 	<div class="container table">
-		<el-button icon="el-icon-back" @click="$router.back()" class="back">返回</el-button>
 		<el-form :inline="true" :model="queryForm" size="small" @keyup.enter.native="searchForm">
 			<el-form-item label="装备组件名称">
 				<el-input v-model="queryForm.name" placeholder="请输入装备组件名称"></el-input>
@@ -10,6 +9,7 @@
 				<el-button icon="el-icon-refresh" @click="resetForm">重置</el-button>
 			</el-form-item>
 			<el-form-item style="float: right">
+				<el-button icon="el-icon-back" @click="$router.back()">返回</el-button>
 				<el-button icon="el-icon-plus" type="primary" @click="handleAdd">新增</el-button>
 			</el-form-item>
 		</el-form>

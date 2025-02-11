@@ -19,6 +19,10 @@ export default {
 			type: String,
 			default: "",
 		},
+		pause: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -37,6 +41,10 @@ export default {
 
 				let index = 0
 				this.typingInterval = setInterval(() => {
+					if (this.pause) {
+						clearInterval(this.typingInterval)
+						return
+					}
 					if (index < newAnswer.length) {
 						this.displayedAnswer += newAnswer[index++]
 					} else {

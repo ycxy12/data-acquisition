@@ -12,14 +12,14 @@
 				</div>
 				<template v-for="item in lists">
 					<ChatQuestion :question="item.question" :key="'question-' + item.id" />
-					<ChatAnswer :answer="item.answer" :key="'answer-' + item.id" @update="update" />
+					<ChatAnswer :answer="item.answer" :key="'answer-' + item.id" :pause="pause" @update="update" />
 				</template>
 			</div>
 
 			<!-- 用于检测是否滚动到底部 -->
 			<div ref="bottomMarker" class="bottom-marker"></div>
 		</div>
-		<ChatInput v-model="message" :loading="loading" @send="handleSend" />
+		<ChatInput v-model="message" :loading="loading" @send="handleSend" @pause="handlePause" />
 		<!-- 返回顶部 -->
 		<el-backtop target=".default"></el-backtop>
 	</div>
@@ -40,6 +40,7 @@ export default {
 			lists: [],
 			questions: ["美国海军部下级有哪些?", "常胜者主战坦克", "长津湖战役"],
 			isUserScrolling: false, // 用户是否主动滚动
+			pause: false,
 		}
 	},
 	mounted() {
@@ -47,6 +48,7 @@ export default {
 	},
 	methods: {
 		async handleSend(message) {
+			this.pause = false
 			this.loading = true
 			this.lists.push({ id: dayjs().valueOf(), question: message, answer: "" })
 
@@ -91,6 +93,11 @@ export default {
 			if (bottomMarker) observer.observe(bottomMarker)
 		},
 		update() {
+			this.loading = false
+		},
+		// 暂停
+		handlePause() {
+			this.pause = true
 			this.loading = false
 		},
 	},
