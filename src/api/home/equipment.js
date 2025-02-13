@@ -28,6 +28,10 @@ export const getZbInfoByid = (id) => {
 export const deleteZbInfo = (id) => {
 	return http.delete(`/api/zbInfo/${id}`)
 }
+// 获取装备列表
+export const dropDownZbInfo = (params) => {
+	return http.get("/api/zbInfo/dropDown", params)
+}
 
 // 导入 - 装备性能参数信息
 export const importZbInfo = (params) => {

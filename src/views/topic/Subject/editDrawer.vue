@@ -41,6 +41,14 @@
 					<el-option label="否" :value="false"> </el-option>
 				</el-select>
 			</el-form-item>
+			<el-form-item label="专题类型" prop="type">
+				<el-select v-model="ruleForm.type" placeholder="请选择是否订阅" style="width: 100%">
+					<el-option label="新闻" value="news"> </el-option>
+					<el-option label="装备" value="zb"> </el-option>
+					<el-option label="部队" value="bd"> </el-option>
+					<el-option label="战例" value="zl"> </el-option>
+				</el-select>
+			</el-form-item>
 			<el-form-item label="备注" prop="remark">
 				<el-input v-model="ruleForm.remark" type="textarea" :rows="4" placeholder="请输入备注"></el-input>
 			</el-form-item>
@@ -62,7 +70,7 @@ export default {
 		return {
 			drawer: false,
 			direction: "rtl",
-			ruleForm: {},
+			ruleForm: { type: "news" },
 			rules: {
 				name: [{ required: true, message: "请输入装备名称", trigger: "blur" }],
 				times: [{ required: true, message: "请选择时间范围", trigger: "change" }],
@@ -88,7 +96,7 @@ export default {
 		//关闭抽屉
 		handleClose() {
 			this.drawer = false
-			this.ruleForm = {}
+			this.ruleForm = { type: "news" }
 			this.fileList = []
 			this.$refs.ruleForm.resetFields()
 		},

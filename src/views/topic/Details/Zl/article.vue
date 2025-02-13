@@ -1,6 +1,12 @@
 <template>
 	<div class="container">
-		<div class="content">
+		<div
+			class="content"
+			v-loading="loading"
+			element-loading-text="拼命加载中"
+			element-loading-spinner="el-icon-loading"
+			element-loading-background="rgba(0, 0, 0, 0.5)"
+		>
 			<div v-if="detail && JSON.stringify(detail) !== '{}'">
 				<h3>{{ detail.name }}</h3>
 				<div class="sub_title">
@@ -41,7 +47,7 @@
 					<svg-icon name="translation" v-if="isTranslate" />
 					<svg-icon name="original" v-else />
 				</div>
-				<el-button icon="el-icon-back" size="small" @click="$router.back()" class="back">返回</el-button>
+				<!-- <el-button icon="el-icon-back" size="small" @click="$router.back()" class="back">返回</el-button> -->
 			</div>
 		</div>
 	</div>
@@ -52,19 +58,38 @@ import { getWarfareExamplesByid } from "@/api/home/war"
 import dayjs from "dayjs"
 
 export default {
+	props: {
+		articleId: {
+			type: String,
+			default: undefined,
+		},
+	},
 	data() {
 		return {
+			loading: false,
 			detail: {},
 			isTranslate: false,
 		}
 	},
-	mounted() {
-		this.getDetail()
+	watch: {
+		articleId: {
+			handler(newVal) {
+				if (newVal) {
+					this.getArticleInfo()
+				} else {
+					this.detail = {}
+				}
+			},
+		},
 	},
 	methods: {
-		async getDetail() {
-			const { data } = await getWarfareExamplesByid(this.$route.params.id)
+		async getArticleInfo() {
+			if (!this.articleId) return
+
+			this.loading = true
+			const { data } = await getWarfareExamplesByid(this.articleId)
 			this.detail = data
+			this.loading = false
 		},
 		getArray(str) {
 			if (!str) return []
@@ -86,7 +111,7 @@ export default {
 <style lang="scss" scoped>
 .container {
 	overflow: hidden;
-	height: calc(100vh - 171px);
+	height: calc(100vh - 148px);
 
 	.content {
 		width: 100%;
@@ -94,7 +119,7 @@ export default {
 		overflow-y: auto;
 
 		& > div {
-			max-width: 1000px;
+			// max-width: 1000px;
 			margin: 0 auto;
 			position: relative;
 		}
@@ -102,8 +127,8 @@ export default {
 
 	.translate {
 		position: absolute;
-		top: 60px;
-		right: 30px;
+		top: 0px;
+		right: 20px;
 		cursor: pointer;
 
 		svg {

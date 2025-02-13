@@ -6,27 +6,77 @@
 			<div class="back">
 				<el-button icon="el-icon-back" size="small" @click="$router.back()">返回</el-button>
 				<el-button icon="el-icon-plus" size="small" @click="handleAdd">新增</el-button>
-				<el-button icon="el-icon-edit-outline" size="small" @click="handleEdit">编辑</el-button>
+				<el-button icon="el-icon-edit-outline" size="small" @click="handleEdit" v-if="!infoForm.type || infoForm.type === 'news'">
+					编辑
+				</el-button>
 				<el-button icon="el-icon-delete" size="small" @click="handleDelete">删除</el-button>
 			</div>
 		</div>
 		<div class="box">
-			<Table ref="tableRef" @updateArticle="handleArticle" />
-			<Article ref="articleRef" :articleId="articleId" />
+			<!-- 新闻 -->
+			<template v-if="infoForm.type === 'news'">
+				<NewsTable ref="tableRef" @updateArticle="handleArticle" />
+				<NewsArticle ref="articleRef" :articleId="articleId" />
+			</template>
+			<!-- 装备 -->
+			<template v-if="infoForm.type === 'zb'">
+				<ZbTable ref="tableRef" @updateArticle="handleArticle" />
+				<ZbArticle ref="articleRef" :articleId="articleId" />
+			</template>
+			<!-- 编成编组 -->
+			<template v-if="infoForm.type === 'bd'">
+				<BdTable ref="tableRef" @updateArticle="handleArticle" />
+				<BdArticle ref="articleRef" :articleId="articleId" />
+			</template>
+			<!-- 战例 -->
+			<template v-if="infoForm.type === 'zl'">
+				<ZlTable ref="tableRef" @updateArticle="handleArticle" />
+				<ZlArticle ref="articleRef" :articleId="articleId" />
+			</template>
 		</div>
-		<EditDrawer ref="editDrawerRef" @refresh="onRefresh" />
+		<!-- 新闻 -->
+		<NewsEditDrawer ref="newsEditDrawerRef" @refresh="onRefresh" />
+		<!-- 装备 -->
+		<ZbEditDrawer ref="zbEditDrawerRef" @refresh="onRefresh" />
+		<!-- 编成编组 -->
+		<BdEditDrawer ref="bdEditDrawerRef" @refresh="onRefresh" />
+		<!-- 战例 -->
+		<ZlEditDrawer ref="zlEditDrawerRef" @refresh="onRefresh" />
 	</div>
 </template>
 
 <script>
-import Table from "./table.vue"
-import Article from "./article.vue"
-import EditDrawer from "./editDrawer.vue"
+import NewsTable from "./News/table.vue"
+import NewsArticle from "./News/article.vue"
+import NewsEditDrawer from "./News/editDrawer.vue"
+import ZlTable from "./Zl/table.vue"
+import ZlArticle from "./Zl/article.vue"
+import ZlEditDrawer from "./Zl/editDrawer.vue"
+import ZbTable from "./Zb/table.vue"
+import ZbArticle from "./Zb/article.vue"
+import ZbEditDrawer from "./Zb/editDrawer.vue"
+import BdTable from "./Bd/table.vue"
+import BdArticle from "./Bd/article.vue"
+import BdEditDrawer from "./Bd/editDrawer.vue"
 import { getSubjectByid } from "@/api/topic/subject.js"
 import { deleteArticle } from "@/api/topic/article.js"
+import { deleteSubjectZl, deleteSubjectZb, deleteSubjectBlbc } from "@/api/topic/resource.js"
 
 export default {
-	components: { Table, Article, EditDrawer },
+	components: {
+		NewsTable,
+		NewsArticle,
+		NewsEditDrawer,
+		ZlTable,
+		ZlArticle,
+		ZlEditDrawer,
+		ZbTable,
+		ZbArticle,
+		ZbEditDrawer,
+		BdTable,
+		BdArticle,
+		BdEditDrawer,
+	},
 	data() {
 		return {
 			infoForm: {},
@@ -44,16 +94,33 @@ export default {
 		},
 		// 创建专题
 		handleAdd() {
-			this.$refs.editDrawerRef.openDrawer()
+			if (this.infoForm.type === "zl") {
+				this.$refs.zlEditDrawerRef.openDrawer()
+			} else if (this.infoForm.type === "bd") {
+				this.$refs.bdEditDrawerRef.openDrawer()
+			} else if (this.infoForm.type === "zb") {
+				this.$refs.zbEditDrawerRef.openDrawer()
+			} else {
+				this.$refs.newsEditDrawerRef.openDrawer()
+			}
 		},
 		//编辑
 		handleEdit() {
-			this.$refs.editDrawerRef.openDrawer(this.articleId)
+			this.$refs.newsEditDrawerRef.openDrawer(this.articleId)
 		},
 		//删除
 		handleDelete() {
 			this.$confirm("确定将选择数据删除?", { confirmButtonText: "确定", cancelButtonText: "取消", type: "warning" }).then(async () => {
-				await deleteArticle(this.articleId)
+				let params = this.$route.params
+				if (this.infoForm.type === "zl") {
+					await deleteSubjectZl({ subjectId: params.id, zlIds: [this.articleId] })
+				} else if (this.infoForm.type === "bd") {
+					await deleteSubjectBlbc({ subjectId: params.id, blbcIds: [this.articleId] })
+				} else if (this.infoForm.type === "zb") {
+					await deleteSubjectZb({ subjectId: params.id, zbIds: [this.articleId] })
+				} else {
+					await deleteArticle(this.articleId)
+				}
 				this.$message.success("操作成功!")
 				this.$refs.tableRef.searchForm()
 			})
