@@ -61,11 +61,11 @@
 
 <script>
 import { addSubject, editSubject, getSubjectByid, commonUpload } from "@/api/topic/subject.js"
-import AspectRatio from "@/components/AspectRatio/index.vue"
-import InputTag from "@/components/InputTag/index.vue"
+// import AspectRatio from "@/components/AspectRatio/index.vue"
+// import InputTag from "@/components/InputTag/index.vue"
 
 export default {
-	components: { AspectRatio, InputTag },
+	// components: { AspectRatio, InputTag },
 	data() {
 		return {
 			drawer: false,

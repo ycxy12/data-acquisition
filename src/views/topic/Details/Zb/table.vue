@@ -5,7 +5,7 @@
 				<el-input v-model="queryForm.zbName" placeholder="请输入装备名称"></el-input>
 			</el-form-item>
 			<el-form-item label="国家/地区">
-				<el-select v-model="queryForm.sourceCountryId" placeholder="请选择国家/地区" clearable style="width: 100%">
+				<el-select v-model="queryForm.zbSourceCountryId" placeholder="请选择国家/地区" clearable style="width: 100%">
 					<el-option v-for="item in countryOptions" :key="item.id" :label="item.name" :value="item.id"> </el-option>
 				</el-select>
 			</el-form-item>
