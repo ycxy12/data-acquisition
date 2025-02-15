@@ -1,6 +1,12 @@
 <template>
 	<div class="chat_input">
-		<el-input v-model="message" :rows="4" type="textarea" placeholder="请输入你想问的问题" @keyup.enter.native="handleSend" />
+		<el-input
+			v-model="message"
+			:rows="4"
+			type="textarea"
+			placeholder="您可以问资源库内装备/兵力编成编组/战例相关问题。（例如：美国海军部下级有哪些？T-55主战坦克装备信息？长津湖战役？）"
+			@keyup.enter.native="handleSend"
+		/>
 		<div class="submit" @click="handleSend" :class="{ 'is-sending': loading }">
 			<svg-icon :name="loading ? 'pause' : 'submit'" />
 		</div>

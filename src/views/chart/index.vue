@@ -2,7 +2,7 @@
 	<div class="container chart">
 		<el-form :inline="true" :model="queryForm" size="small" @keyup.enter.native="searchForm">
 			<el-form-item label="实体名称">
-				<el-input v-model="queryForm.entityName" placeholder="请输入实体名称"></el-input>
+				<el-input v-model="queryForm.entityName" placeholder="您可以搜索装备名称/部队名称/战役名称" style="width: 400px"></el-input>
 			</el-form-item>
 			<el-form-item>
 				<el-button icon="el-icon-search" type="primary" @click="searchForm">查询</el-button>
