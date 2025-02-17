@@ -2,7 +2,7 @@
  * @Author: yc
  * @Date: 2024-11-23 11:45:16
  * @LastEditors: yc
- * @LastEditTime: 2025-01-03 15:43:34
+ * @LastEditTime: 2025-02-17 08:10:58
  * @Description: 头部
 -->
 <template>
@@ -10,7 +10,7 @@
 		<svg-icon name="logo" />
 		<h3>情报资源管理系统</h3>
 		<Menu />
-		<el-dropdown @command="handleCommand">
+		<!-- <el-dropdown @command="handleCommand">
 			<span class="el-dropdown-link">
 				<i class="el-icon-user-solid"></i>
 				{{ getUserInfo ? getUserInfo.username : "" }}
@@ -19,7 +19,7 @@
 			<el-dropdown-menu slot="dropdown">
 				<el-dropdown-item command="logout">退出登录</el-dropdown-item>
 			</el-dropdown-menu>
-		</el-dropdown>
+		</el-dropdown> -->
 	</el-header>
 </template>
 

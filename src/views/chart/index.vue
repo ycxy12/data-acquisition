@@ -1,6 +1,6 @@
 <template>
 	<div class="container chart">
-		<el-form :inline="true" :model="queryForm" size="small" @keyup.enter.native="searchForm">
+		<el-form :inline="true" :model="queryForm" size="small" @keyup.enter.native="searchForm" @submit.native.prevent>
 			<el-form-item label="实体名称">
 				<el-input v-model="queryForm.entityName" placeholder="您可以搜索装备名称/部队名称/战役名称" style="width: 400px"></el-input>
 			</el-form-item>
@@ -94,23 +94,28 @@ export default {
 			let lines = data.lines
 			this.lines = Object.freeze(lines)
 
-			// 统计每个节点的连接次数
-			const nodeConnections = nodes.reduce((acc, node) => {
-				acc[node.id] = 0 // 初始化连接次数
-				return acc
-			}, {})
+			let filteredNodes = nodes
+			let filteredLines = lines
+			// 限制节点数量
+			if (nodes.length >= 100) {
+				// 统计每个节点的连接次数
+				const nodeConnections = nodes.reduce((acc, node) => {
+					acc[node.id] = 0 // 初始化连接次数
+					return acc
+				}, {})
 
-			lines.forEach((line) => {
-				nodeConnections[line.from]++
-				nodeConnections[line.to]++
-			})
+				lines.forEach((line) => {
+					nodeConnections[line.from]++
+					nodeConnections[line.to]++
+				})
 
-			// 找出只有一条连接线的节点
-			const isolatedNodes = Object.keys(nodeConnections).filter((nodeId) => nodeConnections[nodeId] <= 5)
+				// 找出只有一条连接线的节点
+				const isolatedNodes = Object.keys(nodeConnections).filter((nodeId) => nodeConnections[nodeId] <= 5)
 
-			// 删除节点和与这些节点相关的连线
-			const filteredNodes = nodes.filter((node) => !isolatedNodes.includes(node.id))
-			const filteredLines = lines.filter((line) => !isolatedNodes.includes(line.from) && !isolatedNodes.includes(line.to))
+				// 删除节点和与这些节点相关的连线
+				filteredNodes = nodes.filter((node) => !isolatedNodes.includes(node.id))
+				filteredLines = lines.filter((line) => !isolatedNodes.includes(line.from) && !isolatedNodes.includes(line.to))
+			}
 
 			const __graph_json_data = {
 				rootId: "2",
@@ -131,7 +136,7 @@ export default {
 		onNodeClick(nodeObject, $event) {
 			this.clickCount++ // 点击次数加 1
 
-			if (this.clickCount === 1) {
+			if (this.clickCount === 1 || this.nodes.length <= 100) {
 				// 第一次点击，设置定时器
 				this.clickTimer = setTimeout(() => {
 					this.onSingleClick(nodeObject) // 执行单击事件
