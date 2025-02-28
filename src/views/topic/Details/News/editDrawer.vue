@@ -94,7 +94,6 @@ export default {
 		},
 		//提交表单
 		submitForm(formName) {
-			console.log(this.ruleForm)
 			this.$refs[formName].validate(async (valid) => {
 				if (valid) {
 					const cover = await this.uploadFile()

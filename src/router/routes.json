@@ -161,6 +161,17 @@
 						"routerView": "resource",
 						"activeMenu": "/resource"
 					}
+				},
+                {
+					"path": "/resource/upload",
+					"name": "resourceUpload",
+					"component": "/resource/Upload/index",
+					"meta": {
+						"title": "数据导入",
+						"isHide": true,
+						"routerView": "resource",
+						"activeMenu": "/resource"
+					}
 				}
 			]
 		}
