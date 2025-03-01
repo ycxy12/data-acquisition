@@ -28,3 +28,7 @@ export const getDataImportByid = (id) => {
 export const deleteDataImport = (id) => {
 	return http.delete(`/api/dataImport/${id}`)
 }
+// 处理压缩包
+export const parseDataImport = (id) => {
+	return http.post("/api/dataImport/parseData/" + id)
+}

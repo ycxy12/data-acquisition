@@ -24,12 +24,13 @@
 			:height="`calc(100vh - 300px)`"
 		>
 			<el-table-column type="index" width="55" label="序号" align="center" />
-			<el-table-column prop="fileName" label="文件名称" align="center" show-overflow-tooltip />
-			<el-table-column prop="filePath" label="文件路径" align="center"></el-table-column>
+			<el-table-column prop="fileName" label="文件名称" align="left" show-overflow-tooltip />
+			<el-table-column prop="filePath" label="文件路径" align="left"></el-table-column>
 			<el-table-column label="操作" align="center">
 				<template slot-scope="{ row }">
 					<el-button type="text" size="small" @click="handleEdit(row)">编辑</el-button>
 					<el-button type="text" size="small" @click="handleDelete(row)">删除</el-button>
+					<el-button type="text" size="small" @click="handleParse(row)">处理数据</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -49,9 +50,8 @@
 </template>
 
 <script>
-import { listDataImport, deleteDataImport } from "@/api/resource/upload"
+import { listDataImport, deleteDataImport, parseDataImport } from "@/api/resource/upload"
 import EditDrawer from "./editDrawer.vue"
-import dayjs from "dayjs"
 
 export default {
 	components: { EditDrawer },
@@ -102,6 +102,14 @@ export default {
 		handleDelete(row) {
 			this.$confirm("确定将选择数据删除?", { confirmButtonText: "确定", cancelButtonText: "取消", type: "warning" }).then(async () => {
 				await deleteDataImport(row.id)
+				this.$message.success("操作成功!")
+				this.getTableData()
+			})
+		},
+		//处理数据
+		handleParse(row) {
+			this.$confirm("确定处理数据?", { confirmButtonText: "确定", cancelButtonText: "取消", type: "warning" }).then(async () => {
+				await parseDataImport(row.id)
 				this.$message.success("操作成功!")
 				this.getTableData()
 			})
