@@ -5,11 +5,11 @@
 			<div><span>最新更新时间：</span>{{ infoForm.updateTime }}</div>
 			<div class="back">
 				<el-button icon="el-icon-back" size="small" @click="$router.back()">返回</el-button>
-				<el-button icon="el-icon-plus" size="small" @click="handleAdd">新增</el-button>
+				<el-button icon="el-icon-plus" size="small" @click="handleAdd" v-if="infoForm.type !== 'wiki'">新增</el-button>
 				<el-button icon="el-icon-edit-outline" size="small" @click="handleEdit" v-if="!infoForm.type || infoForm.type === 'news'">
 					编辑
 				</el-button>
-				<el-button icon="el-icon-delete" size="small" @click="handleDelete">删除</el-button>
+				<el-button icon="el-icon-delete" size="small" @click="handleDelete" v-if="infoForm.type !== 'wiki'">删除</el-button>
 			</div>
 		</div>
 		<div class="box">
@@ -33,6 +33,11 @@
 				<ZlTable ref="tableRef" @updateArticle="handleArticle" />
 				<ZlArticle ref="articleRef" :articleId="articleId" />
 			</template>
+			<!-- 维基百科 -->
+			<template v-if="infoForm.type === 'wiki'">
+				<WikiTable ref="tableRef" @updateArticle="handleWiki" />
+				<WikiArticle ref="articleRef" :wikiForm="wikiForm" />
+			</template>
 		</div>
 		<!-- 新闻 -->
 		<NewsEditDrawer ref="newsEditDrawerRef" @refresh="onRefresh" />
@@ -42,6 +47,8 @@
 		<BdEditDrawer ref="bdEditDrawerRef" @refresh="onRefresh" />
 		<!-- 战例 -->
 		<ZlEditDrawer ref="zlEditDrawerRef" @refresh="onRefresh" />
+		<!-- 维基百科 -->
+		<!-- <WikiEditDrawer ref="WikiEditDrawerRef" @refresh="onRefresh" /> -->
 	</div>
 </template>
 
@@ -58,6 +65,9 @@ import ZbEditDrawer from "./Zb/editDrawer.vue"
 import BdTable from "./Bd/table.vue"
 import BdArticle from "./Bd/article.vue"
 import BdEditDrawer from "./Bd/editDrawer.vue"
+import WikiTable from "./Wiki/table.vue"
+import WikiArticle from "./Wiki/article.vue"
+// import WikiEditDrawer from "./Wiki/editDrawer.vue"
 import { getSubjectByid } from "@/api/topic/subject.js"
 import { deleteArticle } from "@/api/topic/article.js"
 import { deleteSubjectZl, deleteSubjectZb, deleteSubjectBlbc } from "@/api/topic/resource.js"
@@ -76,11 +86,14 @@ export default {
 		BdTable,
 		BdArticle,
 		BdEditDrawer,
+		WikiTable,
+		WikiArticle,
 	},
 	data() {
 		return {
 			infoForm: {},
 			articleId: undefined,
+			wikiForm: undefined,
 		}
 	},
 	created() {
@@ -127,6 +140,10 @@ export default {
 		},
 		handleArticle(id) {
 			this.articleId = id
+		},
+		handleWiki(item) {
+            console.log(item)
+			this.wikiForm = item
 		},
 		//刷新列表
 		onRefresh() {
