@@ -47,6 +47,7 @@
 					<el-option label="装备" value="zb"> </el-option>
 					<el-option label="部队" value="bd"> </el-option>
 					<el-option label="战例" value="zl"> </el-option>
+					<el-option label="维基百科" value="wiki"> </el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="备注" prop="remark">
