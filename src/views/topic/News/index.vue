@@ -32,12 +32,12 @@ export default {
 		}
 	},
 	mounted() {
-		this.getArticleInfo()
+		this.getArticleInfo(this.$route.params.id)
 	},
 	methods: {
-		async getArticleInfo() {
+		async getArticleInfo(id) {
 			this.loading = true
-			const { data } = await getArticleByid(this.$route.params.id)
+			const { data } = await getArticleByid(id)
 			this.articleInfo = data
 			this.loading = false
 		},
@@ -48,6 +48,11 @@ export default {
 			return input.split(/[,，]\s*/) // 匹配英文逗号 (`,`) 或中文逗号 (`，`)，并去除可能的空格
 		},
 	},
+	beforeRouteUpdate(to, from, next) {
+		// 当路由变化（但组件复用）时，这里会被调用
+		this.getArticleInfo(to.params.id);
+		next(); // 一定要调用 next()
+	}
 }
 </script>
 
