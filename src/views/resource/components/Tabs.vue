@@ -14,6 +14,7 @@ export default {
 				{ name: "兵力编成编组管理", path: "/resource/troops" },
 				{ name: "所属战争管理", path: "/resource/war" },
 				{ name: "数据导入", path: "/resource/upload" },
+				{ name: "MQ设置", path: "/resource/mq" },
 			],
 		}
 	},

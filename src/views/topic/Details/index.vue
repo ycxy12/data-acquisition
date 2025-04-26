@@ -5,18 +5,27 @@
 			<div><span>最新更新时间：</span>{{ infoForm.updateTime }}</div>
 			<div class="back">
 				<el-button icon="el-icon-back" size="small" @click="$router.back()">返回</el-button>
-				<el-button icon="el-icon-plus" size="small" @click="handleAdd" v-if="infoForm.type !== 'wiki'">新增</el-button>
-				<el-button icon="el-icon-edit-outline" size="small" @click="handleEdit" v-if="!infoForm.type || infoForm.type === 'news'">
+				<el-button icon="el-icon-plus" size="small" @click="handleAdd"
+					v-if="infoForm.type !== 'wiki'">新增</el-button>
+				<el-button icon="el-icon-edit-outline" size="small" @click="handleEdit"
+					v-if="!infoForm.type || infoForm.type === 'news'">
 					编辑
 				</el-button>
-				<el-button icon="el-icon-delete" size="small" @click="handleDelete" v-if="infoForm.type !== 'wiki'">删除</el-button>
+				<el-button icon="el-icon-delete" size="small" @click="handleDelete"
+					v-if="infoForm.type !== 'wiki'">删除</el-button>
+				<template v-if="infoForm.type == 'news'">
+					<el-button v-if="wikiForm && wikiForm.isPublish" icon="el-icon-s-promotion" size="small"
+						@click="handleDispath">取消发布</el-button>
+					<el-button v-else icon="el-icon-s-promotion" size="small" @click="handleDispath">发布</el-button>
+				</template>
+
 			</div>
 		</div>
 		<div class="box">
 			<!-- 新闻 -->
 			<template v-if="infoForm.type === 'news'">
-				<NewsTable ref="tableRef" @updateArticle="handleArticle" />
-				<NewsArticle ref="articleRef" :articleId="articleId" />
+				<NewsTable ref="tableRef" @updateArticle="handleWiki" />
+				<NewsArticle ref="articleRef" :articleId="wikiForm ? wikiForm.id :''" />
 			</template>
 			<!-- 装备 -->
 			<template v-if="infoForm.type === 'zb'">
@@ -70,6 +79,7 @@ import WikiArticle from "./Wiki/article.vue"
 // import WikiEditDrawer from "./Wiki/editDrawer.vue"
 import { getSubjectByid } from "@/api/topic/subject.js"
 import { deleteArticle } from "@/api/topic/article.js"
+import { publishNews } from "@/api/topic/wiki.js"
 import { deleteSubjectZl, deleteSubjectZb, deleteSubjectBlbc } from "@/api/topic/resource.js"
 
 export default {
@@ -138,11 +148,17 @@ export default {
 				this.$refs.tableRef.searchForm()
 			})
 		},
+		//发布
+		async handleDispath() {
+			await publishNews({ id: this.wikiForm.id, isPublish: !this.wikiForm.isPublish })
+			this.wikiForm.isPublish = !this.wikiForm.isPublish
+			this.$message.success("操作成功!")
+			this.$refs.articleRef.getArticleInfo()
+		},
 		handleArticle(id) {
 			this.articleId = id
 		},
 		handleWiki(item) {
-            console.log(item)
 			this.wikiForm = item
 		},
 		//刷新列表
@@ -161,19 +177,23 @@ export default {
 		display: flex;
 		align-items: center;
 		position: relative;
-		& > div:first-child {
+
+		&>div:first-child {
 			margin-right: 40px;
 		}
 	}
+
 	.back {
 		position: absolute;
 		top: 8px;
 		right: 15px;
 	}
+
 	.box {
 		display: flex;
 		gap: 15px;
-		& > div {
+
+		&>div {
 			flex: 1;
 		}
 	}

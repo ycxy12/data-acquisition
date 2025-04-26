@@ -92,7 +92,7 @@ export default {
 			if (rows && rows.length > 0 && !this.active) {
 				this.active = rows[0].id
 			}
-			this.$emit("updateArticle", this.active)
+			this.$emit("updateArticle", rows[0])
 			this.tableData = rows
 			this.total = total
 			this.loading = false
@@ -133,10 +133,10 @@ export default {
 		},
 
 		//选中
-		handleCheck({ id }) {
-			if (id === this.active) return
-			this.active = id
-			this.$emit("updateArticle", this.active)
+		handleCheck(item) {
+			if (item.id === this.active) return
+			this.active = item.id
+			this.$emit("updateArticle", item)
 		},
 	},
 }

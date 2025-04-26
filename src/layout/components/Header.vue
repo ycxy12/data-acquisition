@@ -10,6 +10,7 @@
 		<svg-icon name="logo" />
 		<h3>情报资源管理系统</h3>
 		<Menu />
+		<Message />
 		<!-- <el-dropdown @command="handleCommand">
 			<span class="el-dropdown-link">
 				<i class="el-icon-user-solid"></i>
@@ -26,9 +27,10 @@
 <script>
 import { mapGetters, mapMutations } from "vuex"
 import Menu from "./Menu"
+import Message from "./Message.vue"
 
 export default {
-	components: { Menu },
+	components: { Menu, Message },
 	data() {
 		return {}
 	},
@@ -72,18 +74,22 @@ export default {
 	background-color: #304156;
 	box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 	background-color: rgba(40, 64, 131, 1);
+
 	.svg-icon {
 		width: 40px;
 		height: 40px;
 		margin-right: 10px;
 	}
+
 	h3 {
 		font-size: 24px;
 		letter-spacing: 2px;
 	}
+
 	.el-dropdown {
 		color: #fff;
 		cursor: pointer;
+
 		&:hover {
 			color: #1890ff;
 		}

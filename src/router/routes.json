@@ -96,6 +96,16 @@
 						"isHide": true,
 						"activeMenu": "/topic"
 					}
+				},
+				{
+					"path": "/topic/news/:id",
+					"name": "topicNewsDetails",
+					"component": "/topic/News/index",
+					"meta": {
+						"title": "新闻详情",
+						"isHide": true,
+						"activeMenu": "/topic"
+					}
 				}
 			]
 		},
@@ -162,12 +172,23 @@
 						"activeMenu": "/resource"
 					}
 				},
-                {
+				{
 					"path": "/resource/upload",
 					"name": "resourceUpload",
 					"component": "/resource/Upload/index",
 					"meta": {
 						"title": "数据导入",
+						"isHide": true,
+						"routerView": "resource",
+						"activeMenu": "/resource"
+					}
+				},
+				{
+					"path": "/resource/mq",
+					"name": "resourceMq",
+					"component": "/resource/MQ/index",
+					"meta": {
+						"title": "MQ设置",
 						"isHide": true,
 						"routerView": "resource",
 						"activeMenu": "/resource"
