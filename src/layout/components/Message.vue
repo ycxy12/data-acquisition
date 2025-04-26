@@ -28,7 +28,7 @@ export default {
     methods: {
         async handleMessage(id) {
             this.$router.push(`/topic/news/${id}`)
-            await readMsg({ msgId: id })
+            await readMsg({ msgId: id, userId: this.getUserInfo.id })
             this.getPublishedCount()
             this.getPublishedArticles()
         },
