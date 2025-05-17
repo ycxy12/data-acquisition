@@ -47,18 +47,19 @@ export default {
 						defaultJunctionPoint: "border",
 						defaultNodeShape: 0,
 						defaultLineShape: 1,
+						from: "left"
 					},
 				],
 				allowShowMiniToolBar: false,
 				defaultNodeShape: 1,
-				defaultExpandHolderPosition: "bottom", //节点展开关闭的按钮位置
+				defaultExpandHolderPosition: "right", //节点展开关闭的按钮位置
 				defaultLineShape: 4,
-				defaultJunctionPoint: "tb", //
+				defaultJunctionPoint: "lr", //
 				defaultNodeBorderWidth: 0.2, //节点边框粗细
 				defaultLineColor: "#4ea2f0",
 				defaultNodeColor: "#4ea2f0",
-				defaultNodeWidth: "50", //节点宽度
-				defaultNodeHeight: "180", //节点高度
+				defaultNodeWidth: "180", //节点宽度
+				defaultNodeHeight: "50", //节点高度
 				defaultFocusRootNode: false,
 				moveToCenterWhenResize: false,
 			},
@@ -80,7 +81,7 @@ export default {
 			const { data } = await getBlBcTreeByCountryId(countryId)
 			this.graph_json_data = Object.freeze(data)
 			// 使用转换函数
-			const transformedData = this.transformTree(data, 3)
+			const transformedData = this.transformTree(data, 2)
 			let graph_json_data = {
 				rootId: data.id,
 				...transformedData,
@@ -130,7 +131,7 @@ export default {
 						result.nodes.push({
 							id: node.id,
 							text: node.troopsName || "",
-							expandHolderPosition: "bottom",
+							expandHolderPosition: "right",
 							expanded: level === maxLevel ? false : true,
 						})
 					} else {
@@ -218,7 +219,7 @@ export default {
 		stroke: transparent;
 	}
 	::v-deep .relation-graph .c-node-text {
-		writing-mode: vertical-rl;
+		// writing-mode: vertical-rl;
 		letter-spacing: 2px;
 	}
 	::v-deep .relation-graph .first_node .c-node-text {

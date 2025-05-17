@@ -23,6 +23,8 @@ export default new Vuex.Store({
 		authMenuList: [],
 		// 是否单点登录
 		isSSO: false,
+		//用户ID
+		userId:null,
 	},
 	mutations: {
 		// 修改状态的方法
@@ -41,10 +43,15 @@ export default new Vuex.Store({
 		setSSO(state, isSSO) {
 			state.isSSO = isSSO
 		},
+		// 设置用户Id
+		setUserId(state, userId) {
+			state.userId = userId
+		},
 		// 清空状态
 		clearState(state) {
 			state.token = null
 			state.userInfo = null
+			state.userId = null
 			state.authMenuList = []
 			state.isSSO = false
 		},
@@ -65,6 +72,8 @@ export default new Vuex.Store({
 		getSSO: (state) => state.isSSO,
 		// 获取状态的方法
 		getToken: (state) => state.token,
+		// 获取状态的方法
+		getUserId: (state) => state.userId,
 		//用户信息
 		getUserInfo: (state) => state.userInfo,
 		// 菜单权限列表 ==> 这里的菜单没有经过任何处理

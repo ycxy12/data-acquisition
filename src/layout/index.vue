@@ -7,7 +7,7 @@
 -->
 <template>
 	<el-container class="layout_container" direction="vertical">
-		<Header v-if="!getSSO" />
+		<Header v-if="!getUserId" />
 		<el-container class="classic_content">
 			<el-main :class="{ is_padding: isPadding }">
 				<router-view></router-view>
@@ -24,7 +24,7 @@ export default {
 	components: { Header },
 
 	computed: {
-		...mapGetters(["getSSO"]),
+		...mapGetters(["getUserId"]),
 		isPadding() {
 			return this.$route.path.includes("/chat")
 		},

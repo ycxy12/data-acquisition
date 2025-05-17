@@ -193,6 +193,17 @@
 						"routerView": "resource",
 						"activeMenu": "/resource"
 					}
+				},
+				{
+					"path": "/resource/push",
+					"name": "resourcePush",
+					"component": "/resource/Push/index",
+					"meta": {
+						"title": "推送消息管理",
+						"isHide": true,
+						"routerView": "resource",
+						"activeMenu": "/resource"
+					}
 				}
 			]
 		}

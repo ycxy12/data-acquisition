@@ -48,6 +48,12 @@ router.beforeEach(async (to, from, next) => {
 	const title = "情报资源管理系统"
 	document.title = to.meta.title ? `${to.meta.title} - ${title}` : title
 
+	// 3. 如果地址栏有userId,则缓存下来
+	console.log(to.query.userId, 'router.beforeEach')
+	if(to.query.userId){
+		store.commit('setUserId',to.query.userId)
+	}
+
 	// 3.判断是访问登陆页，有 Token 就在当前页面，没有 Token 重置路由到登陆页
 	if (to.path.toLocaleLowerCase() === "/login") {
 		if (store.getters.getToken) return next(from.fullPath)

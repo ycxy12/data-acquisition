@@ -42,13 +42,13 @@
 			</el-table-column>
 			<el-table-column prop="feature" label="装备特征" min-width="200" show-overflow-tooltip />
 			<el-table-column prop="sourceCountryName" label="国家" min-width="50" show-overflow-tooltip />
-			<el-table-column label="操作" align="center" width="240">
+			<el-table-column label="操作" align="center" width="340">
 				<template slot-scope="{ row }">
-					<el-button type="text" size="small" @click="handleView(row)">详情</el-button>
-					<el-button type="text" size="small" @click="handleEdit(row)">编辑</el-button>
-					<el-button type="text" size="small" @click="handleExport(row)">导出</el-button>
-					<el-button type="text" size="small" @click="handleRelation(row)">实体关系</el-button>
-					<el-button type="text" size="small" @click="handleDelete(row)">删除</el-button>
+					<el-button size="small" @click="handleView(row)">详情</el-button>
+					<el-button size="small" @click="handleEdit(row)">编辑</el-button>
+					<el-button size="small" @click="handleExport(row)" class="warning">导出</el-button>
+					<el-button size="small" @click="handleRelation(row)" class="warning">实体关系</el-button>
+					<el-button size="small" @click="handleDelete(row)" class="danger">删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>

@@ -25,6 +25,8 @@ class RequestHttp {
 		this.service.interceptors.request.use(
 			(config) => {
 				if (config.headers && typeof config.headers.set === "function") {
+					console.log(store.getters.getUserId, 'store.getters.getUserId')
+					config.headers.set("userId", store.getters.getUserId)
 					config.headers.set("Authorization", store.getters.getToken)
 				}
 				return config

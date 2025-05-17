@@ -88,15 +88,24 @@ body {
 	}
 	.el-table button {
 		color: rgba(112, 160, 255, 1);
-		border: none;
-		background-color: transparent;
+		padding: 2px 10px;
+		// border: none;
+		// background-color: transparent;
 	}
 	.el-table {
 		.el-button:focus,
 		.el-button:hover {
 			color: rgba(112, 160, 255, 1);
-			border: none;
-			background-color: transparent;
+			// border: none;
+			// background-color: transparent;
+		}
+		.el-button.danger{
+			color: #f56c6c;
+			border-color: #f56c6c;
+		}
+		.el-button.warning{
+			color: #e6a23c;
+			border-color: #e6a23c;
 		}
 	}
 	.el-pagination__total,
@@ -140,6 +149,12 @@ body {
 	.el-picker-panel .el-input__inner {
 		background-color: #fff;
 		color: #606266;
+	}
+	.danger {
+		color: #f56c6c;
+	}
+	.warning{
+		color: #e6a23c;
 	}
 }
 // 弹框相关

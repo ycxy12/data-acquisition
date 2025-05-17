@@ -15,6 +15,7 @@ export default {
 				{ name: "所属战争管理", path: "/resource/war" },
 				{ name: "数据导入", path: "/resource/upload" },
 				{ name: "MQ设置", path: "/resource/mq" },
+				{ name: "推送消息管理", path: "/resource/push" },
 			],
 		}
 	},
