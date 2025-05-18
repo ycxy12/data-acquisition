@@ -39,7 +39,7 @@ export default {
 		}
 	},
 	computed: {
-        ...mapGetters(["getUserId"]),
+        ...mapGetters(["getUserId", "getUserInfo"]),
     },
 	created() {
 		this.getTableData()
@@ -57,13 +57,15 @@ export default {
 		// 获取表格数据
 		async getTableData() {
 			this.loading = true
-			const { data } = await publishedArticles(this.getUserId)
+			let userId = this.getUserId ? this.getUserId : this.getUserInfo.id
+			const { data } = await publishedArticles(userId)
 			this.tableData = data
 			this.loading = false
 		},
 		async handleMessage(id) {
             this.$router.push(`/topic/news/${id}`)
-            await readMsg({ msgId: id, userId: this.getUserInfo.id })
+			let userId = this.getUserId ? this.getUserId : this.getUserInfo.id
+            await readMsg({ msgId: id, userId: userId })
             this.getPublishedArticles()
         },
 	},

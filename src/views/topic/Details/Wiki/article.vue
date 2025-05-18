@@ -58,8 +58,8 @@
 					<div class="references">
 						<div class="reference_list">
 							<div class="reference_item" v-for="item in wikiForm.references" :key="item">
-								<span>{{ JSON.parse(item).index }}. </span>
-								<a :href="item.url" target="_blank">{{ JSON.parse(item).text }}</a>
+								<span>{{ detectJsonType(item).index }}. </span>
+								<a :href="item.url" target="_blank">{{ detectJsonType(item).text }}</a>
 							</div>
 						</div>
 					</div>
@@ -108,6 +108,14 @@ export default {
 				}
 			})
 		},
+		//判断是字符串还是对象
+		detectJsonType(item) {
+			if(typeof item === 'string') {
+				return JSON.parse(item)
+			}else{
+				return item
+			}
+		}
 	},
 }
 </script>
