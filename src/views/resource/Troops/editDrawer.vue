@@ -13,7 +13,7 @@
 				<el-input v-model="ruleForm.summary" placeholder="请输入简介" type="textarea" :rows="4"></el-input>
 			</el-form-item>
 			<el-form-item label="规模(人数)" prop="scale">
-				<el-input-number v-model="ruleForm.scale" :step="1" :min="0" step-strictly style="width: 100%"></el-input-number>
+				<el-input-number v-model="ruleForm.scale" :step="1" :min="0" :max="99999999" step-strictly style="width: 100%"></el-input-number>
 			</el-form-item>
 			<el-form-item label="军种" prop="militaryService">
 				<el-input v-model="ruleForm.militaryService" placeholder="请输入军种"></el-input>

@@ -9,7 +9,7 @@
 				<el-button icon="el-icon-refresh" @click="resetForm">重置</el-button>
 			</el-form-item>
 			<el-form-item style="float: right">
-				<el-button type="primary" :class="{ isNew: queryForm.recentDays }" @click="handleUptoDate">仅看最新</el-button>
+				<el-button type="primary" :class="{ isNew: queryForm.recentDays }" @click="handleUptoDate">{{ queryForm.recentDays ? "取消仅看最新" : "仅看最新" }}</el-button>
 			</el-form-item>
 		</el-form>
 		<div class="table">
@@ -100,7 +100,8 @@ export default {
 		//仅看最新
 		handleUptoDate() {
 			this.pagination.pageNum = 1
-			this.queryForm.recentDays = 7
+			if(this.queryForm.recentDays) this.queryForm.recentDays = undefined
+			else this.queryForm.recentDays = 7
 			this.getTableData()
 		},
 		//改变每页显示数量

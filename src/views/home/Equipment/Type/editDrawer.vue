@@ -85,6 +85,7 @@ export default {
 			drawer: false,
 			direction: "rtl",
 			ruleForm: {
+				type: '',
 				attrs: [{ attrName: "", attrs: [""] }],
 			},
 			rules: {
