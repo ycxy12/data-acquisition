@@ -19,7 +19,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getUserInfo"]),
+        ...mapGetters(["getUserInfo", "getUserId"]),
     },
     mounted() {
         this.getPublishedCount()
@@ -28,16 +28,19 @@ export default {
     methods: {
         async handleMessage(id) {
             this.$router.push(`/topic/news/${id}`)
-            await readMsg({ msgId: id, userId: this.getUserInfo.id })
+            let userId = this.getUserId ? this.getUserId : this.getUserInfo.id
+            await readMsg({ msgId: id, userId })
             this.getPublishedCount()
             this.getPublishedArticles()
         },
         async getPublishedCount() {
-            const { data } = await publishedCount(this.getUserInfo.id)
+            let userId = this.getUserId ? this.getUserId : this.getUserInfo.id
+            const { data } = await publishedCount(userId)
             this.messageNum = data
         },
         async getPublishedArticles() {
-            const { data } = await publishedArticles(this.getUserInfo.id)
+            let userId = this.getUserId ? this.getUserId : this.getUserInfo.id
+            const { data } = await publishedArticles(userId, { isFilterRead: true })
             this.list = data
         }
     },

@@ -58,7 +58,7 @@ export default {
 		async getTableData() {
 			this.loading = true
 			let userId = this.getUserId ? this.getUserId : this.getUserInfo.id
-			const { data } = await publishedArticles(userId)
+			const { data } = await publishedArticles(userId, { isFilterRead: false })
 			this.tableData = data
 			this.loading = false
 		},

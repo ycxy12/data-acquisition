@@ -25,7 +25,7 @@ export const publishedCount = (userId) => {
 }
 
 // 订阅的已发布文章标题列表
-export const publishedArticles = (userId) => {
-	return http.get(`/api/article/publishedArticles/${userId}`,)
+export const publishedArticles = (userId, params) => {
+	return http.get(`/api/article/publishedArticles/${userId}`, params)
 }
 
