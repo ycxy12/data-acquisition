@@ -1,5 +1,5 @@
 <template>
-	<el-drawer title="编辑" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
+	<el-drawer :title="ruleForm.id ? '编辑' : '新增'" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="ruleForm">
 			<el-form-item label="装备名称" prop="name">
 				<el-input v-model="ruleForm.name" placeholder="请输入装备名称"></el-input>
@@ -32,6 +32,7 @@
 						</template>
 						<template slot-scope="{ row }">
 							<el-button type="text" size="small" @click="handleAddAttr(row)">添加属性值</el-button>
+							<el-button type="text" size="small" @click="handleDeleteAttr(row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -108,7 +109,7 @@ export default {
 				const { data } = await getZbInfoByid(id)
 				this.ruleForm = data
 			}
-			if (equipmentTypeId) this.ruleForm.type = equipmentTypeId
+			if (equipmentTypeId && equipmentTypeId !== "000") this.ruleForm.type = equipmentTypeId
 			this.drawer = true
 		},
 		//关闭抽屉
@@ -149,6 +150,11 @@ export default {
 		//添加属性值
 		handleAddAttr(row) {
 			row.attrs.push("") // 向该行添加一个属性值
+		},
+		//删除
+		handleDeleteAttr(row) {
+			// 删除该行
+			this.ruleForm.attrs = this.ruleForm.attrs.filter(item => item !== row)
 		},
 	},
 }

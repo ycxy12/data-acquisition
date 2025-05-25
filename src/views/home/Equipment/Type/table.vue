@@ -123,7 +123,7 @@ export default {
 		},
 		//重置搜索条件
 		resetForm() {
-			this.queryForm = { type: this.equipmentTypeId }
+			this.queryForm = { type: this.equipmentTypeId === "000" ? null : this.equipmentTypeId }
 			this.searchForm()
 		},
 		// 获取表格数据

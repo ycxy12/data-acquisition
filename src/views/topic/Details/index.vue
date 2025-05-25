@@ -160,6 +160,7 @@ export default {
 		},
 		handleWiki(item) {
 			this.wikiForm = item
+			this.articleId = item.id
 		},
 		//刷新列表
 		onRefresh() {

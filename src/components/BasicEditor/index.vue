@@ -136,12 +136,33 @@ export default {
 	color: #fff;
 	background-color: rgba(0, 84, 251, 0.2);
 }
+.w-e-bar-item .disabled,
 .w-e-bar-item button {
-	// color: rgb(112, 160, 255);
+	color: #fff;
 }
-.w-e-bar-item .disabled {
-	// color: rgb(112, 160, 255);
+.w-e-bar-item .disabled svg,
+.w-e-bar svg {
+	fill: #fff;
 }
+.w-e-select-list {
+	background: #172034;
+	ul .selected,
+	ul li:hover {
+		background: rgba(0, 84, 251, 0.2);;
+	}
+}
+.w-e-bar-item-group .w-e-bar-item-menus-container {
+	background: #172034;
+}
+.w-e-panel-content-color svg{
+	fill: #595959;
+}
+.w-e-panel-content-color .clear{
+	color: #595959;;
+}
+// .w-e-bar-item .disabled {
+// 	color: rgb(112, 160, 255);
+// }
 .w-e-bar-item .disabled:hover {
 	// background-color: rgba(0, 84, 251, 0.2);
 }
