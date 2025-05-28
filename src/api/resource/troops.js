@@ -6,30 +6,30 @@ import http from "@/utils/request"
 
 // 获取兵力编成编组列表
 export const listBlbc = (params) => {
-	return http.get("/api/blbc/list", params)
+	return http.get("/qbcjApi/blbc/list", params)
 }
 
 // 新增
 export const addBlbc = (params) => {
-	return http.post("/api/blbc", params)
+	return http.post("/qbcjApi/blbc", params)
 }
 
 // 编辑
 export const editBlbc = (params) => {
-	return http.put("/api/blbc", params)
+	return http.put("/qbcjApi/blbc", params)
 }
 
 // 详情
 export const getBlbcByid = (id) => {
-	return http.get(`/api/blbc/${id}`)
+	return http.get(`/qbcjApi/blbc/${id}`)
 }
 
 // 删除
 export const deleteBlbc = (id) => {
-	return http.delete(`/api/blbc/${id}`)
+	return http.delete(`/qbcjApi/blbc/${id}`)
 }
 
 // 兵力编程编组树形结构
 export const listBlbcTree = (params) => {
-	return http.get("/api/blbc/tree", params)
+	return http.get("/qbcjApi/blbc/tree", params)
 }

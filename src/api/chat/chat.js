@@ -6,5 +6,5 @@ import http from "@/utils/request"
 
 // 问答
 export const qaChat = (params) => {
-	return http.post("/api/qa", params)
+	return http.post("/qbcjApi/qa", params)
 }

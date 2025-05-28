@@ -17,11 +17,11 @@ module.exports = {
 		open: true, // 浏览器自动打开
 		compress: true, // 启用压缩，代码占用的空间少，在互联网传输快
 		proxy: {
-			"/api": {
+			"/qbcjApi": {
 				target: "http://kd8a65a3.natappfree.cc", //接口地址
 				changeOrigin: true, //允许跨域
 				pathRewrite: {
-					"^/api": "", //路径重写
+					"^/qbcjApi": "", //路径重写
 				},
 			},
 		},

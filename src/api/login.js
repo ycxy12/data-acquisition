@@ -14,12 +14,12 @@ import routes from "@/router/routes.json"
  */
 // 用户登录
 export const loginApi = (params) => {
-	return http.post(`/api/login`, params)
+	return http.post(`/qbcjApi/login`, params)
 }
 
 // 用户列表
 export const listUser = (params) => {
-	return http.get(`/api/user`, params)
+	return http.get(`/qbcjApi/user`, params)
 }
 
 // 获取菜单列表
@@ -29,5 +29,5 @@ export const getAuthMenu = () => {
 
 // 用户退出登录
 export const logoutApi = () => {
-	return http.post(`/api/logout`)
+	return http.post(`/qbcjApi/logout`)
 }
