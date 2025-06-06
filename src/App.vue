@@ -20,12 +20,12 @@ export default {
 			await initDynamicRouter()
 			this.$router.push(window.location.pathname)
 		}
-		if (this.getToken) {
+		if (this.getToken || this.getUserId) {
 			await initDynamicRouter()
 		}
 	},
 	computed: {
-		...mapGetters(["getToken"]),
+		...mapGetters(["getToken", "getUserId"]),
 	},
 	methods: {
 		...mapMutations(["setToken", "setUserInfo", "setSSO"]),
