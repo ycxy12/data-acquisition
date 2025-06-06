@@ -25,7 +25,7 @@
 			<!-- 新闻 -->
 			<template v-if="infoForm.type === 'news'">
 				<NewsTable ref="tableRef" @updateArticle="handleWiki" />
-				<NewsArticle ref="articleRef" :articleId="wikiForm ? wikiForm.id :''" />
+				<NewsArticle ref="articleRef" :articleId="wikiForm ? wikiForm.id : ''" />
 			</template>
 			<!-- 装备 -->
 			<template v-if="infoForm.type === 'zb'">
@@ -58,6 +58,8 @@
 		<ZlEditDrawer ref="zlEditDrawerRef" @refresh="onRefresh" />
 		<!-- 维基百科 -->
 		<!-- <WikiEditDrawer ref="WikiEditDrawerRef" @refresh="onRefresh" /> -->
+		<!-- 角色 -->
+		<RoleDrawer ref="roleDrawerRef" @submit="onSubmit" />
 	</div>
 </template>
 
@@ -76,10 +78,11 @@ import BdArticle from "./Bd/article.vue"
 import BdEditDrawer from "./Bd/editDrawer.vue"
 import WikiTable from "./Wiki/table.vue"
 import WikiArticle from "./Wiki/article.vue"
+import RoleDrawer from "../components/roleDrawer.vue"
 // import WikiEditDrawer from "./Wiki/editDrawer.vue"
 import { getSubjectByid } from "@/api/topic/subject.js"
 import { deleteArticle } from "@/api/topic/article.js"
-import { publishNews } from "@/api/topic/wiki.js"
+import { publishNews, roleList } from "@/api/topic/wiki.js"
 import { deleteSubjectZl, deleteSubjectZb, deleteSubjectBlbc } from "@/api/topic/resource.js"
 
 export default {
@@ -98,6 +101,7 @@ export default {
 		BdEditDrawer,
 		WikiTable,
 		WikiArticle,
+		RoleDrawer
 	},
 	data() {
 		return {
@@ -150,7 +154,15 @@ export default {
 		},
 		//发布
 		async handleDispath() {
-			await publishNews({ id: this.wikiForm.id, isPublish: !this.wikiForm.isPublish })
+			if (this.wikiForm.isPublish) {
+				this.onSubmit([])
+			} else {
+				this.$refs.roleDrawerRef.openDrawer()
+			}
+		},
+		// 提交角色
+		async onSubmit(roleNames) {
+			await publishNews({ id: this.wikiForm.id, isPublish: !this.wikiForm.isPublish, roleNames })
 			this.wikiForm.isPublish = !this.wikiForm.isPublish
 			this.$message.success("操作成功!")
 			this.$refs.articleRef.getArticleInfo()

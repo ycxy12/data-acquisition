@@ -29,3 +29,7 @@ export const publishedArticles = (userId, params) => {
 	return http.get(`/qbcjApi/article/publishedArticles/${userId}`, params)
 }
 
+// 角色列表
+export const roleList = (params) => {
+	return http.get("/qbcjApi/role/list", params)
+}
