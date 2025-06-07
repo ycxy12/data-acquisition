@@ -84,6 +84,7 @@ import { getSubjectByid } from "@/api/topic/subject.js"
 import { deleteArticle } from "@/api/topic/article.js"
 import { publishNews, roleList } from "@/api/topic/wiki.js"
 import { deleteSubjectZl, deleteSubjectZb, deleteSubjectBlbc } from "@/api/topic/resource.js"
+import { mapGetters } from "vuex"
 
 export default {
 	components: {
@@ -112,6 +113,9 @@ export default {
 	},
 	created() {
 		this.getSubjectInfo()
+	},
+	computed: {
+		...mapGetters(["getRoleName"]),
 	},
 	methods: {
 		async getSubjectInfo() {
@@ -162,7 +166,8 @@ export default {
 		},
 		// 提交角色
 		async onSubmit(roleNames) {
-			await publishNews({ id: this.wikiForm.id, isPublish: !this.wikiForm.isPublish, roleNames })
+			const roleName = this.getRoleName
+			await publishNews({ id: this.wikiForm.id, isPublish: !this.wikiForm.isPublish, roleNames, roleName })
 			this.wikiForm.isPublish = !this.wikiForm.isPublish
 			this.$message.success("操作成功!")
 			this.$refs.articleRef.getArticleInfo()

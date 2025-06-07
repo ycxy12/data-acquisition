@@ -25,6 +25,8 @@ export default new Vuex.Store({
 		isSSO: false,
 		//用户ID
 		userId:null,
+		//用户角色
+		roleName:null,
 	},
 	mutations: {
 		// 修改状态的方法
@@ -47,6 +49,10 @@ export default new Vuex.Store({
 		setUserId(state, userId) {
 			state.userId = userId
 		},
+		// 设置用户角色
+		setRoleName(state, roleName) {
+			state.roleName = roleName
+		},
 		// 清空状态
 		clearState(state) {
 			state.token = null
@@ -54,6 +60,7 @@ export default new Vuex.Store({
 			state.userId = null
 			state.authMenuList = []
 			state.isSSO = false
+			state.roleName = null
 		},
 	},
 	actions: {
@@ -74,6 +81,8 @@ export default new Vuex.Store({
 		getToken: (state) => state.token,
 		// 获取状态的方法
 		getUserId: (state) => state.userId,
+		// 获取用户角色
+		getRoleName: (state) => state.roleName,
 		//用户信息
 		getUserInfo: (state) => state.userInfo,
 		// 菜单权限列表 ==> 这里的菜单没有经过任何处理
