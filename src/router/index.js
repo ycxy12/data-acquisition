@@ -52,8 +52,11 @@ router.beforeEach(async (to, from, next) => {
 	console.log(to.query.userId, 'router.beforeEach')
 	if(to.query.userId){
 		store.commit('setUserId',to.query.userId)
+	}
+	if(to.query.roleName){
 		store.commit('setRoleName',to.query.roleName)
 	}
+
 
 	// 3.判断是访问登陆页，有 Token 就在当前页面，没有 Token 重置路由到登陆页
 	if (to.path.toLocaleLowerCase() === "/login") {
