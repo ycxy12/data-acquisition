@@ -32,6 +32,7 @@ Vue.use(Router)
  * */
 const router = new Router({
 	mode: "history",
+	base: "/data-acquisition/",
 	routes: [...staticRouter, ...errorRouter],
 	strict: false,
 	scrollBehavior: () => ({ left: 0, top: 0 }),
