@@ -23,6 +23,13 @@ import "@/components/SvgIcon/index"
 
 import VueParticles from "vue-particles"
 
+// 引入 Vconsole
+// import Vconsole from "vconsole"
+
+// 初始化 Vconsole
+// new Vconsole()
+
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueParticles)

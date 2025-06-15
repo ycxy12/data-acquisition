@@ -148,12 +148,22 @@ export default {
 		},
 		// 处理上传文件变更事件
 		handleChange(file, fileList) {
-			this.ruleForm.cover = URL.createObjectURL(file.raw)
-			this.fileList = fileList
-			if (fileList.length !== 0) {
+			const reader = new FileReader()
+			reader.onload = (e) => {
+				this.ruleForm.cover = e.target.result // base64
+				this.fileList = fileList
 				this.$refs.ruleForm.validateField("cover")
 			}
-		},
+			reader.readAsDataURL(file.raw)
+		}
+		// 处理上传文件变更事件
+		// handleChange(file, fileList) {
+		// 	this.ruleForm.cover = URL.createObjectURL(file.raw)
+		// 	this.fileList = fileList
+		// 	if (fileList.length !== 0) {
+		// 		this.$refs.ruleForm.validateField("cover")
+		// 	}
+		// },
 	},
 }
 </script>

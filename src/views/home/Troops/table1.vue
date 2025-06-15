@@ -2,9 +2,6 @@
 	<div class="container table">
 		<div class="btn">
 			<el-button icon="el-icon-download" type="primary" @click="handleExport">情报资源导出</el-button>
-			<!-- <el-upload action="#" :on-change="handleChange" :limit="1">
-				<el-button icon="el-icon-download" type="primary">情报资源导入</el-button>
-			</el-upload> -->
 		</div>
 		<div
 			style="height: calc(100vh - 305px)"

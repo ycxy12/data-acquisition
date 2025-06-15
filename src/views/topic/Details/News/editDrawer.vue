@@ -1,5 +1,6 @@
 <template>
-	<el-drawer :title="ruleForm.id ? '编辑' : '新增'" :visible.sync="drawer" :direction="direction" append-to-body :before-close="handleClose">
+	<el-drawer :title="ruleForm.id ? '编辑' : '新增'" :visible.sync="drawer" :direction="direction" append-to-body
+		:before-close="handleClose">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 			<el-form-item label="标题" prop="title">
 				<el-input v-model="ruleForm.title" placeholder="请输入标题"></el-input>
@@ -11,13 +12,8 @@
 				<el-input v-model="ruleForm.source" placeholder="请输入来源"></el-input>
 			</el-form-item>
 			<el-form-item label="发布时间" prop="releaseTime">
-				<el-date-picker
-					v-model="ruleForm.releaseTime"
-					type="datetime"
-					placeholder="选择发布时间"
-					value-format="yyyy-MM-dd HH:mm:ss"
-					style="width: 100%"
-				>
+				<el-date-picker v-model="ruleForm.releaseTime" type="datetime" placeholder="选择发布时间"
+					value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%">
 				</el-date-picker>
 			</el-form-item>
 			<el-form-item label="简介" prop="intro">
@@ -27,16 +23,8 @@
 				<BasicEditor v-model="ruleForm.content" />
 			</el-form-item>
 			<el-form-item label="专题封面" prop="cover">
-				<el-upload
-					class="avatar-uploader"
-					action="#"
-					:file-list="fileList"
-					:show-file-list="false"
-					:before-upload="beforeUpload"
-					:on-change="handleChange"
-					accept="image/*"
-					:auto-upload="false"
-				>
+				<el-upload class="avatar-uploader" action="#" :file-list="fileList" :show-file-list="false"
+					:before-upload="beforeUpload" :on-change="handleChange" accept="image/*" :auto-upload="false">
 					<img v-if="ruleForm.cover" :src="ruleForm.cover" class="avatar" />
 					<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 				</el-upload>
@@ -136,12 +124,14 @@ export default {
 		},
 		// 处理上传文件变更事件
 		handleChange(file, fileList) {
-			this.ruleForm.cover = URL.createObjectURL(file.raw)
-			this.fileList = fileList
-			if (fileList.length !== 0) {
+			const reader = new FileReader()
+			reader.onload = (e) => {
+				this.ruleForm.cover = e.target.result // base64
+				this.fileList = fileList
 				this.$refs.ruleForm.validateField("cover")
 			}
-		},
+			reader.readAsDataURL(file.raw)
+		}
 	},
 }
 </script>
@@ -155,9 +145,11 @@ export default {
 		position: relative;
 		overflow: hidden;
 	}
+
 	.el-upload:hover {
 		border-color: #409eff;
 	}
+
 	.avatar-uploader-icon {
 		font-size: 28px;
 		color: #8c939d;
@@ -166,6 +158,7 @@ export default {
 		line-height: 178px;
 		text-align: center;
 	}
+
 	.avatar {
 		width: 178px;
 		height: 178px;

@@ -16,9 +16,6 @@
 			<el-form-item style="float: right">
 				<el-button icon="el-icon-plus" type="primary" @click="handleAdd">新增</el-button>
 				<el-button icon="el-icon-download" type="primary" @click="handleMultipleExport">情报资源导出</el-button>
-				<!-- <el-upload action="#" :on-change="handleChange" :limit="1">
-					<el-button icon="el-icon-download" type="primary">情报资源导入</el-button>
-				</el-upload> -->
 			</el-form-item>
 		</el-form>
 		<el-table
