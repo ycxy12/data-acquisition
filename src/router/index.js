@@ -50,7 +50,6 @@ router.beforeEach(async (to, from, next) => {
 	document.title = to.meta.title ? `${to.meta.title} - ${title}` : title
 
 	// 3. 如果地址栏有userId,则缓存下来
-	console.log(to.query.userId, 'router.beforeEach')
 	if(to.query.userId){
 		store.commit('setUserId',to.query.userId)
 	}
